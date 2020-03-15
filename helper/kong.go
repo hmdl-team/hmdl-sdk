@@ -46,14 +46,30 @@ func (u *KongServer) RegisterKong() error {
 	}
 
 	if upstream != nil {
+
+		targetOld, err := client.Targets().GetTargetsFromUpstreamId(upstream.Id)
+
+		if err != nil {
+			return err
+		}
+
+		for _, tarOld := range targetOld {
+
+			err = client.Targets().DeleteFromUpstreamById(upstream.Id, *tarOld.Id)
+			if err != nil {
+				return err
+			}
+
+		}
+
 		targetRequest := &gokong.TargetRequest{
 			Target: u.IpService,
 			Weight: 100,
 		}
-		_, err := client.Targets().CreateFromUpstreamId(upstream.Id, targetRequest)
+		_, err = client.Targets().CreateFromUpstreamId(upstream.Id, targetRequest)
 
 		if err != nil {
-			fmt.Println(status)
+
 			return err
 		}
 
@@ -62,7 +78,7 @@ func (u *KongServer) RegisterKong() error {
 		for _, item := range targets {
 			err := client.Targets().SetTargetFromUpstreamByIdAsHealthy(upstream.Id, *item.Id)
 			if err != nil {
-				fmt.Println(status)
+
 				return err
 			}
 		}
@@ -129,14 +145,14 @@ func (u *KongServer) RegisterKong() error {
 			if createdRoute == nil {
 				_, err := client.Routes().Create(routeRequest)
 				if err != nil {
-					fmt.Println(status)
+
 					return err
 				}
 			} else {
 				_, err = client.Routes().UpdateById(*createdRoute.Id, routeRequest)
 
 				if err != nil {
-					fmt.Println(status)
+
 					return err
 				}
 			}
