@@ -1,0 +1,23 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Service api HMDL",
+        "title": "hmdl-user-service api",
+        "contact": {
+            "name": "IT HMDL",
+            "url": "https://hoanmydalat.com",
+            "email": "nguyen.nguyen@hoanmy.com"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "host": "localhost:7001",
+    "paths": {},
+    "securityDefinitions": {
+        "jwt": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

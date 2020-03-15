@@ -1,0 +1,17 @@
+host: localhost:7001
+info:
+  contact:
+    email: nguyen.nguyen@hoanmy.com
+    name: IT HMDL
+    url: https://hoanmydalat.com
+  description: Service api HMDL
+  license: {}
+  title: hmdl-user-service api
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  jwt:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
