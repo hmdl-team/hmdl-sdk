@@ -28,7 +28,7 @@ func TaiKhoanRoute(api core.DbData) {
 
 	//public
 	g.GET("/me", handlerTaiKhoan.GetNhanVienByToken)
-	api.Echo.POST("/refresh_token", handlerTaiKhoan.GetRefreshToken)
+	api.Echo.POST("/refresh-token", handlerTaiKhoan.GetRefreshToken)
 	api.Echo.POST("/login", handlerTaiKhoan.LoginAcount)
 
 }
