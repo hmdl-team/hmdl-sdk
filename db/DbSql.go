@@ -17,13 +17,14 @@ type MsSql struct {
 }
 
 func (u *MsSql) SqlServeConnect() {
-	conStr := fmt.Sprintf(`sqlserver://%v:%v@%s:%v?database=%v`, u.UserName, u.Password, u.Host, u.Port, u.DbName)
-	db, err := gorm.Open("mssql", conStr)
+
+	//conStr := fmt.Sprintf(`sqlserver://%v:%s@%s:%v?database=%v`, u.UserName, u.Password, u.Host, u.Port, u.DbName)
+	connectionString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%v;database=%s", u.Host, u.UserName, u.Password, u.Port, u.DbName)
+	db, err := gorm.Open("mssql", connectionString)
 
 	if err != nil {
 		fmt.Println(err)
 		raven.CaptureErrorAndWait(err, nil)
-
 	}
 
 	u.Db = db

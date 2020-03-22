@@ -74,7 +74,7 @@ func (u *PhanQuyenMenuRepoImpl) GetAllPhanQuyenMenu() ([]data_user.DM_PhanQuyenM
 
 func (u *PhanQuyenMenuRepoImpl) Delete(id int) error {
 	data := &data_user.DM_PhanQuyenMenu{}
-	err := u.Db.Where("id = ?", id).Find(&data).Error
+	err := u.Db.Where("DM_PhanQuyenMenuId = ?", id).Find(&data).Error
 
 	if err != nil && err != sql.ErrNoRows {
 		raven.CaptureErrorAndWait(err, nil)
