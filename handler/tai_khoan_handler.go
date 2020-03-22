@@ -255,6 +255,43 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 	return helper.ResponseData(c, resTaiKhoan)
 }
 
+func (u *TaiKhoanHandler) GetRefreshToken2(c echo.Context) error {
+
+	tokenData := c.Get("user").(*jwt.Token)
+	claims := tokenData.Claims.(*auth.JwtClaims)
+
+	if claims == nil {
+		return c.JSON(http.StatusBadRequest, helper.Response{
+			StatusCode: http.StatusBadRequest,
+			Message:    "Lỗi chứng thực!",
+			Data:       nil,
+		})
+	}
+
+	userId := claims.UserId
+
+	id, err := strconv.ParseInt(userId, 0, 64)
+
+	if err != nil {
+		return helper.ResponseWithCode(c, 401, "Unauthorized ")
+	}
+
+	taiKhoan, err := u.TaiKhoanRepo.GetById(c, int(id))
+
+	if err != nil {
+		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
+	}
+
+	token, _, err := auth.GenTokenWithTime(*taiKhoan, 3)
+	refeshToken, _, err := auth.GenTokenWithTime(*taiKhoan, 4)
+
+	resTaiKhoan := response.ResTaiKhoanToken{
+		Token:        token,
+		RefreshToken: refeshToken,
+	}
+	return helper.ResponseData(c, resTaiKhoan)
+}
+
 func (u *TaiKhoanHandler) UpdateTaiKhoan(c echo.Context) (err error) {
 	data := data_user.DM_TaiKhoan{}
 
