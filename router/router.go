@@ -16,7 +16,6 @@ import (
 type API struct {
 	Echo *echo.Echo
 	Db   *gorm.DB
-
 }
 
 func (api API) NewRouter() {
@@ -86,4 +85,7 @@ func (api API) NewRouter() {
 	group.PhanQuyenMenuRoute(db)
 	group.TaiKhoanRoute(db)
 	group.DanhSachNhanVienQuanLyRoute(db)
+	group.DM_DuAnRoute(db)
+	group.DM_PhanQuyen_ReportRoute(db)
+	group.DM_ReportRoute(db)
 }
