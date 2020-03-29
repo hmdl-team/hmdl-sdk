@@ -11,4 +11,6 @@ type DM_ReportRepo interface {
 	Delete(ctx echo.Context, id int) error
 	Insert(ctx echo.Context, item DM_Report) (*DM_Report, error)
 	Update(ctx echo.Context, item DM_Report) error
+
+	GetReportPhanQuyenId(phanQuyenId int) ([]DM_Report, error)
 }

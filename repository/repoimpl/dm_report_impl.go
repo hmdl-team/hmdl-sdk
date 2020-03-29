@@ -17,6 +17,32 @@ type DM_ReportRepoImpl struct {
 	db *gorm.DB
 }
 
+func (u *DM_ReportRepoImpl) GetReportPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
+
+	var dsReportId []DM_PhanQuyen_Report
+
+	err = u.db.Model(&DM_PhanQuyen_Report{}).Where(&DM_PhanQuyen_Report{
+		DM_PhanQuyenID: phanQuyenId,
+	}).Find(&dsReportId).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return data, err
+	}
+	var dsIdWhere []int
+	for _, item := range dsReportId {
+		dsIdWhere = append(dsIdWhere, item.DM_ReportId)
+	}
+
+	err = u.db.Set("gorm:auto_preload", true).Where("DM_ReportId in (?)", dsIdWhere).Find(&data).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return data, err
+	}
+	return data, nil
+}
+
 func (u *DM_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_Report, error) {
 	var data []DM_Report
 

@@ -1,8 +1,6 @@
 package repoimpl
 
 import (
-
-	"errors"
 	"github.com/getsentry/raven-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
@@ -18,13 +16,39 @@ type MenuWebRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *MenuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int,duAnId int) ([]data_user.DM_MenuWeb, error) {
+func (u *MenuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_user.DM_MenuWeb, err error) {
+
+	var dsReportId []data_user.DM_PhanQuyenMenu
+
+	err = u.db.Model(&data_user.DM_PhanQuyenMenu{}).Where(&data_user.DM_PhanQuyenMenu{
+		DM_PhanQuyenID: phanQuyenId,
+	}).Find(&dsReportId).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return data, err
+	}
+	var dsIdWhere []int
+	for _, item := range dsReportId {
+		dsIdWhere = append(dsIdWhere, item.DM_MenuWebId)
+	}
+
+	err = u.db.Where("Id in (?)", dsIdWhere).Find(&data).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return data, err
+	}
+	return data, nil
+}
+
+func (u *MenuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId int) ([]data_user.DM_MenuWeb, error) {
 	var data []data_user.DM_MenuWeb
 
 	err := u.db.Table("DM_PhanQuyenMenu").
 		Select("DM_MenuWeb.*").
 		Joins("left join DM_MenuWeb  on DM_PhanQuyenMenu.DM_MenuWebId = DM_MenuWeb.Id").
-		Where("DM_DuAnId = ? and DM_MenuWeb.enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and DM_MenuWeb.ParentId is null", duAnId,phanQuyenId).
+		Where("DM_DuAnId = ? and DM_MenuWeb.enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and DM_MenuWeb.ParentId is null", duAnId, phanQuyenId).
 		Order("OrderBy ASC").
 		Find(&data).Error
 
@@ -34,7 +58,7 @@ func (u *MenuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int,duAnId int) ([]da
 		err := u.db.Table("DM_PhanQuyenMenu").
 			Select("DM_MenuWeb.*").
 			Joins("left join DM_MenuWeb on DM_PhanQuyenMenu.DM_MenuWebId = DM_MenuWeb.Id").
-			Where("DM_DuAnId = ? and DM_MenuWeb.Enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and  DM_MenuWeb.ParentId = ? ", duAnId,phanQuyenId, item.Id).
+			Where("DM_DuAnId = ? and DM_MenuWeb.Enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and  DM_MenuWeb.ParentId = ? ", duAnId, phanQuyenId, item.Id).
 			Order("OrderBy ASC").
 			Find(&chilData).Error
 
@@ -85,21 +109,11 @@ func (u *MenuWebRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_MenuW
 }
 
 func (u *MenuWebRepoImpl) Delete(ctx echo.Context, id int) error {
-	var data data_user.DM_MenuWeb
+	err := u.db.Delete(data_user.DM_MenuWeb{}, data_user.DM_MenuWeb{
+		Id: id,
+	}).Error
 
-	err := u.db.First(&data, id).Error
-	if err != nil && !gorm.IsRecordNotFoundError(err) {
-		raven.CaptureErrorAndWait(err, nil)
-		return err
-	}
-
-	if gorm.IsRecordNotFoundError(err) {
-		return errors.New("Không tìm thấy dữ liệu")
-	}
-
-	err = u.db.Delete(&data).Error
-
-	if err != nil && !gorm.IsRecordNotFoundError(err) {
+	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)
 		return err
 	}

@@ -9,8 +9,8 @@ import (
 
 func DanhMucHeThongRoute(api core.DbData) {
 
-	g1 := api.Echo.Group("/chucdanh")
-	g2 := api.Echo.Group("/chucvu")
+	g1 := api.Echo.Group("/chuc-danh")
+	g2 := api.Echo.Group("/chuc-vu")
 
 	middlewares.SetJwtMiddlewares(g1)
 	middlewares.SetJwtMiddlewares(g2)

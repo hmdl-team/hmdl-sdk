@@ -9,7 +9,7 @@ import (
 
 func PhanQuyenMenuRoute(api core.DbData) {
 
-	g := api.Echo.Group("/phanquyenmenu")
+	g := api.Echo.Group("/phan-quyen-menu")
 
 	middlewares.SetJwtMiddlewares(g)
 
@@ -18,6 +18,7 @@ func PhanQuyenMenuRoute(api core.DbData) {
 	}
 
 	//Phân quyền Menu
+	g.POST("/update-phan-quyen", handlerPhanQuyenMenu.UpdatePhanQuyenMenu)
 	g.GET("", handlerPhanQuyenMenu.GetAllPhanQuyenMenu)
 	g.POST("", handlerPhanQuyenMenu.InsertPhanQuyenMenu)
 	g.GET("/id/:id", handlerPhanQuyenMenu.GetAllPhanQuyenMenuById)

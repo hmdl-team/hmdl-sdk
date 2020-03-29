@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	. "hmdl-user-service/models/data_user"
+	"hmdl-user-service/models/request"
 	"hmdl-user-service/repository"
 )
 
@@ -15,6 +16,28 @@ func NewDM_PhanQuyen_ReportRepo(db *gorm.DB) repository.DM_PhanQuyen_ReportRepo 
 
 type DM_PhanQuyen_ReportRepoImpl struct {
 	db *gorm.DB
+}
+
+func (u *DM_PhanQuyen_ReportRepoImpl) UpdatePhanQuyen(ctx echo.Context, req request.PhanQuyenBaoCaoReq) error {
+	err := u.db.Delete(&DM_PhanQuyen_Report{}, &DM_PhanQuyen_Report{
+		DM_PhanQuyenID: req.DM_PhanQuyenID,
+	}).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return err
+	}
+	for _, item := range req.DanhSachReport {
+		_, err := u.Insert(ctx, DM_PhanQuyen_Report{
+			DM_PhanQuyenID: req.DM_PhanQuyenID,
+			DM_ReportId:    item.DM_ReportId,
+		})
+
+		if err != nil && !gorm.IsRecordNotFoundError(err) {
+			return err
+		}
+	}
+	return nil
 }
 
 func (u *DM_PhanQuyen_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_PhanQuyen_Report, error) {

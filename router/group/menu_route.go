@@ -23,9 +23,8 @@ func MenuRoute(api core.DbData) {
 	g.POST("", handlerMenu.InsertMenu)
 	g.PUT("", handlerMenu.UpdateMenu)
 	g.GET("/id/:id", handlerMenu.GetAllMenuById)
-	g.DELETE("/id/:id", handlerMenu.DeleteMenuById)	//public
+	g.DELETE("/id/:id", handlerMenu.DeleteMenuById)
 	api.Echo.GET("menu/id/:id", handlerMenu.GetAllMenuById)
 	api.Echo.GET("/menu/", handlerMenu.GetMenuByPhanQuyenIdAnDuAnId)
-
-
+	g.GET("/phan-quyen/", handlerMenu.GetMenuByPhanQuyenId)
 }

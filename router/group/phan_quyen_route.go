@@ -9,7 +9,7 @@ import (
 
 func PhanQuyenRoute(api core.DbData) {
 
-	g := api.Echo.Group("/phanquyen")
+	g := api.Echo.Group("/phan-quyen")
 
 	middlewares.SetJwtMiddlewares(g)
 
@@ -19,6 +19,5 @@ func PhanQuyenRoute(api core.DbData) {
 
 	//Phân quyền
 	g.GET("", handlerPhanQuyen.GetAllPhanQuyen)
-
 
 }

@@ -28,7 +28,23 @@ func (u *MenuHandler) GetMenuByPhanQuyenIdAnDuAnId(c echo.Context) error {
 		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
 	}
 
-	data, err := u.MenuRepo.GetMenuByPhanQuyenId(phanQuyenId, duAnId)
+	data, err := u.MenuRepo.GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId, duAnId)
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return helper.ResponseData(c, data)
+}
+
+func (u *MenuHandler) GetMenuByPhanQuyenId(c echo.Context) error {
+	phanQuyenId, err := helper.CheckIntPar(c.QueryParam("phanquyenid"))
+
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+	}
+
+	data, err := u.MenuRepo.GetMenuByPhanQuyenId(phanQuyenId)
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())

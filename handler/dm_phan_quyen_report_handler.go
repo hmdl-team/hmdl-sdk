@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/gommon/log"
 	"hmdl-user-service/helper"
 	. "hmdl-user-service/models/data_user"
+	"hmdl-user-service/models/request"
 	"hmdl-user-service/repository"
 	"net/http"
 	"strconv"
@@ -167,4 +168,16 @@ func (u *DM_PhanQuyen_ReportHandler) GetAll(c echo.Context) (err error) {
 
 	return helper.ResponseData(c, data)
 
+}
+
+func (u *DM_PhanQuyen_ReportHandler) UpdatePhanQuyenReport(c echo.Context) (err error) {
+	req := new(request.PhanQuyenBaoCaoReq)
+	if err = c.Bind(req); err != nil {
+		return
+	}
+	err = u.Repo.UpdatePhanQuyen(c, *req)
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+	return helper.ResponseWithCode(c, 200, "Cập nhật thành công!")
 }

@@ -9,7 +9,7 @@ import (
 
 func NhanVienRoute(api core.DbData) {
 
-	nvg := api.Echo.Group("/nhanvien")
+	nvg := api.Echo.Group("/nhan-vien")
 
 	middlewares.SetJwtMiddlewares(nvg)
 

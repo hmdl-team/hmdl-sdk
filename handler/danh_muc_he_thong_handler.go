@@ -12,8 +12,8 @@ type DanhMucHeThongHandler struct {
 
 func (u *DanhMucHeThongHandler) GetAllChucDanh(c echo.Context) error {
 
-	//dbsql := drive.SqlServer.Db
-	//db := drive.Postgres.Db
+	//dbsql := drive.SqlServer.db
+	//db := drive.Postgres.db
 
 	//data, err := repoimpl.NewDanhMucHeThongRePo(dbsql,db).GetAllChucVu()
 	data, err := u.DanhMucHeThongRepo.GetAllChucDanh()
@@ -56,8 +56,8 @@ func (u *DanhMucHeThongHandler) GetAllChucVu(c echo.Context) error {
 
 //func DongBoDanhMucHeThong() {
 //
-//	dbsql := drive.SqlServer.Db
-//	dbpos := drive.Postgres.Db
+//	dbsql := drive.SqlServer.db
+//	dbpos := drive.Postgres.db
 //	//defer log.Println(err)
 //	repoimpl.NewDanhMucHeThongRePo(dbsql, dbpos).DongBoChucdanh()
 //	repoimpl.NewDanhMucHeThongRePo(dbsql, dbpos).DongBoChucVu()

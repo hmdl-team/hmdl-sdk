@@ -168,3 +168,23 @@ func (u *DM_ReportHandler) GetAll(c echo.Context) (err error) {
 	return helper.ResponseData(c, data)
 
 }
+
+func (u *DM_ReportHandler) GetBaoCaoByPhanQuyenId(c echo.Context) error {
+	phanQuyenId, err := helper.CheckIntPar(c.QueryParam("phanquyenid"))
+
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+	}
+
+	data, err := u.Repo.GetReportPhanQuyenId(phanQuyenId)
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, helper.Response{
+		StatusCode: http.StatusOK,
+		Message:    http.StatusText(http.StatusOK),
+		Data:       &data,
+	})
+}

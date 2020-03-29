@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"hmdl-user-service/helper"
 	"hmdl-user-service/models/data_user"
+	"hmdl-user-service/models/request"
 	"hmdl-user-service/repository"
 
 	"net/http"
@@ -73,7 +74,19 @@ func (u *PhanQuyenMenuHandler) InsertPhanQuyenMenu(c echo.Context) (err error) {
 		return
 	}
 
-	err = u.PhanQuyenMenuRepo.Insert(menu)
+	err = u.PhanQuyenMenuRepo.Insert(*menu)
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+	return helper.ResponseData(c, menu)
+}
+
+func (u *PhanQuyenMenuHandler) UpdatePhanQuyenMenu(c echo.Context) (err error) {
+	menu := new(request.PhanQuyenMenuReq)
+	if err = c.Bind(menu); err != nil {
+		return
+	}
+	err = u.PhanQuyenMenuRepo.UpdatePhanQuyen(c, *menu)
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
 	}

@@ -18,6 +18,7 @@ func DM_PhanQuyen_ReportRoute(api core.DbData) {
 
 	g.GET("", handler.GetAll)
 	g.POST("", handler.Insert)
+	g.POST("/update-phan-quyen", handler.UpdatePhanQuyenReport)
 	g.PUT("/:id", handler.Update)
 	g.DELETE("/id/:id", handler.Delete)
 	g.GET("/id/:id", handler.GetById)
