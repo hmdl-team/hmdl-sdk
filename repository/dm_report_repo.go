@@ -13,4 +13,5 @@ type DM_ReportRepo interface {
 	Update(ctx echo.Context, item DM_Report) error
 
 	GetReportPhanQuyenId(phanQuyenId int) ([]DM_Report, error)
+	GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId int) ([]DM_Report, error)
 }

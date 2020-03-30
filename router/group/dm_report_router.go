@@ -17,7 +17,8 @@ func DM_ReportRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(g)
 
 	g.GET("", handler.GetAll)
-	g.GET("/phanquyen/", handler.GetBaoCaoByPhanQuyenId)
+	g.GET("/phan-quyen/", handler.GetBaoCaoByPhanQuyenId)
+	g.GET("/he-thong-bao-cao/phan-quyen/", handler.GetReportTrangBaoCaoByPhanQuyenId)
 	g.POST("", handler.Insert)
 	g.PUT("/:id", handler.Update)
 	g.DELETE("/id/:id", handler.Delete)
