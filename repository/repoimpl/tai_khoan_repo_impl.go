@@ -2,7 +2,6 @@ package repoimpl
 
 import (
 	"errors"
-	"fmt"
 	"github.com/getsentry/raven-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
@@ -30,12 +29,8 @@ func (u *dmTaiKhoanRepoImpl) Login(ctx echo.Context, loginReq request.ReqSignIn)
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
-		fmt.Println(err)
 		return data, err
 	}
-
-
-
 	return data, nil
 }
 
