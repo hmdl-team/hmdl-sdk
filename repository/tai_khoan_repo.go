@@ -14,5 +14,5 @@ type TaiKhoanRepository interface {
 	Update(ctx echo.Context, item data_user.DM_TaiKhoan) error
 
 	//Login user acount
-	Login(ctx echo.Context, loginReq request.ReqSignIn) (data_user.DM_TaiKhoan, error)
+	Login(ctx echo.Context, loginReq request.ReqSignIn) (*data_user.DM_TaiKhoan, error)
 }

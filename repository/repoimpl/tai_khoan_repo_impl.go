@@ -19,7 +19,7 @@ type dmTaiKhoanRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *dmTaiKhoanRepoImpl) Login(ctx echo.Context, loginReq request.ReqSignIn) (data_user.DM_TaiKhoan, error) {
+func (u *dmTaiKhoanRepoImpl) Login(ctx echo.Context, loginReq request.ReqSignIn) (*data_user.DM_TaiKhoan, error) {
 	data := data_user.DM_TaiKhoan{}
 	err := u.db.
 		Where(" LOWER(TenTaiKhoan) like ?", strings.ToLower(loginReq.UserName)).
@@ -29,9 +29,14 @@ func (u *dmTaiKhoanRepoImpl) Login(ctx echo.Context, loginReq request.ReqSignIn)
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
-		return data, err
+		return nil, err
 	}
-	return data, nil
+
+	if gorm.IsRecordNotFoundError(err) {
+		return nil, nil
+	}
+
+	return &data, nil
 }
 
 func (u *dmTaiKhoanRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_TaiKhoan, error) {

@@ -37,7 +37,7 @@ func GenToken(user data_user.DM_TaiKhoan) (string, *time.Time, error) {
 	//Định nghĩa
 	claims := &JwtClaims{
 		UserId: strconv.Itoa(user.DM_TaiKhoanId),
-		Role:   strconv.Itoa(helper.ToInt(user.DM_PhanQuyenID)),
+		Role:   helper.IntToString(user.DM_PhanQuyenID),
 		Name:   user.TenTaiKhoan,
 		StandardClaims: jwt.StandardClaims{
 			Id:        "main_user_id",
@@ -57,15 +57,14 @@ func GenToken(user data_user.DM_TaiKhoan) (string, *time.Time, error) {
 	return stoken, &expirationTime, err
 }
 
-
-func GenTokenWithTime(user data_user.DM_TaiKhoan,hourNumber time.Duration) (string, *time.Time, error) {
+func GenTokenWithTime(user data_user.DM_TaiKhoan, hourNumber time.Duration) (string, *time.Time, error) {
 	var jwtKey = []byte(os.Getenv("JWK_KEY"))
-	expirationTime := time.Now().Add( hourNumber * time.Hour)
+	expirationTime := time.Now().Add(hourNumber * time.Hour)
 
 	//Định nghĩa
 	claims := &JwtClaims{
 		UserId: strconv.Itoa(user.DM_TaiKhoanId),
-		Role:   strconv.Itoa(helper.ToInt(user.DM_PhanQuyenID)),
+		Role:   helper.IntToString(user.DM_PhanQuyenID),
 		Name:   user.TenTaiKhoan,
 		StandardClaims: jwt.StandardClaims{
 			Id:        "main_user_id",

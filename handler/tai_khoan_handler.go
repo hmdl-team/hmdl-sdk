@@ -3,13 +3,13 @@ package handler
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"hmdl-user-service/models/response"
-
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/gommon/log"
 	"hmdl-user-service/auth"
 	"hmdl-user-service/helper"
+	"hmdl-user-service/helper/domain"
 	"hmdl-user-service/helper/lib"
+	"hmdl-user-service/models/response"
 
 	"hmdl-user-service/models/data_user"
 	"hmdl-user-service/models/request"
@@ -68,21 +68,68 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 		})
 	}
 
+	configDomain := domain.Config{
+		Server: "10.25.10.10",
+		Port:   389,
+		BaseDN: "DC=fhmc,DC=com",
+	}
+
+	if user == nil {
+		userInfo, err := configDomain.LoginDomain(req.UserName, req.Password)
+
+		fmt.Println(err)
+
+		if userInfo != nil {
+
+			taiKhoanMoi := data_user.DM_TaiKhoan{
+				TenTaiKhoan:      req.UserName,
+				DM_NhanVienId:    702,
+				TinhTrang:        true,
+				PhanQuyenId:      helper.ToIntPointer(5),
+				DM_PhanQuyenID:   helper.ToIntPointer(5),
+				DomainLogin:      true,
+				ThoiGianDangNhap: nil,
+				ThoiGianDangXuat: nil,
+				TuDongDangNhap:   false,
+				MatKhauWeb:       lib.MaHoa(req.Password),
+			}
+			TaiKhoanNew, err := u.TaiKhoanRepo.Insert(c, taiKhoanMoi)
+
+			if err != nil {
+				return c.JSON(http.StatusInternalServerError, helper.Response{
+					StatusCode: http.StatusInternalServerError,
+					Message:    err.Error(),
+					Data:       nil,
+				})
+			}
+
+			user = TaiKhoanNew
+		}
+	}
+
 	mahoaPass := lib.MaHoa(req.Password)
 
 	// check pass
 	isTheSame := mahoaPass == user.MatKhauWeb
-	if !isTheSame {
-		return c.JSON(http.StatusBadRequest, helper.Response{
-			StatusCode: http.StatusBadRequest,
-			Message:    "Đăng nhập thất bại",
-			Data:       nil,
-		})
-	}
 
+	if !isTheSame {
+
+		if user != nil {
+			userInfo, err := configDomain.LoginDomain(req.UserName, req.Password)
+			fmt.Println(err)
+
+			if userInfo == nil {
+				return c.JSON(http.StatusBadRequest, helper.Response{
+					StatusCode: http.StatusBadRequest,
+					Message:    "Đăng nhập thất bại",
+					Data:       nil,
+				})
+			}
+		}
+	}
 	//	token, time, err := domain.GenToken(user)
-	token, _, err := auth.GenTokenWithTime(user, 3)
-	refeshToken, _, err := auth.GenTokenWithTime(user, 4)
+	token, _, err := auth.GenTokenWithTime(*user, 3)
+	refeshToken, _, err := auth.GenTokenWithTime(*user, 4)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response{

@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+	"hmdl-user-service/auth"
 	"hmdl-user-service/helper"
 	. "hmdl-user-service/models/data_user"
 	"hmdl-user-service/repository"
@@ -170,6 +172,7 @@ func (u *DM_ReportHandler) GetAll(c echo.Context) (err error) {
 }
 
 func (u *DM_ReportHandler) GetBaoCaoByPhanQuyenId(c echo.Context) error {
+
 	phanQuyenId, err := helper.CheckIntPar(c.QueryParam("phanquyenid"))
 
 	if err != nil {
@@ -190,13 +193,17 @@ func (u *DM_ReportHandler) GetBaoCaoByPhanQuyenId(c echo.Context) error {
 }
 
 func (u *DM_ReportHandler) GetReportTrangBaoCaoByPhanQuyenId(c echo.Context) error {
-	phanQuyenId, err := helper.CheckIntPar(c.QueryParam("phanquyenid"))
+
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*auth.JwtClaims)
+
+	partInt, err := helper.CheckIntPar(claims.Role)
 
 	if err != nil {
 		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
 	}
 
-	data, err := u.Repo.GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId)
+	data, err := u.Repo.GetReportTrangBaoCaoByPhanQuyenId(partInt)
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())

@@ -18,7 +18,7 @@ func DM_ReportRoute(api core.DbData) {
 
 	g.GET("", handler.GetAll)
 	g.GET("/phan-quyen/", handler.GetBaoCaoByPhanQuyenId)
-	g.GET("/he-thong-bao-cao/phan-quyen/", handler.GetReportTrangBaoCaoByPhanQuyenId)
+	g.GET("/he-thong-bao-cao/phan-quyen", handler.GetReportTrangBaoCaoByPhanQuyenId)
 	g.POST("", handler.Insert)
 	g.PUT("/:id", handler.Update)
 	g.DELETE("/id/:id", handler.Delete)

@@ -15,7 +15,6 @@ type NhanVienHandler struct {
 	NhanVienRepo repository.NhanVienRepository
 }
 
-
 func (u *NhanVienHandler) GetNhanVienByUserName(c echo.Context) error {
 	name := c.QueryParam("username")
 
@@ -65,9 +64,6 @@ func (u *NhanVienHandler) GetNhanVienById(c echo.Context) error {
 
 	data := u.NhanVienRepo.GetNhanVienById(int(valParentId))
 
-	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
-	}
 	return helper.ResponseData(c, data)
 
 }
