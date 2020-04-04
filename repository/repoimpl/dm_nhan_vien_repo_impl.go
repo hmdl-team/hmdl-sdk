@@ -37,7 +37,7 @@ func (u *NhanVienRepoImpl) GetDanhSachNhanVienByChucDanhId(chucDanhId int) []dat
 func (u *NhanVienRepoImpl) GetDanhSachBacSi() []data_user.NhanVien {
 	data := make([]data_user.NhanVien, 0)
 
-	err := u.DbPos.Raw("CaLL sp_GetDanhSachBacSi();").Scan(&data).Error
+	err := u.DbPos.Raw("exec sp_GetDanhSachBacSi").Scan(&data).Error
 	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)
 		return nil

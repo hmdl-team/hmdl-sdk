@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"github.com/getsentry/raven-go"
 	"github.com/joho/godotenv"
+	auth "github.com/korylprince/go-ad-auth/v3"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
+	"hmdl-user-service/helper/domain"
 	"hmdl-user-service/migration"
 	"hmdl-user-service/router"
 	"log"
@@ -60,6 +62,10 @@ func main() {
 	api := router.API{
 		Echo: e,
 		Db:   msSql.Db,
+	}
+
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	api.NewRouter()

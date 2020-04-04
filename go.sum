@@ -59,7 +59,12 @@ github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3/go.mod h1:VJ0WA2NB
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
 github.com/gin-gonic/gin v1.3.0/go.mod h1:7cKuhb5qV2ggCFctp2fJQ+ErvciLZrIeoOSOm6mUr7Y=
 github.com/gin-gonic/gin v1.4.0/go.mod h1:OW2EZn3DO8Ln9oIKOvM++LBO+5UPHJJDH72/q/3rZdM=
+github.com/go-asn1-ber/asn1-ber v1.3.1/go.mod h1:hEBeB/ic+5LoWskz+yKT7vGhhPYkProFKoKdwZRWMe0=
+github.com/go-asn1-ber/asn1-ber v1.4.1 h1:qP/QDxOtmMoJVgXHCXNzDpA0+wkgYB2x5QoLMVOciyw=
+github.com/go-asn1-ber/asn1-ber v1.4.1/go.mod h1:hEBeB/ic+5LoWskz+yKT7vGhhPYkProFKoKdwZRWMe0=
 github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2as=
+github.com/go-ldap/ldap/v3 v3.1.7 h1:aHjuWTgZsnxjMgqzx0JHwNqz4jBYZTcNarbPFkW1Oww=
+github.com/go-ldap/ldap/v3 v3.1.7/go.mod h1:5Zun81jBTabRaI8lzN7E1JjyEl1g6zI6u9pd8luAK4Q=
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
 github.com/go-openapi/jsonpointer v0.17.0/go.mod h1:cOnomiV+CVVwFLk0A/MExoFMjwdsUdVpsRhURCKh+3M=
 github.com/go-openapi/jsonpointer v0.19.2/go.mod h1:3akKfEdA7DF1sugOqz1dVQHBcuDBPKZGEoHC/NkiQRg=
@@ -170,6 +175,10 @@ github.com/kevholditch/gokong v6.0.0+incompatible h1:cgCjtf4MPlFQ+N2uN2bCChz8LQy
 github.com/kevholditch/gokong v6.0.0+incompatible/go.mod h1:IhM+qpLRw9cvTLM/SNPRHxsattruMFsdi4HP4zowngo=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
+github.com/korylprince/go-ad-auth v1.0.0 h1:Z4EljD0XTBh5foYSLQU9BfFuF+8LdZ48o3k7IL7cRr8=
+github.com/korylprince/go-ad-auth v2.2.0+incompatible h1:g/vTHSQfe2y0D9LATowYJwj735wLjD+pBS9fN7Ady70=
+github.com/korylprince/go-ad-auth/v3 v3.1.1 h1:H/ydRuws1MkxDYxHlfII7ahNQ49sqrSwcdphZbnNkyY=
+github.com/korylprince/go-ad-auth/v3 v3.1.1/go.mod h1:19M0geaOeNN489k1MO6GCqOCgbruYRQkHRBfhhUZAoE=
 github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=

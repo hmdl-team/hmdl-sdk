@@ -80,7 +80,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 		})
 	}
 
-	//	token, time, err := auth.GenToken(user)
+	//	token, time, err := domain.GenToken(user)
 	token, _, err := auth.GenTokenWithTime(user, 3)
 	refeshToken, _, err := auth.GenTokenWithTime(user, 4)
 
@@ -127,15 +127,6 @@ func (u *TaiKhoanHandler) GetAllTaiKhoan(c echo.Context) error {
 		})
 	}
 
-	if err != nil {
-
-		return c.JSON(500, lib.Response{
-			Type:    "error",
-			Message: "Lỗi thực thi",
-			Data:    nil,
-		})
-	}
-
 	return c.JSON(200, lib.Response{
 		Type:    "data",
 		Message: "Sussess",
@@ -146,7 +137,7 @@ func (u *TaiKhoanHandler) GetAllTaiKhoan(c echo.Context) error {
 }
 
 // DanhMucDuoc godoc
-// @Summary auth with token
+// @Summary domain with token
 // @Description Get danh mục dược cho combobox
 // @Tags tai-khoan
 // @Accept json
@@ -188,7 +179,7 @@ func (u *TaiKhoanHandler) GetNhanVienByToken(c echo.Context) error {
 }
 
 // DanhMucDuoc godoc
-// @Summary auth with token
+// @Summary domain with token
 // @Description Get danh mục dược cho combobox
 // @Tags tai-khoan
 // @Accept json
