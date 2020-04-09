@@ -11,6 +11,7 @@ import (
 	"hmdl-user-service/Services"
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
+	"hmdl-user-service/helper"
 	"hmdl-user-service/migration"
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository/repoimpl"
@@ -93,6 +94,7 @@ func main() {
 	api.NewRouter()
 	e.Listener = listener
 
+	fmt.Println("Server Ip :" + helper.GetLocalIP().String())
 	e.Logger.Fatal(e.Start(""))
 	//	e.Logger.Fatal(e.Start(":7001"))
 }
