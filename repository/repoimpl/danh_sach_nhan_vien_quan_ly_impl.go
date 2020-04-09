@@ -10,14 +10,14 @@ import (
 )
 
 func NewDanhSachNhanVienQuanLyRepo(db *gorm.DB) repository.DanhSachNhanVienQuanLyRepo {
-	return &DanhSachNhanVienQuanLyRepoImpl{db: db}
+	return &danhSachNhanVienQuanLyRepoImpl{db: db}
 }
 
-type DanhSachNhanVienQuanLyRepoImpl struct {
+type danhSachNhanVienQuanLyRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *DanhSachNhanVienQuanLyRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_NhanVienQuanLy, error) {
+func (u *danhSachNhanVienQuanLyRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_NhanVienQuanLy, error) {
 	var data []data_user.DM_NhanVienQuanLy
 
 	err := u.db.Find(&data).Error
@@ -30,7 +30,7 @@ func (u *DanhSachNhanVienQuanLyRepoImpl) GetAll(ctx echo.Context) ([]data_user.D
 	return data, err
 }
 
-func (u *DanhSachNhanVienQuanLyRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_NhanVienQuanLy, error) {
+func (u *danhSachNhanVienQuanLyRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_NhanVienQuanLy, error) {
 	var dsPhongKha data_user.DM_NhanVienQuanLy
 	err := u.db.Where("DanhSachNhanVienQuanLyId = ?", id).Find(&dsPhongKha).Error
 
@@ -46,7 +46,7 @@ func (u *DanhSachNhanVienQuanLyRepoImpl) GetById(ctx echo.Context, id int) (*dat
 	return &dsPhongKha, nil
 }
 
-func (u *DanhSachNhanVienQuanLyRepoImpl) Delete(ctx echo.Context, id int) error {
+func (u *danhSachNhanVienQuanLyRepoImpl) Delete(ctx echo.Context, id int) error {
 	var data data_user.DM_NhanVienQuanLy
 
 	err := u.db.Find(&data, id).Error
@@ -69,7 +69,7 @@ func (u *DanhSachNhanVienQuanLyRepoImpl) Delete(ctx echo.Context, id int) error 
 	return nil
 }
 
-func (u *DanhSachNhanVienQuanLyRepoImpl) Insert(ctx echo.Context, item data_user.DM_NhanVienQuanLy) (*data_user.DM_NhanVienQuanLy, error) {
+func (u *danhSachNhanVienQuanLyRepoImpl) Insert(ctx echo.Context, item data_user.DM_NhanVienQuanLy) (*data_user.DM_NhanVienQuanLy, error) {
 	err := u.db.Create(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -80,7 +80,7 @@ func (u *DanhSachNhanVienQuanLyRepoImpl) Insert(ctx echo.Context, item data_user
 	return &item, nil
 }
 
-func (u *DanhSachNhanVienQuanLyRepoImpl) Update(ctx echo.Context, item data_user.DM_NhanVienQuanLy) error {
+func (u *danhSachNhanVienQuanLyRepoImpl) Update(ctx echo.Context, item data_user.DM_NhanVienQuanLy) error {
 	err := u.db.Save(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

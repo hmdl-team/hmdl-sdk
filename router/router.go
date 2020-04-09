@@ -29,8 +29,11 @@ func (api API) NewRouter() {
 		NameService: "HMDL-USER-SERVICE",
 		PathService: "/user-service",
 		UrlService:  fmt.Sprintf("http://%s:%s", helper.GetLocalIP(), "7001"),
-		IpService:   helper.GetLocalIP() + ":7001",
+		IpService:   helper.GetLocalIP().String() + ":7001",
 	}
+
+	consulAddress := os.Getenv("CONSUL_ADDRESS")
+	helper.RegisterServiceWithConsul("hmdl-user-service", 7001, consulAddress)
 
 	//err := kong.RegisterKong()
 	//if err != nil {
@@ -45,9 +48,9 @@ func (api API) NewRouter() {
 	// show log api request
 
 	//api.Echo.Use(middleware.Logger())
-	api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
-	}))
+	//api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+	//	Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
+	//}))
 	//api.Echo.Use(middleware.Recover())
 
 	//cau hinh các Option

@@ -6,11 +6,18 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"hmdl-user-service/Services"
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
 	"hmdl-user-service/migration"
+	"hmdl-user-service/pb"
+	"hmdl-user-service/repository/repoimpl"
+
 	"hmdl-user-service/router"
 	"log"
+	"net"
 	"os"
 )
 
@@ -66,6 +73,26 @@ func main() {
 		fmt.Println(err)
 	}
 
+	listener, err := net.Listen("tcp", ":7001")
+	if err != nil {
+		e.Logger.Fatal(listener)
+	}
+
+	srv := grpc.NewServer()
+	pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
+		RepoNhanVien: repoimpl.NewNhanVienRepo(api.Db),
+	})
+	reflection.Register(srv)
+
+	go func() {
+		if e := srv.Serve(listener); e != nil {
+			panic(e)
+		}
+	}()
+
 	api.NewRouter()
-	e.Logger.Fatal(e.Start(":7001"))
+	e.Listener = listener
+
+	e.Logger.Fatal(e.Start(""))
+	//	e.Logger.Fatal(e.Start(":7001"))
 }

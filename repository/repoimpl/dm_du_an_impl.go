@@ -10,14 +10,14 @@ import (
 )
 
 func NewDM_DuAnRepo(db *gorm.DB) repository.DM_DuAnRepo {
-	return &DM_DuAnRepoImpl{db: db}
+	return &dmDuAnRepoImpl{db: db}
 }
 
-type DM_DuAnRepoImpl struct {
+type dmDuAnRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *DM_DuAnRepoImpl) GetAll(ctx echo.Context) ([]DM_DuAn, error) {
+func (u *dmDuAnRepoImpl) GetAll(ctx echo.Context) ([]DM_DuAn, error) {
 	var data []DM_DuAn
 
 	err := u.db.Find(&data).Error
@@ -30,7 +30,7 @@ func (u *DM_DuAnRepoImpl) GetAll(ctx echo.Context) ([]DM_DuAn, error) {
 	return data, err
 }
 
-func (u *DM_DuAnRepoImpl) GetById(ctx echo.Context, id int) (*DM_DuAn, error) {
+func (u *dmDuAnRepoImpl) GetById(ctx echo.Context, id int) (*DM_DuAn, error) {
 	var dsPhongKha DM_DuAn
 	err := u.db.Where("DM_DuAnId = ?", id).Find(&dsPhongKha).Error
 
@@ -46,7 +46,7 @@ func (u *DM_DuAnRepoImpl) GetById(ctx echo.Context, id int) (*DM_DuAn, error) {
 	return &dsPhongKha, nil
 }
 
-func (u *DM_DuAnRepoImpl) Delete(ctx echo.Context, id int) error {
+func (u *dmDuAnRepoImpl) Delete(ctx echo.Context, id int) error {
 	var data DM_DuAn
 
 	err := u.db.Find(&data, id).Error
@@ -69,7 +69,7 @@ func (u *DM_DuAnRepoImpl) Delete(ctx echo.Context, id int) error {
 	return nil
 }
 
-func (u *DM_DuAnRepoImpl) Insert(ctx echo.Context, item DM_DuAn) (*DM_DuAn, error) {
+func (u *dmDuAnRepoImpl) Insert(ctx echo.Context, item DM_DuAn) (*DM_DuAn, error) {
 	err := u.db.Create(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -80,7 +80,7 @@ func (u *DM_DuAnRepoImpl) Insert(ctx echo.Context, item DM_DuAn) (*DM_DuAn, erro
 	return &item, nil
 }
 
-func (u *DM_DuAnRepoImpl) Update(ctx echo.Context, item DM_DuAn) error {
+func (u *dmDuAnRepoImpl) Update(ctx echo.Context, item DM_DuAn) error {
 	err := u.db.Save(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

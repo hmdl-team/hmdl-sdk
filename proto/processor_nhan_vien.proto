@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "pb";
+
+
+message NhanVien {
+  uint32 dm_nhan_vien_id = 1;
+  string ma_nhan_vien = 2;
+  string ten_nhan_vien = 3;
+  string full_name = 4;
+  string last_name = 5;
+  uint32 phong_id = 6;
+  uint32 dm_chuc_danh_id = 7;
+  uint32 dm_chuc_vu_id = 8;
+  string so_dien_thoai = 9;
+}
+
+// Request data to read todo task
+message ReadRequest{
+  // API versioning: it is my best practice to specify version explicitly
+  string api = 1;
+
+  // Unique integer identifier of the todo task
+  int64 id = 2;
+}
+
+// Contains todo task data specified in by ID request
+message ReadResponse{
+  // API versioning: it is my best practice to specify version explicitly
+  string api = 1;
+
+  // Task entity read by ID
+  repeated  NhanVien nhanVien = 2;
+}
+
+
+service NhanVienService {
+  rpc GetNhanVien(ReadRequest) returns (ReadResponse);
+}

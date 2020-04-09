@@ -15,9 +15,8 @@ type NhanVienRepoImpl struct {
 }
 
 //NewTaiKhoanRepo : khởi tạo
-func NewNhanVienRepo(dbsql *gorm.DB, DbPos *gorm.DB) repository.NhanVienRepository {
+func NewNhanVienRepo(DbPos *gorm.DB) repository.NhanVienRepository {
 	return &NhanVienRepoImpl{
-		DbSql: dbsql,
 		DbPos: DbPos,
 	}
 }

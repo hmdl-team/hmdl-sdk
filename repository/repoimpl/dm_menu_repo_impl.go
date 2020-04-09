@@ -9,14 +9,14 @@ import (
 )
 
 func NewMenuWebRepo(db *gorm.DB) repository.MenuRepository {
-	return &MenuWebRepoImpl{db: db}
+	return &menuWebRepoImpl{db: db}
 }
 
-type MenuWebRepoImpl struct {
+type menuWebRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *MenuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_user.DM_MenuWeb, err error) {
+func (u *menuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_user.DM_MenuWeb, err error) {
 
 	var dsReportId []data_user.DM_PhanQuyenMenu
 
@@ -42,7 +42,7 @@ func (u *MenuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_use
 	return data, nil
 }
 
-func (u *MenuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId int) ([]data_user.DM_MenuWeb, error) {
+func (u *menuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId int) ([]data_user.DM_MenuWeb, error) {
 	var data []data_user.DM_MenuWeb
 
 	err := u.db.Table("DM_PhanQuyenMenu").
@@ -79,7 +79,7 @@ func (u *MenuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId 
 	return data, nil
 }
 
-func (u *MenuWebRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_MenuWeb, error) {
+func (u *menuWebRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_MenuWeb, error) {
 	var data []data_user.DM_MenuWeb
 
 	err := u.db.Find(&data).Error
@@ -92,7 +92,7 @@ func (u *MenuWebRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_MenuWeb, erro
 	return data, err
 }
 
-func (u *MenuWebRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_MenuWeb, error) {
+func (u *menuWebRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_MenuWeb, error) {
 	var dsPhongKha data_user.DM_MenuWeb
 	err := u.db.Find(&dsPhongKha, id).Error
 
@@ -108,7 +108,7 @@ func (u *MenuWebRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_MenuW
 	return &dsPhongKha, nil
 }
 
-func (u *MenuWebRepoImpl) Delete(ctx echo.Context, id int) error {
+func (u *menuWebRepoImpl) Delete(ctx echo.Context, id int) error {
 	err := u.db.Delete(data_user.DM_MenuWeb{}, data_user.DM_MenuWeb{
 		Id: id,
 	}).Error
@@ -121,7 +121,7 @@ func (u *MenuWebRepoImpl) Delete(ctx echo.Context, id int) error {
 	return nil
 }
 
-func (u *MenuWebRepoImpl) Insert(ctx echo.Context, item data_user.DM_MenuWeb) (*data_user.DM_MenuWeb, error) {
+func (u *menuWebRepoImpl) Insert(ctx echo.Context, item data_user.DM_MenuWeb) (*data_user.DM_MenuWeb, error) {
 	err := u.db.Create(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -132,7 +132,7 @@ func (u *MenuWebRepoImpl) Insert(ctx echo.Context, item data_user.DM_MenuWeb) (*
 	return &item, nil
 }
 
-func (u *MenuWebRepoImpl) Update(ctx echo.Context, item data_user.DM_MenuWeb) error {
+func (u *menuWebRepoImpl) Update(ctx echo.Context, item data_user.DM_MenuWeb) error {
 	err := u.db.Save(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

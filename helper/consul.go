@@ -22,12 +22,13 @@ func RegisterServiceWithConsul(serviceId string, port int, serverConsulIp string
 	registration.ID = serviceId   //replace with service id
 	registration.Name = serviceId //replace with service name
 	address := GetLocalIP()
-	registration.Address = address
+	registration.Address = address.String()
 	registration.Port = port
 	registration.Check = new(consulapi.AgentServiceCheck)
 	registration.Check.HTTP = fmt.Sprintf("http://%s:%v/healthcheck", address, port)
 	registration.Check.Interval = "5s"
-	registration.Check.Timeout = "3s"
+	registration.Check.Timeout = "5s"
+
 	err = consul.Agent().ServiceRegister(registration)
 	if err != nil {
 		fmt.Println(err)
@@ -62,18 +63,14 @@ func GetUrlService(port string) string {
 	return fmt.Sprintf("http://%s:%s", GetLocalIP(), port)
 }
 
-func GetLocalIP() string {
-	addrs, err := net.InterfaceAddrs()
+func GetLocalIP() net.IP {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
-		return ""
+		log.Fatal(err)
 	}
-	for _, address := range addrs {
-		// check the address type and if it is not a loopback the display it
-		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				return ipnet.IP.String()
-			}
-		}
-	}
-	return ""
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	return localAddr.IP
 }

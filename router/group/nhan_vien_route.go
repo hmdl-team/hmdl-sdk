@@ -14,7 +14,7 @@ func NhanVienRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(nvg)
 
 	handlerNhanVien := handler.NhanVienHandler{
-		NhanVienRepo: repo.NewNhanVienRepo(api.Db, api.Db),
+		NhanVienRepo: repo.NewNhanVienRepo(api.Db),
 	}
 
 	// Thông tin nhân viên

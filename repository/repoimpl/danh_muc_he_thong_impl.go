@@ -11,27 +11,27 @@ import (
 
 //NewTaiKhoanRepo : khởi tạo
 func NewDanhMucHeThongRePo(dbsql *gorm.DB, dbpos *gorm.DB) repository.DanhMucHeThongRepository {
-	return &DanhMucHeThongImpl{
+	return &danhMucHeThongImpl{
 		DbSql: dbsql,
 		DbPos: dbpos,
 	}
 }
 
 //khởi tạo
-type DanhMucHeThongImpl struct {
+type danhMucHeThongImpl struct {
 	DbSql *gorm.DB
 	DbPos *gorm.DB
 }
 
-func (u *DanhMucHeThongImpl) GetAllChucDanh() ([]data_user.DanhMucHeThong, error) {
+func (u *danhMucHeThongImpl) GetAllChucDanh() ([]data_user.DanhMucHeThong, error) {
 	return u.GetAllDanhMucHeThongByLoaiDanhMuc("ChucDanh")
 }
 
-func (u *DanhMucHeThongImpl) GetAllChucVu() ([]data_user.DanhMucHeThong, error) {
+func (u *danhMucHeThongImpl) GetAllChucVu() ([]data_user.DanhMucHeThong, error) {
 	return u.GetAllDanhMucHeThongByLoaiDanhMuc("ChucVu")
 }
 
-func (u *DanhMucHeThongImpl) GetAllDanhMucHeThongByLoaiDanhMuc(LoaiDanhMuc string) ([]data_user.DanhMucHeThong, error) {
+func (u *danhMucHeThongImpl) GetAllDanhMucHeThongByLoaiDanhMuc(LoaiDanhMuc string) ([]data_user.DanhMucHeThong, error) {
 	data := make([]data_user.DanhMucHeThong, 0)
 	err := u.DbPos.Where("loai_danh_muc = ?", LoaiDanhMuc).Find(&data).Error
 
@@ -45,7 +45,7 @@ func (u *DanhMucHeThongImpl) GetAllDanhMucHeThongByLoaiDanhMuc(LoaiDanhMuc strin
 	return nil, nil
 }
 
-func (u *DanhMucHeThongImpl) GetDanhMucHeThongByDanhMucCode(DanhMucCode int, LoaiDanhMuc string) (*data_user.DanhMucHeThong, error) {
+func (u *danhMucHeThongImpl) GetDanhMucHeThongByDanhMucCode(DanhMucCode int, LoaiDanhMuc string) (*data_user.DanhMucHeThong, error) {
 	data := &data_user.DanhMucHeThong{}
 	err := u.DbPos.Where("danh_muc_code = ? and loai_danh_muc = ?", DanhMucCode, LoaiDanhMuc).First(&data).Error
 
@@ -59,7 +59,7 @@ func (u *DanhMucHeThongImpl) GetDanhMucHeThongByDanhMucCode(DanhMucCode int, Loa
 	return nil, nil
 }
 
-func (u *DanhMucHeThongImpl) DongBoChucdanh() error {
+func (u *danhMucHeThongImpl) DongBoChucdanh() error {
 	data := make([]entity.DmChucdanh, 0)
 	err := u.DbSql.Raw(`
 	SELECT
@@ -99,7 +99,7 @@ func (u *DanhMucHeThongImpl) DongBoChucdanh() error {
 	return nil
 }
 
-func (u *DanhMucHeThongImpl) DongBoChucVu() error {
+func (u *danhMucHeThongImpl) DongBoChucVu() error {
 	data := make([]entity.DmChucVu, 0)
 	err := u.DbSql.Raw(`
 	SELECT
@@ -139,7 +139,7 @@ func (u *DanhMucHeThongImpl) DongBoChucVu() error {
 	return nil
 }
 
-func (u *DanhMucHeThongImpl) Insert(item *data_user.DanhMucHeThong) error {
+func (u *danhMucHeThongImpl) Insert(item *data_user.DanhMucHeThong) error {
 	err := u.DbPos.Create(&item).Error
 	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)
