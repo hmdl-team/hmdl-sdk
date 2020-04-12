@@ -62,7 +62,11 @@ func (u *NhanVienHandler) GetNhanVienById(c echo.Context) error {
 		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
 	}
 
-	data := u.NhanVienRepo.GetNhanVienById(int(valParentId))
+	data, err := u.NhanVienRepo.GetNhanVienById(int(valParentId))
+
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
 
 	return helper.ResponseData(c, data)
 

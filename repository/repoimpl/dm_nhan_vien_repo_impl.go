@@ -44,27 +44,27 @@ func (u *NhanVienRepoImpl) GetDanhSachBacSi() []data_user.NhanVien {
 
 	return data
 }
-func (u *NhanVienRepoImpl) GetNhanVienByNhanVienId(nhanVienId int) *data_user.NhanVien {
+func (u *NhanVienRepoImpl) GetNhanVienByNhanVienId(nhanVienId int) (*data_user.NhanVien, error) {
 	data := &data_user.NhanVien{}
-	err := u.DbPos.Where("DM_NhanVienId = ?", nhanVienId).First(&data).Error
+	err := u.DbPos.Where("DM_NhanVienId = ?", nhanVienId).Find(&data).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
-		return nil
+		return nil, err
 	}
-	return data
+	return data, nil
 
 }
-func (u *NhanVienRepoImpl) GetNhanVienById(nhanVienId int) *data_user.NhanVien {
+func (u *NhanVienRepoImpl) GetNhanVienById(nhanVienId int) (*data_user.NhanVien, error) {
 	data := &data_user.NhanVien{}
 	err := u.DbPos.Where("DM_NhanVienId = ?", nhanVienId).Preload("PhongKham").Preload("ChucDanhNhanVien").Preload("ChucVuNhanVien").First(&data).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
-		return nil
+		return nil, err
 	}
 
-	return data
+	return data, nil
 
 }
 func (u *NhanVienRepoImpl) GetNhanVienByUserName(userName string) *data_user.NhanVien {

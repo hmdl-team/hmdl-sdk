@@ -3,7 +3,7 @@ package data_user
 import "time"
 
 type DM_PhongBan struct {
-	DM_PhongBanId     int           `gorm:"column:DM_PhongBanId; primary_key;AUTO_INCREMENT" json:"dm_phong_ban_id,omitempty"`
+	DM_PhongBanId     int           `gorm:"column:DM_PhongBanID; primary_key;AUTO_INCREMENT" json:"dm_phong_ban_id,omitempty"`
 	ParentKeyId       *int          `gorm:"column:ParentKeyId;" json:"parent_key_id"`
 	Children          []DM_PhongBan `gorm:"foreignkey:ParentKeyId; column:Children" json:"children"`
 	TenPhongBan       string        `gorm:"column:TenPhongBan;" json:"ten_phong_ban"`

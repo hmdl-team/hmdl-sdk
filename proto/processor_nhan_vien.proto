@@ -18,24 +18,22 @@ message NhanVien {
 }
 
 // Request data to read todo task
-message ReadRequest{
-  // API versioning: it is my best practice to specify version explicitly
-  string api = 1;
-
+message ReadRequest {
   // Unique integer identifier of the todo task
-  int64 id = 2;
+  int64 id = 1;
 }
 
 // Contains todo task data specified in by ID request
-message ReadResponse{
-  // API versioning: it is my best practice to specify version explicitly
-  string api = 1;
+message DanhSachNhanVienResponse {
+  repeated NhanVien nhanVien = 1;
+}
 
-  // Task entity read by ID
-  repeated  NhanVien nhanVien = 2;
+message NhanVienResponse {
+  NhanVien nhanVien = 1;
 }
 
 
 service NhanVienService {
-  rpc GetNhanVien(ReadRequest) returns (ReadResponse);
+  rpc GetNhanVien (ReadRequest) returns (DanhSachNhanVienResponse);
+  rpc GetNhanVienById (ReadRequest) returns (NhanVienResponse);
 }

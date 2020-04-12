@@ -5,11 +5,10 @@ import (
 )
 
 type NhanVienRepository interface {
-
 	GetDanhSachNhanVienByChucDanhId(chucDanhId int) []data_user.NhanVien
 	GetDanhSachBacSi() []data_user.NhanVien
-	GetNhanVienByNhanVienId(nhanVienId int) *data_user.NhanVien
-	GetNhanVienById(id int) *data_user.NhanVien
+	GetNhanVienByNhanVienId(nhanVienId int) (*data_user.NhanVien, error)
+	GetNhanVienById(id int) (*data_user.NhanVien, error)
 	GetNhanVienByUserName(userName string) *data_user.NhanVien
 
 	Insert(u *data_user.NhanVien) error
