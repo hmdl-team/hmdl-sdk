@@ -32,7 +32,7 @@ type Sender struct {
 
 func EmailSent(form string, to []string, name string, body string) {
 
-	sender := NewSender(form, os.Getenv("EMAIL_SERVER_NAME") , os.Getenv("EMAIL_SERVER_PASS")  )
+	sender := NewSender(form, os.Getenv("EMAIL_SERVER_NAME"), os.Getenv("EMAIL_SERVER_PASS"))
 
 	//The receiver needs to be in slice as the receive supports multiple receiver
 	Receiver := to
@@ -54,6 +54,7 @@ func EmailSent(form string, to []string, name string, body string) {
 	sender.SendMail(Receiver, Subject, bodyMessage)
 
 }
+
 func NewSender(Form, Username, Password string) Sender {
 
 	return Sender{Form, Username, Password}

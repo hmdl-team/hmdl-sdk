@@ -102,7 +102,6 @@ func (api API) NewRouter() {
 		Db:   api.Db,
 	}
 
-	group.DanhMucHeThongRoute(db)
 	group.MenuRoute(db)
 	group.NhanVienRoute(db)
 	group.PhanQuyenRoute(db)
