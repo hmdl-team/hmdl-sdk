@@ -5,16 +5,10 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
-	"hmdl-user-service/Services"
 	"hmdl-user-service/db/core"
 	"hmdl-user-service/handler/impl"
 	"hmdl-user-service/helper"
-	"hmdl-user-service/pb"
-	"hmdl-user-service/repository/repoimpl"
 	"hmdl-user-service/router/group"
-	"net"
 	"net/http"
 	"os"
 )
@@ -41,26 +35,40 @@ func (api API) NewRouter() {
 	consulAddress := os.Getenv("CONSUL_ADDRESS")
 	helper.RegisterServiceWithConsul("hmdl-user-service", 7001, consulAddress)
 
-	listener, err := net.Listen("tcp", ":0")
-	if err != nil {
-		fmt.Println(err)
-	}
+	//listener, err := net.Listen("tcp", ":0")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//
+	//helper.RegisterServiceWithConsul("hmdl-user-service-grpc", listener.Addr().(*net.TCPAddr).Port, consulAddress)
+	//
+	//srv := grpc.NewServer()
+	//pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
+	//	RepoNhanVien: repoimpl.NewNhanVienRepo(api.Db),
+	//})
+	//reflection.Register(srv)
+	//
+	//// graceful shutdown
+	//c := make(chan os.Signal, 1)
+	//signal.Notify(c, os.Interrupt)
+	//ctx := context.Background()
+	//
+	//go func() {
+	//	for range c {
+	//		// sig is a ^C, handle it
+	//		log.Println("shutting down gRPC server...")
+	//		srv.GracefulStop()
+	//		<-ctx.Done()
+	//	}
+	//}()
+	//
+	//go func() {
+	//	if e := srv.Serve(listener); e != nil {
+	//		panic(e)
+	//	}
+	//}()
 
-	helper.RegisterServiceWithConsul("hmdl-user-service-grpc", listener.Addr().(*net.TCPAddr).Port, consulAddress)
-
-	srv := grpc.NewServer()
-	pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
-		RepoNhanVien: repoimpl.NewNhanVienRepo(api.Db),
-	})
-	reflection.Register(srv)
-
-	go func() {
-		if e := srv.Serve(listener); e != nil {
-			panic(e)
-		}
-	}()
-
-	err = kong.RegisterKong()
+	err := kong.RegisterKong()
 
 	if err != nil {
 		fmt.Println(err)

@@ -6,9 +6,9 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
+	"hmdl-user-service/Server"
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
-	"hmdl-user-service/helper"
 	"hmdl-user-service/migration"
 	"hmdl-user-service/router"
 	"log"
@@ -68,6 +68,9 @@ func main() {
 	}
 
 	api.NewRouter()
-	fmt.Println("Server Ip :" + helper.GetLocalIP().String())
-	e.Logger.Fatal(e.Start(":7001"))
+
+	g := Server.New(&api)
+	g.Start()
+	g.WaitStop()
+
 }

@@ -8,3 +8,15 @@ clean:
 	rm pb/*.go
 gitup:
 	git add * && git commit -m "update" && git push
+gen2:
+	protoc -I${GOPATH}/src \
+		-I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+		-I${GOPATH}/src/github.com/lyft/protoc-gen-validate \
+		--go_out=plugins=grpc:pb \
+		--proto_path=proto proto/*.proto
+	protoc -I${GOPATH}/src \
+		-I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+		-I${GOPATH}/src/github.com/lyft/protoc-gen-validate \
+		--grpc-gateway_out=logtostderr=true:pb \
+		--go_out=plugins=grpc:pb \
+		--proto_path=proto proto/*.proto

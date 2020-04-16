@@ -16,6 +16,7 @@ require (
 	github.com/go-resty/resty/v2 v2.1.0 // indirect
 	github.com/golang/protobuf v1.3.5
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.14.3
 	github.com/hashicorp/consul/api v1.3.0
 	github.com/jinzhu/gorm v1.9.10
 	github.com/joho/godotenv v1.3.0
@@ -35,7 +36,7 @@ require (
 	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586 // indirect
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
 	golang.org/x/sys v0.0.0-20200408040146-ea54a3c99b9b // indirect
-	google.golang.org/genproto v0.0.0-20200408120641-fbb3ad325eb7 // indirect
+	google.golang.org/genproto v0.0.0-20200408120641-fbb3ad325eb7
 	google.golang.org/grpc v1.28.1
 	moul.io/http2curl v1.0.0 // indirect
 )
