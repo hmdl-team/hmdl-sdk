@@ -8,17 +8,30 @@ import (
 	"strings"
 )
 
+//NewTaiKhoanRepo : khởi tạo
+func NewNhanVienRepo(DbPos *gorm.DB) repository.NhanVienRepository {
+	return &NhanVienRepoImpl{
+		DbPos: DbPos,
+	}
+}
+
 //Nhân viên khởi tạo
 type NhanVienRepoImpl struct {
 	DbSql *gorm.DB
 	DbPos *gorm.DB
 }
 
-//NewTaiKhoanRepo : khởi tạo
-func NewNhanVienRepo(DbPos *gorm.DB) repository.NhanVienRepository {
-	return &NhanVienRepoImpl{
-		DbPos: DbPos,
+func (u *NhanVienRepoImpl) GetNhanVienCombobox() ([]data_user.NhanVien, error) {
+	var data []data_user.NhanVien
+	err := u.DbPos.Where(&data_user.NhanVien{TinhTrang: true}).Order("DM_NhanVienId desc").Find(&data).Error
+	if err != nil {
+		raven.CaptureErrorAndWait(err, nil)
+		return nil, err
 	}
+	if data != nil {
+		return data, nil
+	}
+	return nil, nil
 }
 
 func (u *NhanVienRepoImpl) GetDanhSachNhanVienByChucDanhId(chucDanhId int) []data_user.NhanVien {
@@ -57,7 +70,8 @@ func (u *NhanVienRepoImpl) GetNhanVienByNhanVienId(nhanVienId int) (*data_user.N
 }
 func (u *NhanVienRepoImpl) GetNhanVienById(nhanVienId int) (*data_user.NhanVien, error) {
 	data := &data_user.NhanVien{}
-	err := u.DbPos.Where("DM_NhanVienId = ?", nhanVienId).Preload("PhongKham").Preload("ChucDanhNhanVien").Preload("ChucVuNhanVien").First(&data).Error
+	err := u.DbPos.Where("DM_NhanVienId = ?", nhanVienId).
+		Find(&data).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
@@ -69,7 +83,7 @@ func (u *NhanVienRepoImpl) GetNhanVienById(nhanVienId int) (*data_user.NhanVien,
 }
 func (u *NhanVienRepoImpl) GetNhanVienByUserName(userName string) *data_user.NhanVien {
 	taikhoan := &data_user.DM_TaiKhoan{}
-	u.DbPos.Where(" LOWER(TenTaiKhoan) like ?", strings.ToLower(userName)).First(&taikhoan)
+	u.DbPos.Where(" LOWER(TenTaiKhoan) like ?", strings.ToLower(userName)).Find(&taikhoan)
 	if taikhoan != nil {
 		nhanvien := &data_user.NhanVien{}
 		err := u.DbPos.Where("DM_NhanVienId = ?", taikhoan.DM_NhanVienId).Find(&nhanvien).Error

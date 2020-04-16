@@ -16,6 +16,7 @@ func DM_PhongBanRoute(api core.DbData) {
 	g := api.Echo.Group("/phong-ban")
 	middlewares.SetJwtMiddlewares(g)
 
+	g.GET("/combobox", handler.GetPhongBanComBobox)
 	g.GET("", handler.GetAll)
 	g.POST("", handler.Insert)
 	g.PUT("/:id", handler.Update)

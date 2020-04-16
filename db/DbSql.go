@@ -5,6 +5,7 @@ import (
 	"github.com/getsentry/raven-go"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mssql"
+	"os"
 )
 
 type MsSql struct {
@@ -27,8 +28,15 @@ func (u *MsSql) SqlServeConnect() {
 		raven.CaptureErrorAndWait(err, nil)
 	}
 
+	evr := os.Getenv("ENVIRONMENT")
+
+	if evr == "DEV" {
+		// Show log sql
+		db.LogMode(true)
+	}
+
 	u.Db = db
-	u.Db.LogMode(true)
+
 }
 
 func (u *MsSql) Close() {

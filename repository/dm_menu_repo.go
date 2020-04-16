@@ -12,5 +12,5 @@ type MenuRepository interface {
 	Insert(ctx echo.Context, item data_user.DM_MenuWeb) (*data_user.DM_MenuWeb, error)
 	Update(ctx echo.Context, item data_user.DM_MenuWeb) error
 	GetMenuByPhanQuyenId(phanQuyenId int) ([]data_user.DM_MenuWeb, error)
-	GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId, duAnId int) ([]data_user.DM_MenuWeb, error)
+	GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId, duAnId int) ([]*data_user.DM_MenuWeb, error)
 }

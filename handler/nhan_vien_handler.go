@@ -131,3 +131,13 @@ func (u *NhanVienHandler) GetAllNhanVien(c echo.Context) error {
 	}
 	return helper.ResponseData(c, data)
 }
+
+func (u *NhanVienHandler) GetAllNhanVienCombobox(c echo.Context) error {
+
+	data, err := u.NhanVienRepo.GetNhanVienCombobox()
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+	return helper.ResponseData(c, data)
+}

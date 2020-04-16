@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"hmdl-user-service/helper"
 	"hmdl-user-service/models/data_user"
 	"hmdl-user-service/repository"
-
 	"net/http"
 	"strconv"
 )
@@ -20,12 +20,13 @@ func (u *MenuHandler) GetMenuByPhanQuyenIdAnDuAnId(c echo.Context) error {
 	phanQuyenId, err := helper.CheckIntPar(c.QueryParam("phanquyenid"))
 
 	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+		fmt.Println(err)
+		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu phanquyenid không chính xác:"+ err.Error())
 	}
 	duAnId, err := helper.CheckIntPar(c.QueryParam("duanid"))
 
 	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu duanid không chính xác")
 	}
 
 	data, err := u.MenuRepo.GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId, duAnId)

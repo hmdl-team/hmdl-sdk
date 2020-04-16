@@ -10,6 +10,7 @@ type NhanVienRepository interface {
 	GetNhanVienByNhanVienId(nhanVienId int) (*data_user.NhanVien, error)
 	GetNhanVienById(id int) (*data_user.NhanVien, error)
 	GetNhanVienByUserName(userName string) *data_user.NhanVien
+	GetNhanVienCombobox() ([]data_user.NhanVien, error)
 
 	Insert(u *data_user.NhanVien) error
 	Update(u *data_user.NhanVien) error

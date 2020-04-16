@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"errors"
 	"strconv"
 )
 
@@ -21,7 +20,7 @@ func CheckIntPar(par string) (int, error) {
 	valParentId, err := strconv.Atoi(par)
 
 	if err != nil || valParentId == 0 {
-		return 0, errors.New("")
+		return 0, err
 	}
 
 	return valParentId, nil

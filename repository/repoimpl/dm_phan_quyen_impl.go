@@ -50,7 +50,7 @@ func (u *dmPhanQuyenRepoImpl) GetById(ctx echo.Context, id int) (*data_user.DM_P
 func (u *dmPhanQuyenRepoImpl) Delete(ctx echo.Context, id int) error {
 	var data data_user.DM_PhanQuyen
 
-	err := u.db.First(&data, id).Error
+	err := u.db.Find(&data, id).Error
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
 		return err

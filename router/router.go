@@ -69,10 +69,10 @@ func (api API) NewRouter() {
 	// show log api request
 
 	//api.Echo.Use(middleware.Logger())
-	//api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-	//	Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
-	//}))
-	//api.Echo.Use(middleware.Recover())
+	api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
+	}))
+	api.Echo.Use(middleware.Recover())
 
 	//cau hinh các Option
 	structValidator := helper.NewStructValidator()

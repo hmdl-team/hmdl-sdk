@@ -25,6 +25,7 @@ func NhanVienRoute(api core.DbData) {
 	api.Echo.GET("/bacsi/id/:id", handlerNhanVien.GetNhanVienById)
 	nvg.DELETE("/id/:id", handlerNhanVien.DeleteNhanVienById)
 
+	nvg.GET("/combobox", handlerNhanVien.GetAllNhanVienCombobox)
 	nvg.GET("/username", handlerNhanVien.GetNhanVienByUserName)
 	nvg.GET("/danhsachbacsi", handlerNhanVien.GetDanhSachBacSi)
 	nvg.GET("/chucdanhid/:id", handlerNhanVien.GetNhanVienByChucDanhId)

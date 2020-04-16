@@ -16,6 +16,20 @@ type menuWebRepoImpl struct {
 	db *gorm.DB
 }
 
+func (u *menuWebRepoImpl) getMenuChildren(dataInput []data_user.DM_MenuWeb, parentId int, cap int) (duLieu []data_user.DM_MenuWeb) {
+
+	for _, item := range dataInput {
+		if item.ParentId == parentId {
+			resul := u.getMenuChildren(dataInput, item.Id,cap +1)
+			item.Children = resul
+			item.Cap = cap
+			duLieu = append(duLieu, item)
+		}
+	}
+
+	return duLieu
+}
+
 func (u *menuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_user.DM_MenuWeb, err error) {
 
 	var dsReportId []data_user.DM_PhanQuyenMenu
@@ -42,41 +56,42 @@ func (u *menuWebRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int) (data []data_use
 	return data, nil
 }
 
-func (u *menuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId int) ([]data_user.DM_MenuWeb, error) {
-	var data []data_user.DM_MenuWeb
+func (u *menuWebRepoImpl) GetMenuByPhanQuyenIdAndDuAnId(phanQuyenId int, duAnId int) (data []*data_user.DM_MenuWeb, err error) {
+	var dataMenu []data_user.DM_PhanQuyenMenu
 
-	err := u.db.Table("DM_PhanQuyenMenu").
-		Select("DM_MenuWeb.*").
-		Joins("left join DM_MenuWeb  on DM_PhanQuyenMenu.DM_MenuWebId = DM_MenuWeb.Id").
-		Where("DM_DuAnId = ? and DM_MenuWeb.enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and DM_MenuWeb.ParentId is null", duAnId, phanQuyenId).
-		Order("OrderBy ASC").
-		Find(&data).Error
+	err = u.db.Model(&data_user.DM_PhanQuyenMenu{}).Where(&data_user.DM_PhanQuyenMenu{
+		DM_PhanQuyenID: phanQuyenId,
+	}).Find(&dataMenu).Error
 
-	for i, item := range data {
-		var chilData []*data_user.DM_MenuWeb
-
-		err := u.db.Table("DM_PhanQuyenMenu").
-			Select("DM_MenuWeb.*").
-			Joins("left join DM_MenuWeb on DM_PhanQuyenMenu.DM_MenuWebId = DM_MenuWeb.Id").
-			Where("DM_DuAnId = ? and DM_MenuWeb.Enable = 1 and DM_PhanQuyenMenu.DM_PhanQuyenID = ? and  DM_MenuWeb.ParentId = ? ", duAnId, phanQuyenId, item.Id).
-			Order("OrderBy ASC").
-			Find(&chilData).Error
-
-		if err != nil && !gorm.IsRecordNotFoundError(err) {
-			raven.CaptureErrorAndWait(err, nil)
-			return nil, err
-		}
-
-		data[i].Children = chilData
-
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return data, err
 	}
+
+	var dsIdWhere []int
+
+	for _, item := range dataMenu {
+		dsIdWhere = append(dsIdWhere, item.DM_MenuWebId)
+	}
+
+	var dataMenuTheoPhanQuyen []data_user.DM_MenuWeb
+	var dataParentId []*data_user.DM_MenuWeb
+
+	err = u.db.Where("Id in (?) and DM_DuAnId = ?", dsIdWhere, duAnId).Find(&dataMenuTheoPhanQuyen).Error
+	err = u.db.Where("Id in (?) and DM_DuAnId = ? and (ParentId is null or ParentId =0)", dsIdWhere, duAnId).Find(&dataParentId).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		raven.CaptureErrorAndWait(err, nil)
 		return nil, err
 	}
 
+	for _, item := range dataParentId {
+		item.Children = u.getMenuChildren(dataMenuTheoPhanQuyen, item.Id,item.Cap+1)
+		data = append(data, item)
+	}
+
 	return data, nil
+
 }
 
 func (u *menuWebRepoImpl) GetAll(ctx echo.Context) ([]data_user.DM_MenuWeb, error) {

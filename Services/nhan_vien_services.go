@@ -2,6 +2,7 @@ package Services
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"hmdl-user-service/pb"
@@ -39,6 +40,7 @@ func (u *NhanVienServicePro) GetNhanVienById(ctx context.Context, request *pb.Re
 
 func (u *NhanVienServicePro) GetNhanVien(context.Context, *pb.ReadRequest) (*pb.DanhSachNhanVienResponse, error) {
 
+	fmt.Println("-----------GetNhanVien ---------------")
 	dsNhanVien, err := u.RepoNhanVien.GetAll()
 
 	if err != nil {

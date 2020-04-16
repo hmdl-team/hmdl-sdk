@@ -168,3 +168,14 @@ func (u *DM_PhongBanHandler) GetAll(c echo.Context) (err error) {
 	return helper.ResponseData(c, data)
 
 }
+
+func (u *DM_PhongBanHandler) GetPhongBanComBobox(c echo.Context) (err error) {
+
+	data, err := u.Repo.GetPhongBanComBobox(c)
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return helper.ResponseData(c, data)
+
+}

@@ -30,6 +30,19 @@ func (u *DM_PhongBanRepoImpl) GetAll(ctx echo.Context) ([]DM_PhongBan, error) {
 	return data, err
 }
 
+func (u *DM_PhongBanRepoImpl) GetPhongBanComBobox(ctx echo.Context) ([]DM_PhongBan, error) {
+	var data []DM_PhongBan
+
+	err := u.db.Where(&DM_PhongBan{TinhTrang: true}).Find(&data).Error
+
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return nil, err
+	}
+
+	return data, err
+}
+
 func (u *DM_PhongBanRepoImpl) GetById(ctx echo.Context, id int) (*DM_PhongBan, error) {
 	var dsPhongKha DM_PhongBan
 	err := u.db.Where("DM_PhongBanId = ?", id).Find(&dsPhongKha).Error

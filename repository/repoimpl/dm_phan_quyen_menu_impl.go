@@ -54,7 +54,7 @@ func (u *PhanQuyenMenuRepoImpl) GetMenuByPhanQuyenId(phanQuyenId int, duAnId int
 		Find(&data).Error
 
 	for i, item := range data {
-		var chilData []*data_user.DM_MenuWeb
+		var chilData []data_user.DM_MenuWeb
 
 		err := u.db.Table("DM_PhanQuyenMenu").
 			Select("DM_MenuWeb.*").
@@ -112,7 +112,7 @@ func (u *PhanQuyenMenuRepoImpl) Delete(id int) error {
 
 func (u *PhanQuyenMenuRepoImpl) GetById(id int) (*data_user.DM_PhanQuyenMenu, error) {
 	data := &data_user.DM_PhanQuyenMenu{}
-	err := u.db.First(&data, id).Error
+	err := u.db.Find(&data, id).Error
 	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)
 		return nil, err
