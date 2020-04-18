@@ -6,7 +6,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
-	"hmdl-user-service/Server"
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
 	"hmdl-user-service/migration"
@@ -69,8 +68,10 @@ func main() {
 
 	api.NewRouter()
 
-	g := Server.New(&api)
-	g.Start()
-	g.WaitStop()
+	//g := Server.New(&api)
+	//g.Start()
+	//g.WaitStop()
+
+	log.Fatal(e.Start(":7001"))
 
 }
