@@ -13,6 +13,13 @@ type NhanVienServicePro struct {
 	RepoNhanVien repository.NhanVienRepository
 }
 
+func (u *NhanVienServicePro) Ping(context.Context, *pb.ReadRequest) (*pb.PingResponse, error) {
+	dataResponse := pb.PingResponse{
+		Message: "Hello",
+	}
+	return &dataResponse, nil
+}
+
 func (u *NhanVienServicePro) GetNhanVienById(ctx context.Context, request *pb.ReadRequest) (*pb.NhanVienResponse, error) {
 	item, err := u.RepoNhanVien.GetNhanVienByNhanVienId(int(request.Id))
 

@@ -11,6 +11,7 @@ import (
 	"hmdl-user-service/router/group"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type API struct {
@@ -78,7 +79,14 @@ func (api API) NewRouter() {
 
 	//api.Echo.Use(middleware.Logger())
 	api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Skipper: func(c echo.Context) bool {
+			if strings.HasPrefix(c.Request().Host, "localhost") {
+				return true
+			}
+			return false
+		},
 		Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
+
 	}))
 	api.Echo.Use(middleware.Recover())
 

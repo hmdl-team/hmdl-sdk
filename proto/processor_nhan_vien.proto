@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "google/api/annotations.proto";
 
 package proto;
 
@@ -34,12 +33,13 @@ message NhanVienResponse {
   NhanVien nhanVien = 1;
 }
 
+message PingResponse {
+  string message = 1;
+}
+
 
 service NhanVienService {
-  rpc GetNhanVien (ReadRequest) returns (DanhSachNhanVienResponse){
-    option(google.api.http) = {
-      get: "/nhan-vien",
-    };
-  }
+  rpc GetNhanVien (ReadRequest) returns (DanhSachNhanVienResponse);
   rpc GetNhanVienById (ReadRequest) returns (NhanVienResponse);
+  rpc Ping (ReadRequest) returns (PingResponse);
 }
