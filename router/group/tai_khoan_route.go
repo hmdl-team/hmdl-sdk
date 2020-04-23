@@ -15,7 +15,7 @@ func TaiKhoanRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(g)
 
 	handlerTaiKhoan := handler.TaiKhoanHandler{
-		TaiKhoanRepo: repo.NewDmTaiKhoanRepo(api.Db),
+		TaiKhoanRepo: repo.NewDmTaiKhoanRepo(api.DbSql01),
 	}
 
 	// Tài khoản JWT

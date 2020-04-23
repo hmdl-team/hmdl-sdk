@@ -2,6 +2,7 @@ package Server
 
 import (
 	"context"
+
 	"google.golang.org/grpc"
 	"hmdl-user-service/Services"
 	"hmdl-user-service/helper"
@@ -11,6 +12,7 @@ import (
 	"log"
 	"net"
 	"os"
+
 	"sync"
 )
 
@@ -26,16 +28,17 @@ func New(db *router.API) *Greeter {
 }
 
 func (g *Greeter) Start() {
-	g.wg.Add(1)
+	g.wg.Add(2)
 	go func() {
 		log.Fatal(g.startGRPC())
 		g.wg.Done()
 	}()
-	g.wg.Add(1)
+
 	go func() {
 		log.Fatal(g.startREST())
 		g.wg.Done()
 	}()
+
 }
 
 func (g *Greeter) WaitStop() {
@@ -68,11 +71,5 @@ func (g *Greeter) startREST() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	//opts := []grpc.DialOption{grpc.WithInsecure()}
-	//mux := runtime.NewServeMux()
-	//err := pb.RegisterNhanVienServiceHandlerFromEndpoint(ctx, mux, ":8080", opts)
-	//if err != nil {
-	//	return err
-	//}
 	return g.db.Echo.Start(":7001")
 }

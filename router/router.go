@@ -11,7 +11,6 @@ import (
 	"hmdl-user-service/router/group"
 	"net/http"
 	"os"
-	"strings"
 )
 
 type API struct {
@@ -45,7 +44,7 @@ func (api API) NewRouter() {
 	//
 	//srv := grpc.NewServer()
 	//pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
-	//	RepoNhanVien: repoimpl.NewNhanVienRepo(api.Db),
+	//	RepoNhanVien: repoimpl.NewNhanVienRepo(api.DbSql01),
 	//})
 	//reflection.Register(srv)
 	//
@@ -78,17 +77,17 @@ func (api API) NewRouter() {
 	// show log api request
 
 	//api.Echo.Use(middleware.Logger())
-	api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Skipper: func(c echo.Context) bool {
-			if strings.HasPrefix(c.Request().Host, "localhost") {
-				return true
-			}
-			return false
-		},
-		Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
-
-	}))
-	api.Echo.Use(middleware.Recover())
+	//api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+	//	Skipper: func(c echo.Context) bool {
+	//		if strings.HasPrefix(c.Request().Host, "localhost") {
+	//			return true
+	//		}
+	//		return false
+	//	},
+	//	Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
+	//
+	//}))
+	//api.Echo.Use(middleware.Recover())
 
 	//cau hinh các Option
 	structValidator := helper.NewStructValidator()
@@ -114,8 +113,8 @@ func (api API) NewRouter() {
 	api.Echo.GET("/healthcheck", impl.HealthCheck)
 
 	db := core.DbData{
-		Echo: api.Echo,
-		Db:   api.Db,
+		Echo:    api.Echo,
+		DbSql01: api.Db,
 	}
 
 	group.MenuRoute(db)
@@ -128,4 +127,5 @@ func (api API) NewRouter() {
 	group.DM_PhanQuyen_ReportRoute(db)
 	group.DM_ReportRoute(db)
 	group.DM_PhongBanRoute(db)
+	group.DmThamSoHeThongRoute(&db)
 }

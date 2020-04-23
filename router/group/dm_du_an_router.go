@@ -10,7 +10,7 @@ import (
 func DM_DuAnRoute(api core.DbData) {
 
 	handler := DM_DuAnHandler{
-		Repo: repoimpl.NewDM_DuAnRepo(api.Db),
+		Repo: repoimpl.NewDM_DuAnRepo(api.DbSql01),
 	}
 
 	g := api.Echo.Group("/dm-du-an")

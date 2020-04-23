@@ -10,7 +10,7 @@ import (
 func DM_PhanQuyen_ReportRoute(api core.DbData) {
 
 	handler := DM_PhanQuyen_ReportHandler{
-		Repo: repoimpl.NewDM_PhanQuyen_ReportRepo(api.Db),
+		Repo: repoimpl.NewDM_PhanQuyen_ReportRepo(api.DbSql01),
 	}
 
 	g := api.Echo.Group("/dm-phan-quyen-report")

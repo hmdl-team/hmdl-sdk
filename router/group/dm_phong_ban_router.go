@@ -10,7 +10,7 @@ import (
 func DM_PhongBanRoute(api core.DbData) {
 
 	handler := DM_PhongBanHandler{
-		Repo: repoimpl.NewDM_PhongBanRepo(api.Db),
+		Repo: repoimpl.NewDM_PhongBanRepo(api.DbSql01),
 	}
 
 	g := api.Echo.Group("/phong-ban")

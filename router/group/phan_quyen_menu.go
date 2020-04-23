@@ -14,7 +14,7 @@ func PhanQuyenMenuRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(g)
 
 	handlerPhanQuyenMenu := handler.PhanQuyenMenuHandler{
-		PhanQuyenMenuRepo: repo.NewPhanQuyenMenuRepo(api.Db),
+		PhanQuyenMenuRepo: repo.NewPhanQuyenMenuRepo(api.DbSql01),
 	}
 
 	//Phân quyền Menu

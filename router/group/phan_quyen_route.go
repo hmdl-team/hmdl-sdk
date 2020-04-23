@@ -14,7 +14,7 @@ func PhanQuyenRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(g)
 
 	handlerPhanQuyen := handler.PhanQuyenHandler{
-		PhanQuyenRepo: repo.NewDmPhanQuyenRepo(api.Db),
+		PhanQuyenRepo: repo.NewDmPhanQuyenRepo(api.DbSql01),
 	}
 
 	//Phân quyền

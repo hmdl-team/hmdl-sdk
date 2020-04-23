@@ -13,6 +13,7 @@ import (
 	"hmdl-user-service/router"
 	"log"
 	"os"
+	"runtime"
 )
 
 func init() {
@@ -30,6 +31,10 @@ func init() {
 // @name Authorization
 // @host localhost:7001
 func main() {
+
+	ng:=runtime.NumCPU()
+	fmt.Println("NumCPU: ", ng)
+
 	err := godotenv.Load("config/.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")

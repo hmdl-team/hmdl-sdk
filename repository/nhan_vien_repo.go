@@ -9,6 +9,7 @@ type NhanVienRepository interface {
 	GetDanhSachBacSi() []data_user.NhanVien
 	GetNhanVienByNhanVienId(nhanVienId int) (*data_user.NhanVien, error)
 	GetNhanVienById(id int) (*data_user.NhanVien, error)
+	GetNhanVienByPhongBanId(id int) ([]data_user.NhanVien, error)
 	GetNhanVienByUserName(userName string) *data_user.NhanVien
 	GetNhanVienCombobox() ([]data_user.NhanVien, error)
 

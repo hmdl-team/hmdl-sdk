@@ -10,7 +10,7 @@ import (
 func DanhSachNhanVienQuanLyRoute(api core.DbData) {
 
 	handler := handler2.DanhSachNhanVienQuanLyHandler{
-		Repo: repoimpl.NewDanhSachNhanVienQuanLyRepo(api.Db),
+		Repo: repoimpl.NewDanhSachNhanVienQuanLyRepo(api.DbSql01),
 	}
 
 	g := api.Echo.Group("/danhsachnhanvienquanly")

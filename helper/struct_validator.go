@@ -36,6 +36,7 @@ func (cv *StructValidator) RegisterValidate() {
 		return len(fl.Field().String()) >= 8
 	})
 
+	//Translation
 	cv.Validator.RegisterTranslation("required", cv.Trans, func(ut ut.Translator) error {
 		return ut.Add("required", " {0} là bắt buộc", true)
 	}, func(ut ut.Translator, fe validator.FieldError) string {
@@ -57,6 +58,8 @@ func (cv *StructValidator) RegisterValidate() {
 		return t
 	})
 }
+
+
 
 func (cv *StructValidator) Validate(i interface{}) error {
 	err := cv.Validator.Struct(i)

@@ -7,6 +7,6 @@ clean:
 gitup:
 	git add * && git commit -m "update" && git push
 gen:
-                                        	protoc -I${GOPATH}/src \
-                                        		--go_out=plugins=grpc:pb \
-                                        		--proto_path=proto proto/*.proto
+	protoc -I${GOPATH}/src \
+	--go_out=plugins=grpc:pb \
+	--proto_path=proto proto/*.proto

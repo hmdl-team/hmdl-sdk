@@ -7,6 +7,5 @@ import (
 
 type DbData struct {
 	Echo    *echo.Echo
-	Db      *gorm.DB
-
+	DbSql01 *gorm.DB
 }

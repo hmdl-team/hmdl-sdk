@@ -7,6 +7,7 @@ type DmThamSoHeThong struct {
 	MaThamSo  string `gorm:"column:MaThamSo;" json:"ma_tham_so, omitempty"`
 	TenThamSo string `gorm:"column:TenThamSo;" json:"ten_tham_so, omitempty"`
 	GiaTri    string `gorm:"column:GiaTri;" json:"gia_tri, omitempty"`
+	DienGiai  string `gorm:"column:DienGiai" json:"dien_giai"`
 	core.Model2
 }
 

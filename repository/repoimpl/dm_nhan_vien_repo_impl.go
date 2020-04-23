@@ -21,6 +21,19 @@ type NhanVienRepoImpl struct {
 	DbPos *gorm.DB
 }
 
+func (u *NhanVienRepoImpl) GetNhanVienByPhongBanId(id int) (data []data_user.NhanVien,err error) {
+
+	err = u.DbSql.Raw(`
+	EXEC sp_DM_NhanVien_PhongBan @PhongBanID = ?
+		`, id).Scan(&data).Error
+
+	if err != nil && gorm.IsRecordNotFoundError(err) {
+		raven.CaptureErrorAndWait(err, nil)
+		return nil, err
+	}
+	return data, err
+}
+
 func (u *NhanVienRepoImpl) GetNhanVienCombobox() ([]data_user.NhanVien, error) {
 	var data []data_user.NhanVien
 	err := u.DbPos.Where(&data_user.NhanVien{TinhTrang: true}).Order("DM_NhanVienId desc").Find(&data).Error
