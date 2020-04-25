@@ -34,7 +34,7 @@
 
 	func (u *DmThamSoHeThongRepoImpl) GetById(ctx echo.Context, id int) (*DmThamSoHeThong, error) {
 		var dsPhongKha DmThamSoHeThong
-		err := u.db.DbSql01.Where("DmThamSoHeThongId = ?", id).Find(&dsPhongKha).Error
+		err := u.db.DbSql01.Where("Id = ?", id).Find(&dsPhongKha).Error
 
 		if err != nil && !gorm.IsRecordNotFoundError(err) {
 			raven.CaptureErrorAndWait(err, nil)
