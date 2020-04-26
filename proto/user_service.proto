@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-
 package proto;
-
 option go_package = "pb";
 
 
@@ -18,19 +16,15 @@ message NhanVien {
   string so_dien_thoai = 9;
 }
 
-// Request data to read todo task
 message ReadRequest {
-  // Unique integer identifier of the todo task
   int64 id = 1;
 }
 
 message PhongBanNhanVienRequest {
-  // Unique integer identifier of the todo task
   int64 id = 1;
   int64 PhongBanId = 2;
 }
 
-// Contains todo task data specified in by ID request
 message DanhSachNhanVienResponse {
   repeated NhanVien nhanVien = 1;
 }
@@ -44,8 +38,8 @@ message PingResponse {
 }
 
 
-service NhanVienService {
-  rpc GetNhanVien (ReadRequest) returns (DanhSachNhanVienResponse);
+service UserService {
+  rpc GetDanhSachNhanVien (ReadRequest) returns (DanhSachNhanVienResponse);
   rpc GetNhanVienById (ReadRequest) returns (NhanVienResponse);
   rpc GetPhongBanNhanVien (PhongBanNhanVienRequest) returns (DanhSachNhanVienResponse);
   rpc Ping (ReadRequest) returns (PingResponse);

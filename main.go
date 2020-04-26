@@ -77,7 +77,5 @@ func main() {
 	g := Server.New(&api)
 	g.Start()
 	g.WaitStop()
-
 	//log.Fatal(e.Start(":7001"))
-
 }

@@ -56,7 +56,7 @@ func (g *Greeter) startGRPC() error {
 	helper.RegisterServiceWithConsul("hmdl-user-service-grpc", lis.Addr().(*net.TCPAddr).Port, consulAddress)
 
 	srv := grpc.NewServer()
-	pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
+	pb.RegisterUserServiceServer(srv, &Services.NhanVienServicePro{
 		RepoNhanVien: repoimpl.NewNhanVienRepo(g.db.Db),
 	})
 	err = srv.Serve(lis)
