@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="226cb443-8114-4037-925f-0b804aabe746" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/80a8b1cb-4026-4c56-8f17-815d717d7890.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/80a8b1cb-4026-4c56-8f17-815d717d7890/storage_v2/_src_/schema/CDB.AQQBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/80a8b1cb-4026-4c56-8f17-815d717d7890/storage_v2/_src_/schema/CDB.AQQBAA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/80a8b1cb-4026-4c56-8f17-815d717d7890/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/hmdl-user-service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hmdl-user-service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/Server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/nhan_vien_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/Services/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proto/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/proto/user_service.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/repoimpl/dm_nhan_vien_repo_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/repoimpl/dm_nhan_vien_repo_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/group/nhan_vien_route.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/group/nhan_vien_route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProjectId" id="1b78tBnkPKKWyvIOlk7uZQgZobK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration name="go build hmdl-user-service" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="hmdl-user-service" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <filePath value="$PROJECT_DIR$/" />
+      <package value="hmdl-user-service" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="226cb443-8114-4037-925f-0b804aabe746" name="Default Changelist" comment="" />
+      <created>1587971983067</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587971983067</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587972047469">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587972047469" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1587977404102">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404102" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1587977404104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587977404104" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1587972066157">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587972066157" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1587976044061">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587976044061" />
+    <state x="667" y="76" width="585" height="888" key="find.popup" timestamp="1587975901851">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="76" width="585" height="888" key="find.popup/0.0.1920.1040/1920.0.1600.860@0.0.1920.1040" timestamp="1587975901851" />
+  </component>
+</project>

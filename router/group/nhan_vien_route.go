@@ -7,14 +7,14 @@ import (
 	repo "hmdl-user-service/repository/repoimpl"
 )
 
-func NhanVienRoute(api core.DbData) {
+func NhanVienRoute(api *core.DbData) {
 
 	nvg := api.Echo.Group("/nhan-vien")
 
 	middlewares.SetJwtMiddlewares(nvg)
 
 	handlerNhanVien := handler.NhanVienHandler{
-		NhanVienRepo: repo.NewNhanVienRepo(api.DbSql01),
+		NhanVienRepo: repo.NewNhanVienRepo(api),
 	}
 
 	// Thông tin nhân viên

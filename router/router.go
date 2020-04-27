@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"hmdl-user-service/Server"
 	"hmdl-user-service/db/core"
 	"hmdl-user-service/handler/impl"
 	"hmdl-user-service/helper"
@@ -34,39 +35,6 @@ func (api API) NewRouter() {
 
 	consulAddress := os.Getenv("CONSUL_ADDRESS")
 	helper.RegisterServiceWithConsul("hmdl-user-service", 7001, consulAddress)
-
-	//listener, err := net.Listen("tcp", ":0")
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//
-	//helper.RegisterServiceWithConsul("hmdl-user-service-grpc", listener.Addr().(*net.TCPAddr).Port, consulAddress)
-	//
-	//srv := grpc.NewServer()
-	//pb.RegisterNhanVienServiceServer(srv, &Services.NhanVienServicePro{
-	//	RepoNhanVien: repoimpl.NewNhanVienRepo(api.DbSql01),
-	//})
-	//reflection.Register(srv)
-	//
-	//// graceful shutdown
-	//c := make(chan os.Signal, 1)
-	//signal.Notify(c, os.Interrupt)
-	//ctx := context.Background()
-	//
-	//go func() {
-	//	for range c {
-	//		// sig is a ^C, handle it
-	//		log.Println("shutting down gRPC server...")
-	//		srv.GracefulStop()
-	//		<-ctx.Done()
-	//	}
-	//}()
-	//
-	//go func() {
-	//	if e := srv.Serve(listener); e != nil {
-	//		panic(e)
-	//	}
-	//}()
 
 	err := kong.RegisterKong()
 
@@ -115,10 +83,11 @@ func (api API) NewRouter() {
 	db := core.DbData{
 		Echo:    api.Echo,
 		DbSql01: api.Db,
+
 	}
 
 	group.MenuRoute(db)
-	group.NhanVienRoute(db)
+	group.NhanVienRoute(&db)
 	group.PhanQuyenRoute(db)
 	group.PhanQuyenMenuRoute(db)
 	group.TaiKhoanRoute(db)
@@ -128,4 +97,8 @@ func (api API) NewRouter() {
 	group.DM_ReportRoute(db)
 	group.DM_PhongBanRoute(db)
 	group.DmThamSoHeThongRoute(&db)
+
+	g := Server.New(&db)
+	g.Start()
+	g.WaitStop()
 }

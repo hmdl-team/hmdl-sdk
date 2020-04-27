@@ -2,6 +2,7 @@ package Services
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"hmdl-user-service/pb"
@@ -9,12 +10,12 @@ import (
 	"log"
 )
 
-type NhanVienServicePro struct {
+type UserService struct {
 	RepoNhanVien repository.NhanVienRepository
 }
 
-func (u *NhanVienServicePro) GetDanhSachNhanVien(ctx context.Context, request *pb.ReadRequest) (*pb.DanhSachNhanVienResponse, error) {
-	log.Println("Call : GetDanhSachNhanVien")
+func (u *UserService) GetDanhSachNhanVien(ctx context.Context, request *pb.ReadRequest) (*pb.DanhSachNhanVienResponse, error) {
+	fmt.Println("Call : GetDanhSachNhanVien")
 	dsNhanVien, err := u.RepoNhanVien.GetAll()
 
 	if err != nil {
@@ -44,11 +45,13 @@ func (u *NhanVienServicePro) GetDanhSachNhanVien(ctx context.Context, request *p
 	return res, nil
 }
 
-func (u *NhanVienServicePro) GetPhongBanNhanVien(ctx context.Context, request *pb.PhongBanNhanVienRequest) (*pb.DanhSachNhanVienResponse, error) {
-	dsNhanVien, err := u.RepoNhanVien.GetNhanVienByPhongBanId(int(request.PhongBanId))
+func (u *UserService) GetPhongBanNhanVien(ctx context.Context, request *pb.PhongBanNhanVienRequest) (*pb.DanhSachNhanVienResponse, error) {
+	fmt.Println("Call : GetPhongBanNhanVien")
 
+	dsNhanVien, err := u.RepoNhanVien.GetNhanVienByPhongBanId(int(request.PhongBanId))
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Erro server: %v", err)
+		fmt.Println(err)
+		return nil, err
 	}
 
 	var dataResponse []*pb.NhanVien
@@ -69,17 +72,18 @@ func (u *NhanVienServicePro) GetPhongBanNhanVien(ctx context.Context, request *p
 	res := &pb.DanhSachNhanVienResponse{
 		NhanVien: dataResponse,
 	}
+
 	return res, nil
 }
 
-func (u *NhanVienServicePro) Ping(context.Context, *pb.ReadRequest) (*pb.PingResponse, error) {
+func (u *UserService) Ping(context.Context, *pb.ReadRequest) (*pb.PingResponse, error) {
 	dataResponse := pb.PingResponse{
 		Message: "Hello",
 	}
 	return &dataResponse, nil
 }
 
-func (u *NhanVienServicePro) GetNhanVienById(ctx context.Context, request *pb.ReadRequest) (*pb.NhanVienResponse, error) {
+func (u *UserService) GetNhanVienById(ctx context.Context, request *pb.ReadRequest) (*pb.NhanVienResponse, error) {
 	item, err := u.RepoNhanVien.GetNhanVienByNhanVienId(int(request.Id))
 
 	if err != nil {
@@ -103,5 +107,3 @@ func (u *NhanVienServicePro) GetNhanVienById(ctx context.Context, request *pb.Re
 	}
 	return res, nil
 }
-
-

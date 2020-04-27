@@ -2,13 +2,14 @@ package Server
 
 import (
 	"context"
+	"hmdl-user-service/db/core"
 
 	"google.golang.org/grpc"
 	"hmdl-user-service/Services"
 	"hmdl-user-service/helper"
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository/repoimpl"
-	"hmdl-user-service/router"
+
 	"log"
 	"net"
 	"os"
@@ -18,10 +19,10 @@ import (
 
 type Greeter struct {
 	wg sync.WaitGroup
-	db *router.API
+	db *core.DbData
 }
 
-func New(db *router.API) *Greeter {
+func New(db *core.DbData) *Greeter {
 	return &Greeter{
 		db: db,
 	}
@@ -56,8 +57,8 @@ func (g *Greeter) startGRPC() error {
 	helper.RegisterServiceWithConsul("hmdl-user-service-grpc", lis.Addr().(*net.TCPAddr).Port, consulAddress)
 
 	srv := grpc.NewServer()
-	pb.RegisterUserServiceServer(srv, &Services.NhanVienServicePro{
-		RepoNhanVien: repoimpl.NewNhanVienRepo(g.db.Db),
+	pb.RegisterUserServiceServer(srv, &Services.UserService{
+		RepoNhanVien: repoimpl.NewNhanVienRepo(g.db),
 	})
 	err = srv.Serve(lis)
 
