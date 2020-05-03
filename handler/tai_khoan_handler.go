@@ -259,7 +259,7 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 		})
 	}
 
-	claims := auth.DecodeToken(req.Token)
+	claims := auth.DecodeToken(req.RefreshToken)
 
 	if claims == nil {
 		return c.JSON(http.StatusBadRequest, helper.Response{

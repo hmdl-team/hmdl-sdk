@@ -6,5 +6,5 @@ type LoginRequest struct {
 }
 
 type RefreshTokenRequest struct {
-	Token string `json:"token,omitempty" validate:"required"`
+	RefreshToken string `json:"refresh_token,omitempty" validate:"required"`
 }
