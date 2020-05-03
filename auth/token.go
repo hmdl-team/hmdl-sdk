@@ -18,6 +18,11 @@ type JwtClaims struct {
 	jwt.StandardClaims
 }
 
+type JwNhanVien struct {
+	NhanVienId int `json:"nhan_vien_id"`
+	jwt.StandardClaims
+}
+
 func (c JwtClaims) Valid() error {
 	if err := c.StandardClaims.Valid(); err != nil {
 		return err
@@ -66,6 +71,31 @@ func GenTokenWithTime(user data_user.DM_TaiKhoan, hourNumber time.Duration) (str
 		UserId: strconv.Itoa(user.DM_TaiKhoanId),
 		Role:   helper.IntToString(user.DM_PhanQuyenID),
 		Name:   user.TenTaiKhoan,
+		StandardClaims: jwt.StandardClaims{
+			Id:        "main_user_id",
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	// sinh token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	stoken, err := token.SignedString(jwtKey)
+
+	if err != nil {
+		return "", nil, err
+	}
+
+	return stoken, &expirationTime, err
+}
+
+func GenTokenNhanVienId(nhanVienId int, hourNumber time.Duration) (string, *time.Time, error) {
+	var jwtKey = []byte(os.Getenv("JWK_KEY"))
+	expirationTime := time.Now().Add(hourNumber * time.Hour)
+
+	//Định nghĩa
+	claims := &JwNhanVien{
+		NhanVienId: nhanVienId,
 		StandardClaims: jwt.StandardClaims{
 			Id:        "main_user_id",
 			ExpiresAt: expirationTime.Unix(),

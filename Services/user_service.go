@@ -5,13 +5,78 @@ import (
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"hmdl-user-service/auth"
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository"
 	"log"
+	"time"
 )
 
 type UserService struct {
-	RepoNhanVien repository.NhanVienRepository
+	RepoNhanVien      repository.NhanVienRepository
+	RepoThemSoHeThong repository.DmThamSoHeThongRepo
+}
+
+func (u *UserService) GetThamSosByCode(ctx context.Context, request *pb.ThamSoHeThongRequest) (*pb.ThamSoHeThongsResponse, error) {
+	fmt.Println("Call : GetThamSoByCode")
+	data, err := u.RepoThemSoHeThong.GetThamSoByCode(ctx, request.Code)
+
+	if err != nil {
+		log.Println(err)
+		return nil, status.Errorf(codes.Internal, "Erro server: %v", err)
+	}
+
+	var dataResponse []*pb.ThamSoHeThong
+	for _, item := range data {
+		nv := pb.ThamSoHeThong{
+			Id:        int64(item.Id),
+			MaThamSo:  item.MaThamSo,
+			TenThamSo: item.TenThamSo,
+			GiaTri:    item.GiaTri,
+			DienGiai:  item.DienGiai,
+		}
+		dataResponse = append(dataResponse, &nv)
+	}
+
+	res := &pb.ThamSoHeThongsResponse{
+		Thamso: dataResponse,
+	}
+	return res, nil
+}
+
+func (u *UserService) GetThamSoByCode(ctx context.Context, request *pb.ThamSoHeThongRequest) (*pb.ThamSoHeThongResponse, error) {
+	fmt.Println("Call : GetThamSoByCode")
+	data, err := u.RepoThemSoHeThong.GetThamSoValueByCode(ctx, request.Code)
+
+	if err != nil {
+		log.Println(err)
+		return nil, status.Errorf(codes.Internal, "Erro server: %v", err)
+	}
+
+	res := pb.ThamSoHeThongResponse{
+		Thamso: &pb.ThamSoHeThong{
+			Id:        int64(data.Id),
+			MaThamSo:  data.MaThamSo,
+			TenThamSo: data.TenThamSo,
+			GiaTri:    data.GiaTri,
+			DienGiai:  data.DienGiai,
+		},
+	}
+
+	return &res, nil
+}
+
+func (u *UserService) GetToken(ctx context.Context, request *pb.GetTokenRequest) (*pb.GetTokenResponse, error) {
+	fmt.Println("Call : GetToken")
+	data, _, err := auth.GenTokenNhanVienId(int(request.NhanVienId), 168*time.Hour)
+	if err != nil {
+		log.Println(err)
+		return nil, status.Errorf(codes.Internal, "Erro server: %v", err)
+	}
+	res := &pb.GetTokenResponse{
+		Token: data,
+	}
+	return res, nil
 }
 
 func (u *UserService) GetDanhSachNhanVien(ctx context.Context, request *pb.ReadRequest) (*pb.DanhSachNhanVienResponse, error) {

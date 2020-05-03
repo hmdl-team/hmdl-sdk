@@ -16,6 +16,16 @@ message NhanVien {
   string so_dien_thoai = 9;
 }
 
+
+message ThamSoHeThong {
+  int64 Id = 1;
+  string MaThamSo = 2;
+  string TenThamSo = 3;
+  string GiaTri = 4;
+  string DienGiai = 5;
+}
+
+
 message ReadRequest {
   int64 id = 1;
 }
@@ -25,8 +35,32 @@ message PhongBanNhanVienRequest {
   int64 PhongBanId = 2;
 }
 
+message ThamSoHeThongRequest {
+  int64 id = 1;
+  string code = 2;
+}
+
+message GetTokenRequest {
+  int64 id = 1;
+  int32 nhanVienId = 2;
+}
+
+message GetTokenResponse {
+  int64 id = 1;
+  string token = 2;
+}
+
+
 message DanhSachNhanVienResponse {
   repeated NhanVien nhanVien = 1;
+}
+
+message ThamSoHeThongsResponse {
+  repeated ThamSoHeThong thamso = 1;
+}
+
+message ThamSoHeThongResponse {
+  ThamSoHeThong thamso = 1;
 }
 
 message NhanVienResponse {
@@ -40,7 +74,10 @@ message PingResponse {
 
 service UserService {
   rpc GetDanhSachNhanVien (ReadRequest) returns (DanhSachNhanVienResponse);
+  rpc GetToken (GetTokenRequest) returns (GetTokenResponse);
   rpc GetNhanVienById (ReadRequest) returns (NhanVienResponse);
   rpc GetPhongBanNhanVien (PhongBanNhanVienRequest) returns (DanhSachNhanVienResponse);
+  rpc GetThamSosByCode (ThamSoHeThongRequest) returns (ThamSoHeThongsResponse);
+  rpc GetThamSoByCode (ThamSoHeThongRequest) returns (ThamSoHeThongResponse);
   rpc Ping (ReadRequest) returns (PingResponse);
 }

@@ -127,6 +127,77 @@ func (m *NhanVien) GetSoDienThoai() string {
 	return ""
 }
 
+type ThamSoHeThong struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=Id,proto3" json:"Id,omitempty"`
+	MaThamSo             string   `protobuf:"bytes,2,opt,name=MaThamSo,proto3" json:"MaThamSo,omitempty"`
+	TenThamSo            string   `protobuf:"bytes,3,opt,name=TenThamSo,proto3" json:"TenThamSo,omitempty"`
+	GiaTri               string   `protobuf:"bytes,4,opt,name=GiaTri,proto3" json:"GiaTri,omitempty"`
+	DienGiai             string   `protobuf:"bytes,5,opt,name=DienGiai,proto3" json:"DienGiai,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ThamSoHeThong) Reset()         { *m = ThamSoHeThong{} }
+func (m *ThamSoHeThong) String() string { return proto.CompactTextString(m) }
+func (*ThamSoHeThong) ProtoMessage()    {}
+func (*ThamSoHeThong) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{1}
+}
+
+func (m *ThamSoHeThong) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ThamSoHeThong.Unmarshal(m, b)
+}
+func (m *ThamSoHeThong) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ThamSoHeThong.Marshal(b, m, deterministic)
+}
+func (m *ThamSoHeThong) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ThamSoHeThong.Merge(m, src)
+}
+func (m *ThamSoHeThong) XXX_Size() int {
+	return xxx_messageInfo_ThamSoHeThong.Size(m)
+}
+func (m *ThamSoHeThong) XXX_DiscardUnknown() {
+	xxx_messageInfo_ThamSoHeThong.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ThamSoHeThong proto.InternalMessageInfo
+
+func (m *ThamSoHeThong) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *ThamSoHeThong) GetMaThamSo() string {
+	if m != nil {
+		return m.MaThamSo
+	}
+	return ""
+}
+
+func (m *ThamSoHeThong) GetTenThamSo() string {
+	if m != nil {
+		return m.TenThamSo
+	}
+	return ""
+}
+
+func (m *ThamSoHeThong) GetGiaTri() string {
+	if m != nil {
+		return m.GiaTri
+	}
+	return ""
+}
+
+func (m *ThamSoHeThong) GetDienGiai() string {
+	if m != nil {
+		return m.DienGiai
+	}
+	return ""
+}
+
 type ReadRequest struct {
 	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -138,7 +209,7 @@ func (m *ReadRequest) Reset()         { *m = ReadRequest{} }
 func (m *ReadRequest) String() string { return proto.CompactTextString(m) }
 func (*ReadRequest) ProtoMessage()    {}
 func (*ReadRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_292f630cd9eb4c90, []int{1}
+	return fileDescriptor_292f630cd9eb4c90, []int{2}
 }
 
 func (m *ReadRequest) XXX_Unmarshal(b []byte) error {
@@ -178,7 +249,7 @@ func (m *PhongBanNhanVienRequest) Reset()         { *m = PhongBanNhanVienRequest
 func (m *PhongBanNhanVienRequest) String() string { return proto.CompactTextString(m) }
 func (*PhongBanNhanVienRequest) ProtoMessage()    {}
 func (*PhongBanNhanVienRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_292f630cd9eb4c90, []int{2}
+	return fileDescriptor_292f630cd9eb4c90, []int{3}
 }
 
 func (m *PhongBanNhanVienRequest) XXX_Unmarshal(b []byte) error {
@@ -213,6 +284,147 @@ func (m *PhongBanNhanVienRequest) GetPhongBanId() int64 {
 	return 0
 }
 
+type ThamSoHeThongRequest struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Code                 string   `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ThamSoHeThongRequest) Reset()         { *m = ThamSoHeThongRequest{} }
+func (m *ThamSoHeThongRequest) String() string { return proto.CompactTextString(m) }
+func (*ThamSoHeThongRequest) ProtoMessage()    {}
+func (*ThamSoHeThongRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{4}
+}
+
+func (m *ThamSoHeThongRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ThamSoHeThongRequest.Unmarshal(m, b)
+}
+func (m *ThamSoHeThongRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ThamSoHeThongRequest.Marshal(b, m, deterministic)
+}
+func (m *ThamSoHeThongRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ThamSoHeThongRequest.Merge(m, src)
+}
+func (m *ThamSoHeThongRequest) XXX_Size() int {
+	return xxx_messageInfo_ThamSoHeThongRequest.Size(m)
+}
+func (m *ThamSoHeThongRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ThamSoHeThongRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ThamSoHeThongRequest proto.InternalMessageInfo
+
+func (m *ThamSoHeThongRequest) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *ThamSoHeThongRequest) GetCode() string {
+	if m != nil {
+		return m.Code
+	}
+	return ""
+}
+
+type GetTokenRequest struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	NhanVienId           int32    `protobuf:"varint,2,opt,name=nhanVienId,proto3" json:"nhanVienId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTokenRequest) Reset()         { *m = GetTokenRequest{} }
+func (m *GetTokenRequest) String() string { return proto.CompactTextString(m) }
+func (*GetTokenRequest) ProtoMessage()    {}
+func (*GetTokenRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{5}
+}
+
+func (m *GetTokenRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTokenRequest.Unmarshal(m, b)
+}
+func (m *GetTokenRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTokenRequest.Marshal(b, m, deterministic)
+}
+func (m *GetTokenRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTokenRequest.Merge(m, src)
+}
+func (m *GetTokenRequest) XXX_Size() int {
+	return xxx_messageInfo_GetTokenRequest.Size(m)
+}
+func (m *GetTokenRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTokenRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTokenRequest proto.InternalMessageInfo
+
+func (m *GetTokenRequest) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *GetTokenRequest) GetNhanVienId() int32 {
+	if m != nil {
+		return m.NhanVienId
+	}
+	return 0
+}
+
+type GetTokenResponse struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTokenResponse) Reset()         { *m = GetTokenResponse{} }
+func (m *GetTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*GetTokenResponse) ProtoMessage()    {}
+func (*GetTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{6}
+}
+
+func (m *GetTokenResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTokenResponse.Unmarshal(m, b)
+}
+func (m *GetTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTokenResponse.Marshal(b, m, deterministic)
+}
+func (m *GetTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTokenResponse.Merge(m, src)
+}
+func (m *GetTokenResponse) XXX_Size() int {
+	return xxx_messageInfo_GetTokenResponse.Size(m)
+}
+func (m *GetTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTokenResponse proto.InternalMessageInfo
+
+func (m *GetTokenResponse) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *GetTokenResponse) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
 type DanhSachNhanVienResponse struct {
 	NhanVien             []*NhanVien `protobuf:"bytes,1,rep,name=nhanVien,proto3" json:"nhanVien,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
@@ -224,7 +436,7 @@ func (m *DanhSachNhanVienResponse) Reset()         { *m = DanhSachNhanVienRespon
 func (m *DanhSachNhanVienResponse) String() string { return proto.CompactTextString(m) }
 func (*DanhSachNhanVienResponse) ProtoMessage()    {}
 func (*DanhSachNhanVienResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_292f630cd9eb4c90, []int{3}
+	return fileDescriptor_292f630cd9eb4c90, []int{7}
 }
 
 func (m *DanhSachNhanVienResponse) XXX_Unmarshal(b []byte) error {
@@ -252,6 +464,84 @@ func (m *DanhSachNhanVienResponse) GetNhanVien() []*NhanVien {
 	return nil
 }
 
+type ThamSoHeThongsResponse struct {
+	Thamso               []*ThamSoHeThong `protobuf:"bytes,1,rep,name=thamso,proto3" json:"thamso,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *ThamSoHeThongsResponse) Reset()         { *m = ThamSoHeThongsResponse{} }
+func (m *ThamSoHeThongsResponse) String() string { return proto.CompactTextString(m) }
+func (*ThamSoHeThongsResponse) ProtoMessage()    {}
+func (*ThamSoHeThongsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{8}
+}
+
+func (m *ThamSoHeThongsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ThamSoHeThongsResponse.Unmarshal(m, b)
+}
+func (m *ThamSoHeThongsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ThamSoHeThongsResponse.Marshal(b, m, deterministic)
+}
+func (m *ThamSoHeThongsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ThamSoHeThongsResponse.Merge(m, src)
+}
+func (m *ThamSoHeThongsResponse) XXX_Size() int {
+	return xxx_messageInfo_ThamSoHeThongsResponse.Size(m)
+}
+func (m *ThamSoHeThongsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ThamSoHeThongsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ThamSoHeThongsResponse proto.InternalMessageInfo
+
+func (m *ThamSoHeThongsResponse) GetThamso() []*ThamSoHeThong {
+	if m != nil {
+		return m.Thamso
+	}
+	return nil
+}
+
+type ThamSoHeThongResponse struct {
+	Thamso               *ThamSoHeThong `protobuf:"bytes,1,opt,name=thamso,proto3" json:"thamso,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
+}
+
+func (m *ThamSoHeThongResponse) Reset()         { *m = ThamSoHeThongResponse{} }
+func (m *ThamSoHeThongResponse) String() string { return proto.CompactTextString(m) }
+func (*ThamSoHeThongResponse) ProtoMessage()    {}
+func (*ThamSoHeThongResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_292f630cd9eb4c90, []int{9}
+}
+
+func (m *ThamSoHeThongResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ThamSoHeThongResponse.Unmarshal(m, b)
+}
+func (m *ThamSoHeThongResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ThamSoHeThongResponse.Marshal(b, m, deterministic)
+}
+func (m *ThamSoHeThongResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ThamSoHeThongResponse.Merge(m, src)
+}
+func (m *ThamSoHeThongResponse) XXX_Size() int {
+	return xxx_messageInfo_ThamSoHeThongResponse.Size(m)
+}
+func (m *ThamSoHeThongResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ThamSoHeThongResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ThamSoHeThongResponse proto.InternalMessageInfo
+
+func (m *ThamSoHeThongResponse) GetThamso() *ThamSoHeThong {
+	if m != nil {
+		return m.Thamso
+	}
+	return nil
+}
+
 type NhanVienResponse struct {
 	NhanVien             *NhanVien `protobuf:"bytes,1,opt,name=nhanVien,proto3" json:"nhanVien,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
@@ -263,7 +553,7 @@ func (m *NhanVienResponse) Reset()         { *m = NhanVienResponse{} }
 func (m *NhanVienResponse) String() string { return proto.CompactTextString(m) }
 func (*NhanVienResponse) ProtoMessage()    {}
 func (*NhanVienResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_292f630cd9eb4c90, []int{4}
+	return fileDescriptor_292f630cd9eb4c90, []int{10}
 }
 
 func (m *NhanVienResponse) XXX_Unmarshal(b []byte) error {
@@ -302,7 +592,7 @@ func (m *PingResponse) Reset()         { *m = PingResponse{} }
 func (m *PingResponse) String() string { return proto.CompactTextString(m) }
 func (*PingResponse) ProtoMessage()    {}
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_292f630cd9eb4c90, []int{5}
+	return fileDescriptor_292f630cd9eb4c90, []int{11}
 }
 
 func (m *PingResponse) XXX_Unmarshal(b []byte) error {
@@ -332,78 +622,107 @@ func (m *PingResponse) GetMessage() string {
 
 func init() {
 	proto.RegisterType((*NhanVien)(nil), "proto.NhanVien")
+	proto.RegisterType((*ThamSoHeThong)(nil), "proto.ThamSoHeThong")
 	proto.RegisterType((*ReadRequest)(nil), "proto.ReadRequest")
 	proto.RegisterType((*PhongBanNhanVienRequest)(nil), "proto.PhongBanNhanVienRequest")
+	proto.RegisterType((*ThamSoHeThongRequest)(nil), "proto.ThamSoHeThongRequest")
+	proto.RegisterType((*GetTokenRequest)(nil), "proto.GetTokenRequest")
+	proto.RegisterType((*GetTokenResponse)(nil), "proto.GetTokenResponse")
 	proto.RegisterType((*DanhSachNhanVienResponse)(nil), "proto.DanhSachNhanVienResponse")
+	proto.RegisterType((*ThamSoHeThongsResponse)(nil), "proto.ThamSoHeThongsResponse")
+	proto.RegisterType((*ThamSoHeThongResponse)(nil), "proto.ThamSoHeThongResponse")
 	proto.RegisterType((*NhanVienResponse)(nil), "proto.NhanVienResponse")
 	proto.RegisterType((*PingResponse)(nil), "proto.PingResponse")
 }
 
-func init() {
-	proto.RegisterFile("user_service.proto", fileDescriptor_292f630cd9eb4c90)
-}
+func init() { proto.RegisterFile("user_service.proto", fileDescriptor_292f630cd9eb4c90) }
 
 var fileDescriptor_292f630cd9eb4c90 = []byte{
-	// 447 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x92, 0x51, 0x6b, 0xdb, 0x30,
-	0x14, 0x85, 0xb1, 0x93, 0x36, 0xce, 0x4d, 0xb2, 0x0c, 0xf5, 0xa1, 0xde, 0xc6, 0xba, 0xcc, 0x30,
-	0x08, 0x0c, 0x3a, 0xe8, 0xde, 0x37, 0xc8, 0x0a, 0xc1, 0x7b, 0x28, 0xc5, 0xdd, 0xf2, 0xb0, 0x17,
-	0xa3, 0x5a, 0x77, 0x91, 0x20, 0x96, 0x3d, 0x4b, 0x0e, 0xec, 0xef, 0xec, 0x67, 0xec, 0xd7, 0x0d,
-	0xc9, 0x96, 0x6b, 0x42, 0xb3, 0x3e, 0x05, 0x9d, 0xfb, 0xe9, 0xe6, 0x9c, 0x23, 0x03, 0xa9, 0x15,
-	0x56, 0xa9, 0xc2, 0x6a, 0x2f, 0x32, 0xbc, 0x2c, 0xab, 0x42, 0x17, 0xe4, 0xc4, 0xfe, 0x44, 0x7f,
-	0x7d, 0x08, 0x6e, 0x38, 0x95, 0x1b, 0x81, 0x92, 0xbc, 0x83, 0x39, 0xcb, 0x53, 0xc9, 0xa9, 0x4c,
-	0xf7, 0x02, 0x65, 0x2a, 0x58, 0xe8, 0x2d, 0xbc, 0xe5, 0x2c, 0x99, 0xb2, 0xdc, 0x41, 0x31, 0x23,
-	0x0b, 0x98, 0xe6, 0xf4, 0x01, 0x0b, 0xfd, 0x85, 0xb7, 0x1c, 0x27, 0x90, 0xd3, 0x6e, 0x51, 0x04,
-	0x33, 0x8d, 0xb2, 0x87, 0x0c, 0x2c, 0x32, 0xd1, 0x28, 0x3b, 0xe6, 0x15, 0x8c, 0x7f, 0xd6, 0xbb,
-	0x5d, 0x2a, 0x69, 0x8e, 0xe1, 0xd0, 0xce, 0x03, 0x23, 0xdc, 0xd0, 0x1c, 0xcd, 0x70, 0x47, 0x95,
-	0x6e, 0x86, 0x27, 0xcd, 0xd0, 0x08, 0x76, 0xf8, 0x02, 0x82, 0x92, 0x17, 0x72, 0x6b, 0xfc, 0x9d,
-	0x5a, 0x7f, 0x23, 0x7b, 0x8e, 0x59, 0x9b, 0x20, 0xe3, 0x75, 0x96, 0x32, 0x2a, 0xb9, 0x21, 0x46,
-	0x2e, 0xc1, 0x17, 0x5e, 0x67, 0xd7, 0x54, 0xf2, 0x98, 0x91, 0xb7, 0x30, 0x73, 0xd8, 0xbe, 0x36,
-	0x50, 0x60, 0x21, 0x68, 0xa0, 0x4d, 0x1d, 0x33, 0x13, 0x41, 0x15, 0x29, 0x33, 0x35, 0x68, 0x5e,
-	0x50, 0x11, 0x8e, 0x9b, 0x08, 0xaa, 0xb8, 0x16, 0x28, 0xbf, 0x19, 0x29, 0x7a, 0x0d, 0x93, 0x04,
-	0x29, 0x4b, 0xf0, 0x57, 0x8d, 0x4a, 0x93, 0x67, 0xe0, 0xb7, 0x8d, 0x0d, 0x12, 0x5f, 0xb0, 0x28,
-	0x86, 0xf3, 0x5b, 0xe3, 0x6b, 0x45, 0xbb, 0xd4, 0x47, 0x50, 0x72, 0x01, 0xe0, 0xd0, 0x98, 0xd9,
-	0x42, 0x07, 0x49, 0x4f, 0x89, 0xd6, 0x10, 0x1a, 0xeb, 0x77, 0x34, 0xe3, 0x0f, 0xab, 0x54, 0x59,
-	0x48, 0x85, 0xe4, 0x3d, 0x04, 0xb2, 0xd5, 0x42, 0x6f, 0x31, 0x58, 0x4e, 0xae, 0xe6, 0xcd, 0x1b,
-	0x5f, 0x76, 0x68, 0x07, 0x44, 0x9f, 0xe1, 0xf9, 0x13, 0x0b, 0xbc, 0xff, 0x2f, 0x58, 0xc2, 0xf4,
-	0x56, 0xc8, 0x6d, 0x77, 0x39, 0x84, 0x51, 0x8e, 0x4a, 0xd1, 0x2d, 0xda, 0xbb, 0xe3, 0xc4, 0x1d,
-	0xaf, 0xfe, 0xf8, 0x30, 0xf9, 0xae, 0xb0, 0xba, 0x6b, 0xbe, 0x3b, 0xf2, 0x15, 0xce, 0xd6, 0xa8,
-	0x0f, 0x63, 0x10, 0xd2, 0xfe, 0x57, 0xaf, 0xc9, 0x97, 0x6f, 0x5a, 0xed, 0x68, 0xe6, 0x4f, 0x30,
-	0x5f, 0xa3, 0x76, 0xf2, 0xea, 0x77, 0xcc, 0x1e, 0xdd, 0x73, 0x7e, 0x98, 0xc3, 0xdd, 0xdf, 0x58,
-	0x2f, 0x87, 0xaf, 0x43, 0x2e, 0x5a, 0xfe, 0xc8, 0xb3, 0x3d, 0xed, 0xeb, 0x03, 0x0c, 0x4d, 0x3b,
-	0x8f, 0x9a, 0x39, 0x73, 0xcb, 0x7b, 0xf5, 0xad, 0x86, 0x3f, 0xfc, 0xf2, 0xfe, 0xfe, 0xd4, 0x4e,
-	0x3e, 0xfe, 0x0b, 0x00, 0x00, 0xff, 0xff, 0x68, 0x02, 0x58, 0xc1, 0xa9, 0x03, 0x00, 0x00,
+	// 651 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0x5d, 0x4f, 0x13, 0x41,
+	0x14, 0xcd, 0xf6, 0x8b, 0xed, 0x2d, 0x15, 0x32, 0x20, 0xac, 0x7c, 0x59, 0x37, 0x31, 0x69, 0xa2,
+	0xc1, 0x04, 0x5f, 0x8c, 0x26, 0x1a, 0x0b, 0x5a, 0xd7, 0x28, 0x21, 0x4b, 0xe5, 0xc1, 0x97, 0xcd,
+	0xd0, 0x19, 0xd9, 0x89, 0xec, 0x4c, 0xed, 0xec, 0x92, 0xf0, 0x23, 0xfc, 0x43, 0xfe, 0x37, 0x13,
+	0x33, 0x5f, 0xdb, 0x52, 0x5a, 0xf0, 0xa9, 0xbd, 0xf7, 0x9e, 0x39, 0x73, 0xcf, 0xb9, 0x77, 0x16,
+	0x50, 0x21, 0xe9, 0x38, 0x91, 0x74, 0x7c, 0xc5, 0x86, 0x74, 0x7f, 0x34, 0x16, 0xb9, 0x40, 0x75,
+	0xfd, 0x13, 0xfe, 0xa9, 0x80, 0x7f, 0x9c, 0x62, 0x7e, 0xc6, 0x28, 0x47, 0x4f, 0x61, 0x85, 0x64,
+	0x09, 0x4f, 0x31, 0x4f, 0xae, 0x18, 0xe5, 0x09, 0x23, 0x81, 0xd7, 0xf1, 0xba, 0xed, 0x78, 0x99,
+	0x64, 0x0e, 0x14, 0x11, 0xd4, 0x81, 0xe5, 0x0c, 0x4f, 0x60, 0x41, 0xa5, 0xe3, 0x75, 0x9b, 0x31,
+	0x64, 0xb8, 0x24, 0x0a, 0xa1, 0x9d, 0x53, 0x3e, 0x05, 0xa9, 0x6a, 0x48, 0x2b, 0xa7, 0xbc, 0xc4,
+	0x6c, 0x43, 0xf3, 0x47, 0x71, 0x79, 0x99, 0x70, 0x9c, 0xd1, 0xa0, 0xa6, 0xeb, 0xbe, 0x4a, 0x1c,
+	0xe3, 0x8c, 0xaa, 0xe2, 0x25, 0x96, 0xb9, 0x29, 0xd6, 0x4d, 0x51, 0x25, 0x74, 0xf1, 0x11, 0xf8,
+	0xa3, 0x54, 0xf0, 0x0b, 0xd5, 0x5f, 0x43, 0xf7, 0xb7, 0xa4, 0xe3, 0x88, 0x58, 0x05, 0xc3, 0xb4,
+	0x18, 0x26, 0x04, 0xf3, 0x54, 0x21, 0x96, 0x9c, 0x82, 0xc3, 0xb4, 0x18, 0x1e, 0x61, 0x9e, 0x46,
+	0x04, 0x3d, 0x81, 0xb6, 0x83, 0x5d, 0x15, 0x0a, 0xe4, 0x6b, 0x10, 0x18, 0xd0, 0x59, 0x11, 0x11,
+	0x25, 0x41, 0x8a, 0x84, 0x28, 0x1b, 0xf2, 0x54, 0x60, 0x16, 0x34, 0x8d, 0x04, 0x29, 0x8e, 0x18,
+	0xe5, 0x03, 0x95, 0x0a, 0x7f, 0x7b, 0xd0, 0x1e, 0xa4, 0x38, 0x3b, 0x15, 0x9f, 0xe8, 0x40, 0x75,
+	0x80, 0x1e, 0x40, 0x25, 0x32, 0xa6, 0x55, 0xe3, 0x4a, 0x44, 0xd0, 0x16, 0xf8, 0x5f, 0xb1, 0x81,
+	0x58, 0x9b, 0xca, 0x18, 0xed, 0x40, 0x73, 0xa0, 0x98, 0x74, 0xd1, 0x18, 0x34, 0x49, 0xa0, 0x0d,
+	0x68, 0xf4, 0x19, 0x1e, 0x8c, 0x99, 0xf5, 0xc6, 0x46, 0x8a, 0x51, 0x35, 0xd0, 0x67, 0x98, 0x39,
+	0x63, 0x5c, 0x1c, 0xee, 0x42, 0x2b, 0xa6, 0x98, 0xc4, 0xf4, 0x57, 0x41, 0x65, 0xae, 0x9a, 0x61,
+	0x65, 0x33, 0x8c, 0x84, 0x11, 0x6c, 0x9e, 0xa8, 0x2e, 0x7b, 0xb8, 0x9c, 0xc2, 0x02, 0x28, 0xda,
+	0x03, 0x70, 0xd0, 0x88, 0xe8, 0xce, 0xab, 0xf1, 0x54, 0x26, 0x7c, 0x0d, 0xeb, 0x37, 0x84, 0x2f,
+	0xe2, 0x41, 0x50, 0x1b, 0x0a, 0x42, 0xad, 0x76, 0xfd, 0x3f, 0x7c, 0x0f, 0x2b, 0x7d, 0x9a, 0x0f,
+	0xc4, 0xcf, 0x3b, 0xaf, 0xe7, 0xe5, 0xbe, 0xe9, 0xc3, 0xf5, 0x78, 0x2a, 0x13, 0xbe, 0x82, 0xd5,
+	0x09, 0x85, 0x1c, 0x09, 0x2e, 0xe9, 0x2d, 0x8e, 0x75, 0xa8, 0xe7, 0x0a, 0x60, 0xef, 0x36, 0x41,
+	0xd8, 0x87, 0x40, 0xed, 0xc0, 0x29, 0x1e, 0xa6, 0x13, 0x0f, 0x2c, 0xc3, 0x33, 0xf0, 0xdd, 0x1d,
+	0x81, 0xd7, 0xa9, 0x76, 0x5b, 0x07, 0x2b, 0xe6, 0xb1, 0xec, 0x97, 0xd0, 0x12, 0x10, 0x7e, 0x84,
+	0x8d, 0x1b, 0x0e, 0xc8, 0x92, 0xe6, 0x39, 0x34, 0xf2, 0x14, 0x67, 0x52, 0x58, 0x92, 0x75, 0x4b,
+	0x72, 0xd3, 0x30, 0x8b, 0x09, 0x3f, 0xc0, 0xc3, 0x19, 0x27, 0xe7, 0xd0, 0x78, 0xf7, 0xd2, 0xbc,
+	0x83, 0xd5, 0x7b, 0xf4, 0x78, 0x77, 0xeb, 0xe9, 0xc2, 0xf2, 0x09, 0x9b, 0xba, 0x3e, 0x80, 0xa5,
+	0x8c, 0x4a, 0x89, 0x2f, 0xa8, 0x3e, 0xdb, 0x8c, 0x5d, 0x78, 0xf0, 0xb7, 0x0a, 0xad, 0x6f, 0x92,
+	0x8e, 0x4f, 0xcd, 0xf7, 0x04, 0x7d, 0x86, 0xb5, 0x3e, 0xcd, 0x67, 0x5d, 0x45, 0xc8, 0xde, 0x35,
+	0xb5, 0x91, 0x5b, 0x8f, 0x6d, 0x6e, 0xe1, 0x08, 0xde, 0x80, 0xef, 0x06, 0x8b, 0x36, 0x2c, 0x78,
+	0x66, 0x59, 0xb6, 0x36, 0x6f, 0xe5, 0xed, 0xe1, 0xb7, 0x7a, 0xb1, 0x1c, 0x67, 0xef, 0x3a, 0x22,
+	0x73, 0x9b, 0xd8, 0x9c, 0x35, 0xc1, 0x9d, 0x3f, 0xd3, 0x42, 0x66, 0x9f, 0x08, 0xda, 0xb3, 0xf8,
+	0x05, 0x6f, 0xe7, 0x7e, 0x51, 0xc7, 0x66, 0x5b, 0xf5, 0xdc, 0x64, 0xef, 0xfa, 0x50, 0x10, 0x8a,
+	0xb6, 0xe7, 0x4e, 0xd3, 0x32, 0xee, 0xce, 0x2b, 0x4e, 0x16, 0xec, 0x8b, 0x79, 0x40, 0xba, 0xf8,
+	0x3f, 0x74, 0x3b, 0xf3, 0x8b, 0x96, 0xed, 0x05, 0xd4, 0xd4, 0xe0, 0xe7, 0x5a, 0xb5, 0xe6, 0xa4,
+	0x4f, 0x6d, 0x46, 0xaf, 0xf6, 0xbd, 0x32, 0x3a, 0x3f, 0x6f, 0xe8, 0xca, 0xcb, 0x7f, 0x01, 0x00,
+	0x00, 0xff, 0xff, 0x9a, 0xf1, 0xd9, 0x8f, 0x5c, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConnInterface
+var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+const _ = grpc.SupportPackageIsVersion4
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserServiceClient interface {
 	GetDanhSachNhanVien(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*DanhSachNhanVienResponse, error)
+	GetToken(ctx context.Context, in *GetTokenRequest, opts ...grpc.CallOption) (*GetTokenResponse, error)
 	GetNhanVienById(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*NhanVienResponse, error)
 	GetPhongBanNhanVien(ctx context.Context, in *PhongBanNhanVienRequest, opts ...grpc.CallOption) (*DanhSachNhanVienResponse, error)
+	GetThamSosByCode(ctx context.Context, in *ThamSoHeThongRequest, opts ...grpc.CallOption) (*ThamSoHeThongsResponse, error)
+	GetThamSoByCode(ctx context.Context, in *ThamSoHeThongRequest, opts ...grpc.CallOption) (*ThamSoHeThongResponse, error)
 	Ping(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
 type userServiceClient struct {
-	cc grpc.ClientConnInterface
+	cc *grpc.ClientConn
 }
 
-func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
+func NewUserServiceClient(cc *grpc.ClientConn) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
 func (c *userServiceClient) GetDanhSachNhanVien(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*DanhSachNhanVienResponse, error) {
 	out := new(DanhSachNhanVienResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/GetDanhSachNhanVien", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetToken(ctx context.Context, in *GetTokenRequest, opts ...grpc.CallOption) (*GetTokenResponse, error) {
+	out := new(GetTokenResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/GetToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -428,6 +747,24 @@ func (c *userServiceClient) GetPhongBanNhanVien(ctx context.Context, in *PhongBa
 	return out, nil
 }
 
+func (c *userServiceClient) GetThamSosByCode(ctx context.Context, in *ThamSoHeThongRequest, opts ...grpc.CallOption) (*ThamSoHeThongsResponse, error) {
+	out := new(ThamSoHeThongsResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/GetThamSosByCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetThamSoByCode(ctx context.Context, in *ThamSoHeThongRequest, opts ...grpc.CallOption) (*ThamSoHeThongResponse, error) {
+	out := new(ThamSoHeThongResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/GetThamSoByCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) Ping(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*PingResponse, error) {
 	out := new(PingResponse)
 	err := c.cc.Invoke(ctx, "/proto.UserService/Ping", in, out, opts...)
@@ -440,8 +777,11 @@ func (c *userServiceClient) Ping(ctx context.Context, in *ReadRequest, opts ...g
 // UserServiceServer is the server API for UserService service.
 type UserServiceServer interface {
 	GetDanhSachNhanVien(context.Context, *ReadRequest) (*DanhSachNhanVienResponse, error)
+	GetToken(context.Context, *GetTokenRequest) (*GetTokenResponse, error)
 	GetNhanVienById(context.Context, *ReadRequest) (*NhanVienResponse, error)
 	GetPhongBanNhanVien(context.Context, *PhongBanNhanVienRequest) (*DanhSachNhanVienResponse, error)
+	GetThamSosByCode(context.Context, *ThamSoHeThongRequest) (*ThamSoHeThongsResponse, error)
+	GetThamSoByCode(context.Context, *ThamSoHeThongRequest) (*ThamSoHeThongResponse, error)
 	Ping(context.Context, *ReadRequest) (*PingResponse, error)
 }
 
@@ -452,11 +792,20 @@ type UnimplementedUserServiceServer struct {
 func (*UnimplementedUserServiceServer) GetDanhSachNhanVien(ctx context.Context, req *ReadRequest) (*DanhSachNhanVienResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDanhSachNhanVien not implemented")
 }
+func (*UnimplementedUserServiceServer) GetToken(ctx context.Context, req *GetTokenRequest) (*GetTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetToken not implemented")
+}
 func (*UnimplementedUserServiceServer) GetNhanVienById(ctx context.Context, req *ReadRequest) (*NhanVienResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNhanVienById not implemented")
 }
 func (*UnimplementedUserServiceServer) GetPhongBanNhanVien(ctx context.Context, req *PhongBanNhanVienRequest) (*DanhSachNhanVienResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPhongBanNhanVien not implemented")
+}
+func (*UnimplementedUserServiceServer) GetThamSosByCode(ctx context.Context, req *ThamSoHeThongRequest) (*ThamSoHeThongsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetThamSosByCode not implemented")
+}
+func (*UnimplementedUserServiceServer) GetThamSoByCode(ctx context.Context, req *ThamSoHeThongRequest) (*ThamSoHeThongResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetThamSoByCode not implemented")
 }
 func (*UnimplementedUserServiceServer) Ping(ctx context.Context, req *ReadRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
@@ -480,6 +829,24 @@ func _UserService_GetDanhSachNhanVien_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetDanhSachNhanVien(ctx, req.(*ReadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/GetToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetToken(ctx, req.(*GetTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -520,6 +887,42 @@ func _UserService_GetPhongBanNhanVien_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetThamSosByCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ThamSoHeThongRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetThamSosByCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/GetThamSosByCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetThamSosByCode(ctx, req.(*ThamSoHeThongRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetThamSoByCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ThamSoHeThongRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetThamSoByCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/GetThamSoByCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetThamSoByCode(ctx, req.(*ThamSoHeThongRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReadRequest)
 	if err := dec(in); err != nil {
@@ -547,12 +950,24 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_GetDanhSachNhanVien_Handler,
 		},
 		{
+			MethodName: "GetToken",
+			Handler:    _UserService_GetToken_Handler,
+		},
+		{
 			MethodName: "GetNhanVienById",
 			Handler:    _UserService_GetNhanVienById_Handler,
 		},
 		{
 			MethodName: "GetPhongBanNhanVien",
 			Handler:    _UserService_GetPhongBanNhanVien_Handler,
+		},
+		{
+			MethodName: "GetThamSosByCode",
+			Handler:    _UserService_GetThamSosByCode_Handler,
+		},
+		{
+			MethodName: "GetThamSoByCode",
+			Handler:    _UserService_GetThamSoByCode_Handler,
 		},
 		{
 			MethodName: "Ping",

@@ -59,6 +59,7 @@ func (g *Greeter) startGRPC() error {
 	srv := grpc.NewServer()
 	pb.RegisterUserServiceServer(srv, &Services.UserService{
 		RepoNhanVien: repoimpl.NewNhanVienRepo(g.db),
+		RepoThemSoHeThong: repoimpl.NewDmThamSoHeThongRepo(g.db),
 	})
 	err = srv.Serve(lis)
 

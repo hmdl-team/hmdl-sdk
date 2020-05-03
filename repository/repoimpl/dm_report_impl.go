@@ -10,14 +10,14 @@ import (
 )
 
 func NewDM_ReportRepo(db *gorm.DB) repository.DM_ReportRepo {
-	return &DM_ReportRepoImpl{db: db}
+	return &dmReportRepoImpl{db: db}
 }
 
-type DM_ReportRepoImpl struct {
+type dmReportRepoImpl struct {
 	db *gorm.DB
 }
 
-func (u *DM_ReportRepoImpl) GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
+func (u *dmReportRepoImpl) GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
 	var dsReportId []DM_PhanQuyen_Report
 
 	err = u.db.Model(&DM_PhanQuyen_Report{}).Where(&DM_PhanQuyen_Report{
@@ -48,7 +48,7 @@ func (u *DM_ReportRepoImpl) GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId int) (
 	return data, nil
 }
 
-func (u *DM_ReportRepoImpl) getReportChildren(dataInput []DM_Report, parentId int) (data []DM_Report) {
+func (u *dmReportRepoImpl) getReportChildren(dataInput []DM_Report, parentId int) (data []DM_Report) {
 
 	for _, item := range dataInput {
 		if *item.ParentId == parentId {
@@ -61,7 +61,7 @@ func (u *DM_ReportRepoImpl) getReportChildren(dataInput []DM_Report, parentId in
 	return data
 }
 
-func (u *DM_ReportRepoImpl) GetReportPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
+func (u *dmReportRepoImpl) GetReportPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
 
 	var dsReportId []DM_PhanQuyen_Report
 
@@ -87,7 +87,7 @@ func (u *DM_ReportRepoImpl) GetReportPhanQuyenId(phanQuyenId int) (data []DM_Rep
 	return data, nil
 }
 
-func (u *DM_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_Report, error) {
+func (u *dmReportRepoImpl) GetAll(ctx echo.Context) ([]DM_Report, error) {
 	var data []DM_Report
 
 	err := u.db.Find(&data).Error
@@ -100,7 +100,7 @@ func (u *DM_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_Report, error) {
 	return data, err
 }
 
-func (u *DM_ReportRepoImpl) GetById(ctx echo.Context, id int) (*DM_Report, error) {
+func (u *dmReportRepoImpl) GetById(ctx echo.Context, id int) (*DM_Report, error) {
 	var dsPhongKha DM_Report
 	err := u.db.Where("DM_ReportId = ?", id).Find(&dsPhongKha).Error
 
@@ -116,7 +116,7 @@ func (u *DM_ReportRepoImpl) GetById(ctx echo.Context, id int) (*DM_Report, error
 	return &dsPhongKha, nil
 }
 
-func (u *DM_ReportRepoImpl) Delete(ctx echo.Context, id int) error {
+func (u *dmReportRepoImpl) Delete(ctx echo.Context, id int) error {
 	var data DM_Report
 
 	err := u.db.Find(&data, id).Error
@@ -139,7 +139,7 @@ func (u *DM_ReportRepoImpl) Delete(ctx echo.Context, id int) error {
 	return nil
 }
 
-func (u *DM_ReportRepoImpl) Insert(ctx echo.Context, item DM_Report) (*DM_Report, error) {
+func (u *dmReportRepoImpl) Insert(ctx echo.Context, item DM_Report) (*DM_Report, error) {
 	err := u.db.Create(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -150,7 +150,7 @@ func (u *DM_ReportRepoImpl) Insert(ctx echo.Context, item DM_Report) (*DM_Report
 	return &item, nil
 }
 
-func (u *DM_ReportRepoImpl) Update(ctx echo.Context, item DM_Report) error {
+func (u *dmReportRepoImpl) Update(ctx echo.Context, item DM_Report) error {
 	err := u.db.Save(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

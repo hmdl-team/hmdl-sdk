@@ -32,7 +32,7 @@ func (u *MsSql) SqlServeConnect() {
 
 	if evr == "DEV" {
 		// Show log sql
-		//db.LogMode(true)
+		db.LogMode(true)
 	}
 
 	u.Db = db
