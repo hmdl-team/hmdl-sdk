@@ -3,17 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="226cb443-8114-4037-925f-0b804aabe746" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/Server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/Services/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/token.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/DbSql.go" beforeDir="false" afterPath="$PROJECT_DIR$/db/DbSql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pb/user_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pb/user_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proto/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/proto/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/dm_tham_so_he_thong_repo.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/dm_tham_so_he_thong_repo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/repoimpl/dm_report_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/repoimpl/dm_report_impl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repository/repoimpl/dm_tham_so_he_thong_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/repository/repoimpl/dm_tham_so_he_thong_impl.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
