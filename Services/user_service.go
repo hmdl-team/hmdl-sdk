@@ -9,7 +9,6 @@ import (
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository"
 	"log"
-	"time"
 )
 
 type UserService struct {
@@ -68,7 +67,10 @@ func (u *UserService) GetThamSoByCode(ctx context.Context, request *pb.ThamSoHeT
 
 func (u *UserService) GetToken(ctx context.Context, request *pb.GetTokenRequest) (*pb.GetTokenResponse, error) {
 	fmt.Println("Call : GetToken")
-	data, _, err := auth.GenTokenNhanVienId(int(request.NhanVienId), 168*time.Hour)
+	data, time, err := auth.GenTokenNhanVienId(int(request.NhanVienId), 168)
+
+	fmt.Println("Time token :", time)
+
 	if err != nil {
 		log.Println(err)
 		return nil, status.Errorf(codes.Internal, "Erro server: %v", err)

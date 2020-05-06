@@ -20,6 +20,7 @@ func (u *MySql) MySqlConnect() {
 	conStr := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Local", u.UserName, u.Password, u.Host, u.Port, u.DbName)
 	db, err := gorm.Open("mysql", conStr)
 
+
 	if err != nil {
 		raven.CaptureErrorAndWait(err, nil)
 		fmt.Println(err)

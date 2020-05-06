@@ -10,6 +10,7 @@ import (
 	"hmdl-user-service/helper/domain"
 	"hmdl-user-service/helper/lib"
 	"hmdl-user-service/models/response"
+	"os"
 
 	"hmdl-user-service/models/data_user"
 	"hmdl-user-service/models/request"
@@ -22,6 +23,7 @@ import (
 
 type TaiKhoanHandler struct {
 	TaiKhoanRepo repository.TaiKhoanRepository
+	Repo         repository.DmThamSoHeThongRepo
 }
 
 // DanhMucDuoc godoc
@@ -67,9 +69,10 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 			Data:       nil,
 		})
 	}
+	serverDomain:= os.Getenv("DOMAIN_SERVER")
 
 	configDomain := domain.Config{
-		Server: "10.25.10.10",
+		Server: serverDomain,
 		Port:   389,
 		BaseDN: "DC=fhmc,DC=com",
 	}
@@ -259,7 +262,7 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 		})
 	}
 
-	claims := auth.DecodeToken(req.Token)
+	claims := auth.DecodeToken(req.RefreshToken)
 
 	if claims == nil {
 		return c.JSON(http.StatusBadRequest, helper.Response{

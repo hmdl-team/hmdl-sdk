@@ -6,18 +6,23 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
+	"hmdl-user-service/migration"
+	"log"
 
 	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
-	"hmdl-user-service/migration"
 	"hmdl-user-service/router"
-	"log"
 	"os"
 	"runtime"
 )
 
 func init() {
 	_ = raven.SetDSN("https://bb5a77f6d3e04677a8f01cb2a62e1811:f808d36381bb42709cc650b620cca8d9@sentry.io/1480050")
+
+	err := godotenv.Load("config/.env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }
 
 // @title hmdl-user-service api
@@ -35,10 +40,7 @@ func main() {
 	ng := runtime.NumCPU()
 	fmt.Println("NumCPU: ", ng)
 
-	err := godotenv.Load("config/.env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+
 
 	msSql := &db.MsSql{
 		Host:     os.Getenv("SQL_DATA_USER_HOST"),
@@ -51,9 +53,7 @@ func main() {
 	msSql.SqlServeConnect()
 	defer msSql.Close()
 
-	err = migration.NewDatabaseRepo(msSql.Db).Migrate()
-
-	if err != nil {
+	if err := migration.NewDatabaseRepo(msSql.Db).Migrate(); err != nil {
 		raven.CaptureErrorAndWait(err, nil)
 		fmt.Print(err)
 	}
@@ -66,10 +66,6 @@ func main() {
 	api := router.API{
 		Echo: e,
 		Db:   msSql.Db,
-	}
-
-	if err != nil {
-		fmt.Println(err)
 	}
 
 	api.NewRouter()
