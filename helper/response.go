@@ -7,9 +7,59 @@ import (
 )
 
 type Response struct {
-	StatusCode int         `json:"code,omitempty"`
-	Message    string      `json:"message,omitempty"`
-	Data       interface{} `json:"data,omitempty"`
+	StatusCode    int         `json:"code,omitempty"`
+	Message       string      `json:"message,omitempty"`
+	Data          interface{} `json:"data,omitempty"`
+	Input         interface{} `json:"input,omitempty"`
+	InternalError string      `json:"internal_error,omitempty"`
+	Paging        interface{} `json:"paging,omitempty"`
+}
+
+func (s *Response) WithMessage(message string) *Response {
+	s.Message = message
+	return s
+}
+
+func (s *Response) WithInput(input interface{}) *Response {
+	s.Input = input
+	return s
+}
+
+func (s *Response) WithError(err error) *Response {
+	if err != nil {
+		s.InternalError = err.Error()
+	}
+	return s
+}
+
+func (s *Response) WithPaging(paging interface{}) *Response {
+	s.Paging = paging
+	return s
+}
+
+func (s *Response) WithData(data interface{}) *Response {
+	s.Data = data
+	return s
+}
+
+func (s *Response) WithStatusCode(statusCode int) *Response {
+	s.StatusCode = statusCode
+	return s
+}
+
+func NewSuccessResponse(data interface{}) *Response {
+	return &Response{
+		StatusCode: http.StatusOK,
+		Data:       data,
+	}
+}
+
+func NewErrorResponse(statusCode int, err error) *Response {
+	r := &Response{
+		StatusCode: statusCode,
+	}
+	r.WithError(err)
+	return r
 }
 
 func ResponseWithCode(c echo.Context, code int, errMsg ...string) error {

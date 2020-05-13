@@ -20,7 +20,6 @@ func TaiKhoanRoute(api core.DbData) {
 
 	// Tài khoản JWT
 	g.GET("", handlerTaiKhoan.GetAllTaiKhoan)
-
 	g.POST("", handlerTaiKhoan.InsertTaiKhoan)
 	g.PUT("", handlerTaiKhoan.UpdateTaiKhoan)
 	g.GET("/id/:id", handlerTaiKhoan.GetTaiKhoanById)

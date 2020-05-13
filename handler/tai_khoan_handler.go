@@ -5,7 +5,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/gommon/log"
-	"hmdl-user-service/auth"
 	"hmdl-user-service/helper"
 	"hmdl-user-service/helper/domain"
 	"hmdl-user-service/helper/lib"
@@ -69,7 +68,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 			Data:       nil,
 		})
 	}
-	serverDomain:= os.Getenv("DOMAIN_SERVER")
+	serverDomain := os.Getenv("DOMAIN_SERVER")
 
 	configDomain := domain.Config{
 		Server: serverDomain,
@@ -131,8 +130,8 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 		}
 	}
 	//	token, time, err := domain.GenToken(user)
-	token, _, err := auth.GenTokenWithTime(*user, 3)
-	refeshToken, _, err := auth.GenTokenWithTime(*user, 4)
+	token, _, err := helper.GenTokenWithTime(*user, 3)
+	refeshToken, _, err := helper.GenTokenWithTime(*user, 4)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response{
@@ -202,7 +201,7 @@ func (u *TaiKhoanHandler) GetAllTaiKhoan(c echo.Context) error {
 func (u *TaiKhoanHandler) GetNhanVienByToken(c echo.Context) error {
 
 	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.JwtClaims)
+	claims := user.Claims.(*helper.JwtClaims)
 	userId := claims.UserId
 
 	id, err := strconv.ParseInt(userId, 0, 64)
@@ -262,7 +261,7 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 		})
 	}
 
-	claims := auth.DecodeToken(req.RefreshToken)
+	claims := helper.DecodeToken(req.RefreshToken)
 
 	if claims == nil {
 		return c.JSON(http.StatusBadRequest, helper.Response{
@@ -286,8 +285,8 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
 	}
 
-	token, _, err := auth.GenTokenWithTime(*taiKhoan, 3)
-	refeshToken, _, err := auth.GenTokenWithTime(*taiKhoan, 4)
+	token, _, err := helper.GenTokenWithTime(*taiKhoan, 3)
+	refeshToken, _, err := helper.GenTokenWithTime(*taiKhoan, 4)
 
 	resTaiKhoan := response.ResTaiKhoanToken{
 		Token:        token,
@@ -299,7 +298,7 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 func (u *TaiKhoanHandler) GetRefreshToken2(c echo.Context) error {
 
 	tokenData := c.Get("user").(*jwt.Token)
-	claims := tokenData.Claims.(*auth.JwtClaims)
+	claims := tokenData.Claims.(*helper.JwtClaims)
 
 	if claims == nil {
 		return c.JSON(http.StatusBadRequest, helper.Response{
@@ -323,8 +322,8 @@ func (u *TaiKhoanHandler) GetRefreshToken2(c echo.Context) error {
 		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
 	}
 
-	token, _, err := auth.GenTokenWithTime(*taiKhoan, 3)
-	refeshToken, _, err := auth.GenTokenWithTime(*taiKhoan, 4)
+	token, _, err := helper.GenTokenWithTime(*taiKhoan, 3)
+	refeshToken, _, err := helper.GenTokenWithTime(*taiKhoan, 4)
 
 	resTaiKhoan := response.ResTaiKhoanToken{
 		Token:        token,

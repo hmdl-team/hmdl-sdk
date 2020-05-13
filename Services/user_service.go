@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"hmdl-user-service/auth"
+	"hmdl-user-service/helper"
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository"
 	"log"
@@ -67,7 +67,7 @@ func (u *UserService) GetThamSoByCode(ctx context.Context, request *pb.ThamSoHeT
 
 func (u *UserService) GetToken(ctx context.Context, request *pb.GetTokenRequest) (*pb.GetTokenResponse, error) {
 	fmt.Println("Call : GetToken")
-	data, time, err := auth.GenTokenNhanVienId(int(request.NhanVienId), 168)
+	data, time, err := helper.GenTokenNhanVienId(int(request.NhanVienId), 168)
 
 	fmt.Println("Time token :", time)
 

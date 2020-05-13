@@ -40,8 +40,6 @@ func main() {
 	ng := runtime.NumCPU()
 	fmt.Println("NumCPU: ", ng)
 
-
-
 	msSql := &db.MsSql{
 		Host:     os.Getenv("SQL_DATA_USER_HOST"),
 		Password: os.Getenv("SQL_DATA_USER_PASSWORD"),
@@ -59,6 +57,8 @@ func main() {
 	}
 
 	e := echo.New()
+
+	//e.Debug = true
 
 	e.GET("/docs/*", echoSwagger.WrapHandler)
 	//swag init

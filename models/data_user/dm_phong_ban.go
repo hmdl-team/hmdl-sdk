@@ -4,8 +4,8 @@ import "time"
 
 type DM_PhongBan struct {
 	DM_PhongBanId     int           `gorm:"column:DM_PhongBanID; primary_key;AUTO_INCREMENT" json:"dm_phong_ban_id,omitempty"`
-	ParentKeyId       *int          `gorm:"column:ParentKeyId;" json:"parent_key_id"`
-	Children          []DM_PhongBan `gorm:"foreignkey:ParentKeyId; column:Children" json:"children"`
+	ParentKeyId       *int          `gorm:"column:ParentKeyID;" json:"parent_key_id"`
+	Children          []DM_PhongBan `gorm:"foreignkey:ParentKeyID;association_foreignkey:DM_PhongBanID; column:Children" json:"children,omitempty"`
 	TenPhongBan       string        `gorm:"column:TenPhongBan;" json:"ten_phong_ban"`
 	TruongKhoaPhongID int           `gorm:"column:TenPhongBan;" json:"truong_khoa_phong_id"`
 	NgayTao           *time.Time    `gorm:"column:NgayTao" json:"ngay_tao"`

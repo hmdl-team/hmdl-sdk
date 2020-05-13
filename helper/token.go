@@ -1,10 +1,9 @@
-package auth
+package helper
 
 import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"hmdl-user-service/helper"
 	"hmdl-user-service/models/data_user"
 	"os"
 	"strconv"
@@ -42,7 +41,7 @@ func GenToken(user data_user.DM_TaiKhoan) (string, *time.Time, error) {
 	//Định nghĩa
 	claims := &JwtClaims{
 		UserId: strconv.Itoa(user.DM_TaiKhoanId),
-		Role:   helper.IntToString(user.DM_PhanQuyenID),
+		Role:   IntToString(user.DM_PhanQuyenID),
 		Name:   user.TenTaiKhoan,
 		StandardClaims: jwt.StandardClaims{
 			Id:        "main_user_id",
@@ -69,7 +68,7 @@ func GenTokenWithTime(user data_user.DM_TaiKhoan, hourNumber time.Duration) (str
 	//Định nghĩa
 	claims := &JwtClaims{
 		UserId: strconv.Itoa(user.DM_TaiKhoanId),
-		Role:   helper.IntToString(user.DM_PhanQuyenID),
+		Role:   IntToString(user.DM_PhanQuyenID),
 		Name:   user.TenTaiKhoan,
 		StandardClaims: jwt.StandardClaims{
 			Id:        "main_user_id",

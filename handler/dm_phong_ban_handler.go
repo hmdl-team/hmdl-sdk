@@ -11,11 +11,11 @@ import (
 	"strconv"
 )
 
-type DM_PhongBanHandler struct {
+type DmPhongbanhandler struct {
 	Repo repository.DM_PhongBanRepo
 }
 
-func (u *DM_PhongBanHandler) Insert(c echo.Context) error {
+func (u *DmPhongbanhandler) Insert(c echo.Context) error {
 	data := new(DM_PhongBan)
 
 	if err := c.Bind(data); err != nil {
@@ -52,7 +52,7 @@ func (u *DM_PhongBanHandler) Insert(c echo.Context) error {
 	})
 }
 
-func (u *DM_PhongBanHandler) Update(c echo.Context) (err error) {
+func (u *DmPhongbanhandler) Update(c echo.Context) (err error) {
 
 	parentId := c.Param("id")
 
@@ -107,7 +107,7 @@ func (u *DM_PhongBanHandler) Update(c echo.Context) (err error) {
 	})
 }
 
-func (u *DM_PhongBanHandler) Delete(c echo.Context) (err error) {
+func (u *DmPhongbanhandler) Delete(c echo.Context) (err error) {
 	phongKhamId := c.Param("id")
 
 	if len(phongKhamId) == 0 {
@@ -135,7 +135,7 @@ func (u *DM_PhongBanHandler) Delete(c echo.Context) (err error) {
 	return helper.ResponseWithCode(c, 200, "Xóa thành công")
 }
 
-func (u *DM_PhongBanHandler) GetById(c echo.Context) (err error) {
+func (u *DmPhongbanhandler) GetById(c echo.Context) (err error) {
 
 	id := c.Param("id")
 
@@ -158,7 +158,7 @@ func (u *DM_PhongBanHandler) GetById(c echo.Context) (err error) {
 	return helper.ResponseData(c, data)
 }
 
-func (u *DM_PhongBanHandler) GetAll(c echo.Context) (err error) {
+func (u *DmPhongbanhandler) GetAll(c echo.Context) (err error) {
 
 	data, err := u.Repo.GetAll(c)
 	if err != nil {
@@ -169,7 +169,7 @@ func (u *DM_PhongBanHandler) GetAll(c echo.Context) (err error) {
 
 }
 
-func (u *DM_PhongBanHandler) GetPhongBanComBobox(c echo.Context) (err error) {
+func (u *DmPhongbanhandler) GetPhongBanComBobox(c echo.Context) (err error) {
 
 	data, err := u.Repo.GetPhongBanComBobox(c)
 	if err != nil {
@@ -177,5 +177,30 @@ func (u *DM_PhongBanHandler) GetPhongBanComBobox(c echo.Context) (err error) {
 	}
 
 	return helper.ResponseData(c, data)
+
+}
+
+func (u *DmPhongbanhandler) GetCayPhongBan(c echo.Context) (err error) {
+	cc := helper.GetHandlerContext(c)
+	data, err := u.Repo.GetCayPhongBan(c)
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return cc.Ok(data)
+
+}
+
+func (u *DmPhongbanhandler) GetCayPhongBanTheoTaiKhoan(c echo.Context) (err error) {
+	cc := helper.GetHandlerContext(c)
+
+	user := cc.GetUid()
+
+	data, err := u.Repo.GetCayPhongBanByUserId(c.Request().Context(), user)
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return cc.Ok(data)
 
 }

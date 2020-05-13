@@ -5,7 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
-	"hmdl-user-service/auth"
 	"hmdl-user-service/helper"
 	. "hmdl-user-service/models/data_user"
 	"hmdl-user-service/repository"
@@ -195,7 +194,7 @@ func (u *DM_ReportHandler) GetBaoCaoByPhanQuyenId(c echo.Context) error {
 func (u *DM_ReportHandler) GetReportTrangBaoCaoByPhanQuyenId(c echo.Context) error {
 
 	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*auth.JwtClaims)
+	claims := user.Claims.(*helper.JwtClaims)
 
 	partInt, err := helper.CheckIntPar(claims.Role)
 

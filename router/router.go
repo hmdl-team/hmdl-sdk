@@ -45,16 +45,8 @@ func (api API) NewRouter() {
 	// show log api request
 
 	//api.Echo.Use(middleware.Logger())
-	//api.Echo.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-	//	Skipper: func(c echo.Context) bool {
-	//		if strings.HasPrefix(c.Request().Host, "localhost") {
-	//			return true
-	//		}
-	//		return false
-	//	},
-	//	Format: "method=${method}, uri=${uri}, status=${status}, remote_ip=${remote_ip}\n",
-	//
-	//}))
+	//api.Echo.Use(middleware.Gzip())
+	//api.Echo.Use(middleware.RemoveTrailingSlash())
 	//api.Echo.Use(middleware.Recover())
 
 	//cau hinh các Option
@@ -80,10 +72,17 @@ func (api API) NewRouter() {
 
 	api.Echo.GET("/healthcheck", impl.HealthCheck)
 
+	// Đăng ký HandlerContext
+	api.Echo.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cc := &helper.HandlerContext{Context: c}
+			return next(cc)
+		}
+	})
+
 	db := core.DbData{
 		Echo:    api.Echo,
 		DbSql01: api.Db,
-
 	}
 
 	group.MenuRoute(db)

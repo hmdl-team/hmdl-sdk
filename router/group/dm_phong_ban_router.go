@@ -9,7 +9,7 @@ import (
 
 func DM_PhongBanRoute(api core.DbData) {
 
-	handler := DM_PhongBanHandler{
+	handler := DmPhongbanhandler{
 		Repo: repoimpl.NewDM_PhongBanRepo(api.DbSql01),
 	}
 
@@ -17,6 +17,7 @@ func DM_PhongBanRoute(api core.DbData) {
 	middlewares.SetJwtMiddlewares(g)
 
 	g.GET("/combobox", handler.GetPhongBanComBobox)
+	g.GET("/cayphongban", handler.GetCayPhongBanTheoTaiKhoan)
 	g.GET("", handler.GetAll)
 	g.POST("", handler.Insert)
 	g.PUT("/:id", handler.Update)
