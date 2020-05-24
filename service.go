@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 	"os"
 )
-
 type Service interface {
 	Setup() error
 	Stop()

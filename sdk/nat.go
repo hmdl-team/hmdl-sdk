@@ -25,8 +25,6 @@ func ConnectNat() error {
 
 	Nat = nc
 	NatJson = ec
-
 	logrus.Infof("Connected to %s", uri)
-
 	return nil
 }
