@@ -1,4 +1,4 @@
-package helper
+package sdk
 
 import (
 	auth "github.com/korylprince/go-ad-auth/v3"
