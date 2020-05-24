@@ -1,9 +1,9 @@
 package group
 
 import (
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	handler2 "hmdl-user-service/handler"
-	"hmdl-user-service/middlewares"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"hmdl-user-service/repository/repoimpl"
 )
 
@@ -14,7 +14,7 @@ func DmChucDanhRoute(api *core.DbData) {
 	}
 
 	g := api.Echo.Group("/chuc-danh")
-	middlewares.SetJwtMiddlewares(g)
+	sdk.SetJwtMiddlewares(g)
 
 	g.GET("", handler.GetAll)
 	g.POST("", handler.Insert)

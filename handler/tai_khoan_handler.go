@@ -2,12 +2,11 @@ package handler
 
 import (
 	"fmt"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/gommon/log"
-	"hmdl-user-service/helper"
-	"hmdl-user-service/helper/domain"
-	"hmdl-user-service/helper/lib"
+
 	"hmdl-user-service/models/response"
 	"os"
 
@@ -33,17 +32,17 @@ type TaiKhoanHandler struct {
 // @Produce json
 // @Security ApiKeyAuth
 // @Param data body request.ReqSignIn true "user"
-// @Success 200 {object} helper.Response
-// @Failure 400 {object} helper.Response
-// @Failure 404 {object} helper.Response
-// @Failure 500 {object} helper.Response
+// @Success 200 {object}  sdk.Response
+// @Failure 400 {object}  sdk.Response
+// @Failure 404 {object}  sdk.Response
+// @Failure 500 {object}  sdk.Response
 // @Router /login [post]
 func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 
 	req := request.ReqSignIn{}
 
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -52,7 +51,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 
 	if err := c.Validate(req); err != nil {
 		fmt.Println(req)
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -62,7 +61,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 	user, err := u.TaiKhoanRepo.Login(c, req)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, helper.Response{
+		return c.JSON(http.StatusInternalServerError, sdk.Response{
 			StatusCode: http.StatusInternalServerError,
 			Message:    err.Error(),
 			Data:       nil,
@@ -70,7 +69,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 	}
 	serverDomain := os.Getenv("DOMAIN_SERVER")
 
-	configDomain := domain.Config{
+	configDomain := sdk.Config{
 		Server: serverDomain,
 		Port:   389,
 		BaseDN: "DC=fhmc,DC=com",
@@ -87,18 +86,18 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 				TenTaiKhoan:      req.UserName,
 				DM_NhanVienId:    702,
 				TinhTrang:        true,
-				PhanQuyenId:      helper.ToIntPointer(5),
-				DM_PhanQuyenID:   helper.ToIntPointer(5),
+				PhanQuyenId:      sdk.ToIntPointer(5),
+				DM_PhanQuyenID:   sdk.ToIntPointer(5),
 				DomainLogin:      true,
 				ThoiGianDangNhap: nil,
 				ThoiGianDangXuat: nil,
 				TuDongDangNhap:   false,
-				MatKhauWeb:       lib.MaHoa(req.Password),
+				MatKhauWeb:       sdk.MaHoa(req.Password),
 			}
 			TaiKhoanNew, err := u.TaiKhoanRepo.Insert(c, taiKhoanMoi)
 
 			if err != nil {
-				return c.JSON(http.StatusInternalServerError, helper.Response{
+				return c.JSON(http.StatusInternalServerError, sdk.Response{
 					StatusCode: http.StatusInternalServerError,
 					Message:    err.Error(),
 					Data:       nil,
@@ -109,7 +108,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 		}
 	}
 
-	mahoaPass := lib.MaHoa(req.Password)
+	mahoaPass := sdk.MaHoa(req.Password)
 
 	// check pass
 	isTheSame := mahoaPass == user.MatKhauWeb
@@ -121,7 +120,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 			fmt.Println(err)
 
 			if userInfo == nil {
-				return c.JSON(http.StatusBadRequest, helper.Response{
+				return c.JSON(http.StatusBadRequest, sdk.Response{
 					StatusCode: http.StatusBadRequest,
 					Message:    "Đăng nhập thất bại",
 					Data:       nil,
@@ -130,11 +129,11 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 		}
 	}
 	//	token, time, err := domain.GenToken(user)
-	token, _, err := helper.GenTokenWithTime(*user, 3)
-	refeshToken, _, err := helper.GenTokenWithTime(*user, 4)
+	token, _, err := sdk.GenTokenWithTime(user.DM_TaiKhoanId, 3)
+	refeshToken, _, err := sdk.GenTokenWithTime(user.DM_TaiKhoanId, 4)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, helper.Response{
+		return c.JSON(http.StatusInternalServerError, sdk.Response{
 			StatusCode: http.StatusInternalServerError,
 			Message:    err.Error(),
 			Data:       nil,
@@ -149,7 +148,7 @@ func (u *TaiKhoanHandler) LoginAcount(c echo.Context) (err error) {
 	//user.Token = token
 	//user.TokenTime = time
 
-	return c.JSON(http.StatusOK, helper.Response{
+	return c.JSON(http.StatusOK, sdk.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Đăng nhập thành công",
 		Data:       userRes,
@@ -161,25 +160,21 @@ func (u *TaiKhoanHandler) GetAllTaiKhoan(c echo.Context) error {
 	taikhoan, err := u.TaiKhoanRepo.GetAll(c)
 
 	if err != nil {
-		return c.JSON(500, lib.Response{
-			Type:    "error",
+		return c.JSON(500, sdk.Response{
 			Message: "Lỗi thực thi",
 			Data:    nil,
 		})
 	}
 
 	if taikhoan == nil {
-		return c.JSON(500, lib.Response{
-			Type:    "error",
+		return c.JSON(500, sdk.Response{
 			Message: "Lỗi thực thi",
 			Data:    nil,
 		})
 	}
 
-	return c.JSON(200, lib.Response{
-		Type:    "data",
+	return c.JSON(200, sdk.Response{
 		Message: "Sussess",
-		Count:   len(taikhoan),
 		Data:    taikhoan,
 	})
 
@@ -193,27 +188,21 @@ func (u *TaiKhoanHandler) GetAllTaiKhoan(c echo.Context) error {
 // @Produce json
 // @Security ApiKeyAuth
 // @Param data body request.ReqSignIn true "user"
-// @Success 200 {object} helper.Response
-// @Failure 400 {object} helper.Response
-// @Failure 404 {object} helper.Response
-// @Failure 500 {object} helper.Response
+// @Success 200 {object}  sdk.Response
+// @Failure 400 {object}  sdk.Response
+// @Failure 404 {object}  sdk.Response
+// @Failure 500 {object}  sdk.Response
 // @Router /login [post]
 func (u *TaiKhoanHandler) GetNhanVienByToken(c echo.Context) error {
 
 	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*helper.JwtClaims)
+	claims := user.Claims.(*sdk.JwtClaims)
 	userId := claims.UserId
 
-	id, err := strconv.ParseInt(userId, 0, 64)
+	taiKhoan, err := u.TaiKhoanRepo.GetById(c, userId)
 
 	if err != nil {
-		return helper.ResponseWithCode(c, 401, "Unauthorized ")
-	}
-
-	taiKhoan, err := u.TaiKhoanRepo.GetById(c, int(id))
-
-	if err != nil {
-		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
+		return sdk.ResponseWithCode(c, 404, "Không tìm thấy ")
 	}
 
 	resTaiKhoan := response.ResTaiKhoan{
@@ -224,7 +213,7 @@ func (u *TaiKhoanHandler) GetNhanVienByToken(c echo.Context) error {
 		DM_PhanQuyenID: taiKhoan.DM_PhanQuyenID,
 		DM_PhanQuyen:   taiKhoan.DM_PhanQuyen,
 	}
-	return helper.ResponseData(c, resTaiKhoan)
+	return sdk.ResponseData(c, resTaiKhoan)
 }
 
 // DanhMucDuoc godoc
@@ -235,17 +224,17 @@ func (u *TaiKhoanHandler) GetNhanVienByToken(c echo.Context) error {
 // @Produce json
 // @Security ApiKeyAuth
 // @Param data body request.ReqSignIn true "user"
-// @Success 200 {object} helper.Response
-// @Failure 400 {object} helper.Response
-// @Failure 404 {object} helper.Response
-// @Failure 500 {object} helper.Response
+// @Success 200 {object}  sdk.Response
+// @Failure 400 {object}  sdk.Response
+// @Failure 404 {object}  sdk.Response
+// @Failure 500 {object}  sdk.Response
 // @Router /login [post]
 func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 
 	req := request.RefreshTokenRequest{}
 
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -254,17 +243,17 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 
 	if err := c.Validate(req); err != nil {
 		fmt.Println(req)
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
 
-	claims := helper.DecodeToken(req.RefreshToken)
+	claims := sdk.DecodeToken(req.RefreshToken)
 
 	if claims == nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Lỗi chứng thực!",
 			Data:       nil,
@@ -273,35 +262,29 @@ func (u *TaiKhoanHandler) GetRefreshToken(c echo.Context) error {
 
 	userId := claims.UserId
 
-	id, err := strconv.ParseInt(userId, 0, 64)
+	_, err := u.TaiKhoanRepo.GetById(c, userId)
 
 	if err != nil {
-		return helper.ResponseWithCode(c, 401, "Unauthorized ")
+		return sdk.ResponseWithCode(c, 404, "Không tìm thấy ")
 	}
 
-	taiKhoan, err := u.TaiKhoanRepo.GetById(c, int(id))
-
-	if err != nil {
-		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
-	}
-
-	token, _, err := helper.GenTokenWithTime(*taiKhoan, 3)
-	refeshToken, _, err := helper.GenTokenWithTime(*taiKhoan, 4)
+	token, _, err := sdk.GenTokenWithTime(userId, 3)
+	refeshToken, _, err := sdk.GenTokenWithTime(userId, 4)
 
 	resTaiKhoan := response.ResTaiKhoanToken{
 		Token:        token,
 		RefreshToken: refeshToken,
 	}
-	return helper.ResponseData(c, resTaiKhoan)
+	return sdk.ResponseData(c, resTaiKhoan)
 }
 
 func (u *TaiKhoanHandler) GetRefreshToken2(c echo.Context) error {
 
 	tokenData := c.Get("user").(*jwt.Token)
-	claims := tokenData.Claims.(*helper.JwtClaims)
+	claims := tokenData.Claims.(*sdk.JwtClaims)
 
 	if claims == nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Lỗi chứng thực!",
 			Data:       nil,
@@ -309,34 +292,27 @@ func (u *TaiKhoanHandler) GetRefreshToken2(c echo.Context) error {
 	}
 
 	userId := claims.UserId
-
-	id, err := strconv.ParseInt(userId, 0, 64)
-
-	if err != nil {
-		return helper.ResponseWithCode(c, 401, "Unauthorized ")
-	}
-
-	taiKhoan, err := u.TaiKhoanRepo.GetById(c, int(id))
+	_, err := u.TaiKhoanRepo.GetById(c, userId)
 
 	if err != nil {
-		return helper.ResponseWithCode(c, 404, "Không tìm thấy ")
+		return sdk.ResponseWithCode(c, 404, "Không tìm thấy ")
 	}
 
-	token, _, err := helper.GenTokenWithTime(*taiKhoan, 3)
-	refeshToken, _, err := helper.GenTokenWithTime(*taiKhoan, 4)
+	token, _, err := sdk.GenTokenWithTime(userId, 3)
+	refeshToken, _, err := sdk.GenTokenWithTime(userId, 4)
 
 	resTaiKhoan := response.ResTaiKhoanToken{
 		Token:        token,
 		RefreshToken: refeshToken,
 	}
-	return helper.ResponseData(c, resTaiKhoan)
+	return sdk.ResponseData(c, resTaiKhoan)
 }
 
 func (u *TaiKhoanHandler) UpdateTaiKhoan(c echo.Context) (err error) {
 	data := data_user.DM_TaiKhoan{}
 
 	if err = c.Bind(data); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -345,7 +321,7 @@ func (u *TaiKhoanHandler) UpdateTaiKhoan(c echo.Context) (err error) {
 
 	if err := c.Validate(data); err != nil {
 		log.Error(err.Error())
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -354,14 +330,14 @@ func (u *TaiKhoanHandler) UpdateTaiKhoan(c echo.Context) (err error) {
 
 	err = u.TaiKhoanRepo.Update(c, data)
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
-		return c.JSON(http.StatusInternalServerError, helper.Response{
+		return c.JSON(http.StatusInternalServerError, sdk.Response{
 			StatusCode: http.StatusInternalServerError,
 			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
 
-	return c.JSON(http.StatusOK, helper.Response{
+	return c.JSON(http.StatusOK, sdk.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Cập nhật thành công",
 		Data:       data,
@@ -372,30 +348,30 @@ func (u *TaiKhoanHandler) DeleteTaiKhoanById(c echo.Context) error {
 	phongKhamId := c.Param("id")
 
 	if len(phongKhamId) == 0 {
-		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+		return sdk.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
 	}
 
 	valConvert, err := strconv.ParseInt(phongKhamId, 0, 64)
 	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+		return sdk.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
 	}
 
 	data, err := u.TaiKhoanRepo.GetById(c, int(valConvert))
 
 	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+		return sdk.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
 	}
 
 	if data == nil {
-		return helper.ResponseWithCode(c, http.StatusNotFound, "Không tìm thấy dữ liệu")
+		return sdk.ResponseWithCode(c, http.StatusNotFound, "Không tìm thấy dữ liệu")
 	}
 
 	err = u.TaiKhoanRepo.Delete(c, int(valConvert))
 	if err != nil {
-		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+		return sdk.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
 	}
 
-	return helper.ResponseWithCode(c, 200, "Xóa thành công")
+	return sdk.ResponseWithCode(c, 200, "Xóa thành công")
 
 }
 
@@ -404,7 +380,7 @@ func (u *TaiKhoanHandler) InsertTaiKhoan(c echo.Context) (err error) {
 	data := new(data_user.DM_TaiKhoan)
 
 	if err := c.Bind(data); err != nil {
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -413,7 +389,7 @@ func (u *TaiKhoanHandler) InsertTaiKhoan(c echo.Context) (err error) {
 
 	if err := c.Validate(data); err != nil {
 		log.Error(err.Error())
-		return c.JSON(http.StatusBadRequest, helper.Response{
+		return c.JSON(http.StatusBadRequest, sdk.Response{
 			StatusCode: http.StatusBadRequest,
 			Message:    err.Error(),
 			Data:       nil,
@@ -423,14 +399,14 @@ func (u *TaiKhoanHandler) InsertTaiKhoan(c echo.Context) (err error) {
 	item, err := u.TaiKhoanRepo.Insert(c, *data)
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
-		return c.JSON(http.StatusInternalServerError, helper.Response{
+		return c.JSON(http.StatusInternalServerError, sdk.Response{
 			StatusCode: http.StatusInternalServerError,
 			Message:    err.Error(),
 			Data:       nil,
 		})
 	}
 
-	return c.JSON(http.StatusOK, helper.Response{
+	return c.JSON(http.StatusOK, sdk.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Thêm mới thành công",
 		Data:       item,
@@ -443,8 +419,8 @@ func (u *TaiKhoanHandler) GetTaiKhoanById(c echo.Context) error {
 	if len(parentId) == 0 {
 		// Bắt lỗi trả về client
 
-		return c.JSON(http.StatusBadRequest, lib.Response{
-			Type:    "error",
+		return c.JSON(http.StatusBadRequest, sdk.Response{
+
 			Message: "Dữ liệu không chính xác",
 			Data:    nil,
 		})
@@ -452,8 +428,8 @@ func (u *TaiKhoanHandler) GetTaiKhoanById(c echo.Context) error {
 
 	valParentId, err := strconv.ParseInt(parentId, 0, 64)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, lib.Response{
-			Type:    "error",
+		return c.JSON(http.StatusBadRequest, sdk.Response{
+
 			Message: "Dữ liệu không chính xác",
 			Data:    nil,
 		})
@@ -462,15 +438,12 @@ func (u *TaiKhoanHandler) GetTaiKhoanById(c echo.Context) error {
 	data, err := u.TaiKhoanRepo.GetById(c, int(valParentId))
 
 	if err == nil {
-		return c.JSON(200, lib.Response{
-			Type:    "data",
+		return c.JSON(200, sdk.Response{
 			Message: "Sussess",
-			Count:   1,
 			Data:    data,
 		})
 	}
-	return c.JSON(500, lib.Response{
-		Type:    "error",
+	return c.JSON(500, sdk.Response{
 		Message: "Lỗi thực thi",
 		Data:    nil,
 	})

@@ -1,11 +1,13 @@
-package Services
+package services
 
 import (
 	"context"
 	"fmt"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"hmdl-user-service/helper"
+
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository"
 	"log"
@@ -67,7 +69,7 @@ func (u *UserService) GetThamSoByCode(ctx context.Context, request *pb.ThamSoHeT
 
 func (u *UserService) GetToken(ctx context.Context, request *pb.GetTokenRequest) (*pb.GetTokenResponse, error) {
 	fmt.Println("Call : GetToken")
-	data, time, err := helper.GenTokenNhanVienId(int(request.NhanVienId), 168)
+	data, time, err :=  sdk.GenTokenNhanVienId(int(request.NhanVienId), 168)
 
 	fmt.Println("Time token :", time)
 

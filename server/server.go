@@ -1,12 +1,12 @@
-package Server
+package server
 
 import (
 	"context"
-	"hmdl-user-service/db/core"
-
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"google.golang.org/grpc"
-	"hmdl-user-service/Services"
-	"hmdl-user-service/helper"
+	"hmdl-user-service/core"
+	"hmdl-user-service/services"
+
 	"hmdl-user-service/pb"
 	"hmdl-user-service/repository/repoimpl"
 
@@ -54,10 +54,10 @@ func (g *Greeter) startGRPC() error {
 		return err
 	}
 	consulAddress := os.Getenv("CONSUL_ADDRESS")
-	helper.RegisterServiceWithConsul("hmdl-user-service-grpc", lis.Addr().(*net.TCPAddr).Port, consulAddress)
+	 sdk.RegisterServiceWithConsul("hmdl-user-service-grpc", lis.Addr().(*net.TCPAddr).Port, consulAddress)
 
 	srv := grpc.NewServer()
-	pb.RegisterUserServiceServer(srv, &Services.UserService{
+	pb.RegisterUserServiceServer(srv, &services.UserService{
 		RepoNhanVien: repoimpl.NewNhanVienRepo(g.db),
 		RepoThemSoHeThong: repoimpl.NewDmThamSoHeThongRepo(g.db),
 	})

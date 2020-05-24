@@ -3,7 +3,7 @@ package repoimpl
 import (
 	"github.com/getsentry/raven-go"
 	"github.com/jinzhu/gorm"
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	"hmdl-user-service/models/data_user"
 	"hmdl-user-service/repository"
 	"strings"

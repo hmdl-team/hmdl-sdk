@@ -6,7 +6,7 @@ import (
 	"github.com/getsentry/raven-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	. "hmdl-user-service/models/data_user"
 	"hmdl-user-service/repository"
 )

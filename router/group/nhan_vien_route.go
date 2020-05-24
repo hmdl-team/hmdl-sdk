@@ -1,9 +1,9 @@
 package group
 
 import (
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	"hmdl-user-service/handler"
-	"hmdl-user-service/middlewares"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	repo "hmdl-user-service/repository/repoimpl"
 )
 
@@ -11,7 +11,7 @@ func NhanVienRoute(api *core.DbData) {
 
 	nvg := api.Echo.Group("/nhan-vien")
 
-	middlewares.SetJwtMiddlewares(nvg)
+	sdk.SetJwtMiddlewares(nvg)
 
 	handlerNhanVien := handler.NhanVienHandler{
 		NhanVienRepo: repo.NewNhanVienRepo(api),

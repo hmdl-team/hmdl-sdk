@@ -2,18 +2,19 @@ package main
 
 import (
 	"fmt"
+	"github.com/congnguyendl/hmdl-sdk/db"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"github.com/getsentry/raven-go"
+	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/swaggo/echo-swagger"
 	"hmdl-user-service/migration"
 	"log"
 
-	"hmdl-user-service/db"
 	_ "hmdl-user-service/docs"
 	"hmdl-user-service/router"
 	"os"
-	"runtime"
 )
 
 func init() {
@@ -23,6 +24,45 @@ func init() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+}
+
+func initDB() *gorm.DB {
+	msSql := &db.MsSql{
+		Host:     os.Getenv("SQL_DATA_USER_HOST"),
+		Password: os.Getenv("SQL_DATA_USER_PASSWORD"),
+		UserName: os.Getenv("SQL_DATA_USER_USER"),
+		DbName:   os.Getenv("SQL_DATA_USER_DBNAME"),
+		Port:     os.Getenv("SQL_DATA_USER_PORT")}
+
+	db, err := msSql.SqlServeConnect()
+
+	if err != nil {
+		panic(err)
+	}
+
+	if err := migration.NewDatabaseRepo(db).Migrate(); err != nil {
+		raven.CaptureErrorAndWait(err, nil)
+		fmt.Print(err)
+	}
+
+	return db
+}
+
+func initKong() int {
+	//Đăng ký service với kong gate
+	port := 7001
+
+	kong := sdk.KongServer{
+		ServerKong:  os.Getenv("KONG_ADDRESS"),
+		NameService: "HMDL-USER-SERVICE",
+		PathService: "/user-service",
+		UrlService:  fmt.Sprintf("http://%s:%s", sdk.GetLocalIP(), "7001"),
+		IpService:   sdk.GetLocalIP().String() + ":7001",
+	}
+	if err := kong.RegisterKong(); err != nil {
+		fmt.Println(err)
+	}
+	return port
 }
 
 // @title hmdl-user-service api
@@ -37,38 +77,28 @@ func init() {
 // @host localhost:7001
 func main() {
 
-	ng := runtime.NumCPU()
-	fmt.Println("NumCPU: ", ng)
+	msSql := initDB()
+	port := initKong()
 
-	msSql := &db.MsSql{
-		Host:     os.Getenv("SQL_DATA_USER_HOST"),
-		Password: os.Getenv("SQL_DATA_USER_PASSWORD"),
-		UserName: os.Getenv("SQL_DATA_USER_USER"),
-		DbName:   os.Getenv("SQL_DATA_USER_DBNAME"),
-		Port:     os.Getenv("SQL_DATA_USER_PORT"),
+	err := sdk.ConnectNat()
+	if err != nil {
+		panic(err)
 	}
 
-	msSql.SqlServeConnect()
-	defer msSql.Close()
+	consulAddress := os.Getenv("CONSUL_ADDRESS")
 
-	if err := migration.NewDatabaseRepo(msSql.Db).Migrate(); err != nil {
-		raven.CaptureErrorAndWait(err, nil)
-		fmt.Print(err)
-	}
+	sdk.RegisterServiceWithConsul("hmdl-user-service", port, consulAddress)
 
 	e := echo.New()
-
-	//e.Debug = true
-
 	e.GET("/docs/*", echoSwagger.WrapHandler)
-	//swag init
+	e.HideBanner = true
 
 	api := router.API{
 		Echo: e,
-		Db:   msSql.Db,
+		Db:   msSql,
 	}
 
 	api.NewRouter()
 
-	//log.Fatal(e.Start(":7001"))
+	log.Fatal(e.Start(":7001"))
 }

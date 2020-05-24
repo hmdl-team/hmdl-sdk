@@ -1,9 +1,9 @@
 package group
 
 import (
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	"hmdl-user-service/handler"
-	"hmdl-user-service/middlewares"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	repo "hmdl-user-service/repository/repoimpl"
 )
 
@@ -11,7 +11,7 @@ func PhanQuyenMenuRoute(api core.DbData) {
 
 	g := api.Echo.Group("/phan-quyen-menu")
 
-	middlewares.SetJwtMiddlewares(g)
+	sdk.SetJwtMiddlewares(g)
 
 	handlerPhanQuyenMenu := handler.PhanQuyenMenuHandler{
 		PhanQuyenMenuRepo: repo.NewPhanQuyenMenuRepo(api.DbSql01),

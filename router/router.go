@@ -1,17 +1,16 @@
 package router
 
 import (
-	"fmt"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"hmdl-user-service/Server"
-	"hmdl-user-service/db/core"
+	"hmdl-user-service/core"
 	"hmdl-user-service/handler/impl"
-	"hmdl-user-service/helper"
+	"hmdl-user-service/queue"
+	"hmdl-user-service/repository/repoimpl"
 	"hmdl-user-service/router/group"
 	"net/http"
-	"os"
 )
 
 type API struct {
@@ -20,37 +19,8 @@ type API struct {
 }
 
 func (api *API) NewRouter() {
-	//Đăng ký service với consul
-	//consulAddress := os.Getenv("CONSUL_ADDRESS")
-	//helper.RegisterServiceWithConsul("HMDL-USER-SERVICE", 7001, consulAddress)
-
-	kongAddress := os.Getenv("KONG_ADDRESS")
-	kong := helper.KongServer{
-		ServerKong:  kongAddress,
-		NameService: "HMDL-USER-SERVICE",
-		PathService: "/user-service",
-		UrlService:  fmt.Sprintf("http://%s:%s", helper.GetLocalIP(), "7001"),
-		IpService:   helper.GetLocalIP().String() + ":7001",
-	}
-
-	consulAddress := os.Getenv("CONSUL_ADDRESS")
-	helper.RegisterServiceWithConsul("hmdl-user-service", 7001, consulAddress)
-
-	err := kong.RegisterKong()
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	// show log api request
-
-	//api.Echo.Use(middleware.Logger())
-	//api.Echo.Use(middleware.Gzip())
-	//api.Echo.Use(middleware.RemoveTrailingSlash())
-	//api.Echo.Use(middleware.Recover())
-
 	//cau hinh các Option
-	structValidator := helper.NewStructValidator()
+	structValidator := sdk.NewStructValidator()
 	structValidator.RegisterValidate()
 	api.Echo.Validator = structValidator
 
@@ -75,7 +45,7 @@ func (api *API) NewRouter() {
 	// Đăng ký HandlerContext
 	api.Echo.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			cc := &helper.HandlerContext{Context: c}
+			cc := &sdk.HandlerContext{Context: c}
 			return next(cc)
 		}
 	})
@@ -84,6 +54,14 @@ func (api *API) NewRouter() {
 		Echo:    api.Echo,
 		DbSql01: api.Db,
 	}
+
+
+	subUser := queue.UserSubscribeService{
+		RepoNhanVien:      repoimpl.NewNhanVienRepo(&db),
+		RepoThemSoHeThong: repoimpl.NewDmThamSoHeThongRepo(&db),
+	}
+
+	subUser.Subscribes()
 
 	group.MenuRoute(db)
 	group.NhanVienRoute(&db)
@@ -99,7 +77,7 @@ func (api *API) NewRouter() {
 	group.DmChucDanhRoute(&db)
 	group.DmChucVuRoute(&db)
 
-	g := Server.New(&db)
-	g.Start()
-	g.WaitStop()
+	//g := server.New(&db)
+	//g.Start()
+	//g.WaitStop()
 }
