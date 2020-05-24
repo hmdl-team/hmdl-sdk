@@ -1,4 +1,4 @@
-package sdkcm
+package sdk
 
 import (
 	"github.com/dgrijalva/jwt-go"

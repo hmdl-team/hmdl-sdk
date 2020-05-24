@@ -2,10 +2,10 @@ package sdk
 
 import (
 	"fmt"
+	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/lyquocnam/go-sdk/sdkcm"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"os"
@@ -34,19 +34,19 @@ func (s *service) Setup() error {
 		return err
 	}
 
-	if err := sdkcm.ConnectDb(); err != nil {
+	if err := sdk.ConnectDb(); err != nil {
 		return err
 	}
 
-	if err := sdkcm.ConnectNat(); err != nil {
+	if err := sdk.ConnectNat(); err != nil {
 		panic(err)
 	}
 
 	return nil
 }
 func (s *service) Stop() {
-	_ = sdkcm.Db.Close()
-	sdkcm.Nat.Close()
+	_ = sdk.Db.Close()
+	sdk.Nat.Close()
 }
 func (s *service) Command(commands ...*cobra.Command) Service {
 	s.rootCmd.AddCommand(commands...)
@@ -75,7 +75,7 @@ func (s *service) Run() {
 			// Đăng ký HandlerContext
 			s.server.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 				return func(c echo.Context) error {
-					cc := &sdkcm.HandlerContext{Context: c}
+					cc := &sdk.HandlerContext{Context: c}
 					return next(cc)
 				}
 			})

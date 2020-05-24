@@ -1,4 +1,4 @@
-package sdkcm
+package sdk
 
 import (
 	"golang.org/x/crypto/bcrypt"

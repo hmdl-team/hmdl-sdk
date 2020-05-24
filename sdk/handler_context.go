@@ -1,4 +1,4 @@
-package sdkcm
+package sdk
 
 import (
 	"github.com/labstack/echo/v4"
