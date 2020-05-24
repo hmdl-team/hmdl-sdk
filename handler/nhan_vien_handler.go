@@ -37,6 +37,23 @@ func (u *NhanVienHandler) GetNhanVienByChucDanhId(c echo.Context) error {
 	return helper.ResponseData(c, nhanvien)
 }
 
+func (u *NhanVienHandler) GetNhanVienByPhongBanId(c echo.Context) error {
+	id := c.Param("id")
+
+	valId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusBadRequest, "Dữ liệu không chính xác")
+	}
+
+	nhanvien, err := u.NhanVienRepo.GetNhanVienByPhongBanId(int(valId))
+	if err != nil {
+		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return helper.ResponseData(c, nhanvien)
+}
+
+
 func (u *NhanVienHandler) GetDanhSachBacSi(c echo.Context) error {
 
 	nhanvien := u.NhanVienRepo.GetDanhSachBacSi()

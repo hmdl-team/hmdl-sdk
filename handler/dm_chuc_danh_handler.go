@@ -6,18 +6,17 @@ import (
 	"github.com/labstack/gommon/log"
 	"hmdl-user-service/helper"
 	. "hmdl-user-service/models/data_user"
-	"hmdl-user-service/models/request"
 	"hmdl-user-service/repository"
 	"net/http"
 	"strconv"
 )
 
-type DM_PhanQuyen_ReportHandler struct {
-	Repo repository.DmPhanquyenReportrepo
+type DmChucDanhHandler struct {
+	Repo repository.DmChucDanhRepo
 }
 
-func (u *DM_PhanQuyen_ReportHandler) Insert(c echo.Context) error {
-	data := new(DmPhanquyenReport)
+func (u *DmChucDanhHandler) Insert(c echo.Context) error {
+	data := new(DmChucDanh)
 
 	if err := c.Bind(data); err != nil {
 		return c.JSON(http.StatusBadRequest, helper.Response{
@@ -53,7 +52,7 @@ func (u *DM_PhanQuyen_ReportHandler) Insert(c echo.Context) error {
 	})
 }
 
-func (u *DM_PhanQuyen_ReportHandler) Update(c echo.Context) (err error) {
+func (u *DmChucDanhHandler) Update(c echo.Context) (err error) {
 
 	parentId := c.Param("id")
 
@@ -71,7 +70,7 @@ func (u *DM_PhanQuyen_ReportHandler) Update(c echo.Context) (err error) {
 		})
 	}
 
-	data := new(DmPhanquyenReport)
+	data := new(DmChucDanh)
 
 	data, _ = u.Repo.GetById(c, int(valParentId))
 
@@ -108,7 +107,7 @@ func (u *DM_PhanQuyen_ReportHandler) Update(c echo.Context) (err error) {
 	})
 }
 
-func (u *DM_PhanQuyen_ReportHandler) Delete(c echo.Context) (err error) {
+func (u *DmChucDanhHandler) Delete(c echo.Context) (err error) {
 	phongKhamId := c.Param("id")
 
 	if len(phongKhamId) == 0 {
@@ -136,7 +135,7 @@ func (u *DM_PhanQuyen_ReportHandler) Delete(c echo.Context) (err error) {
 	return helper.ResponseWithCode(c, 200, "Xóa thành công")
 }
 
-func (u *DM_PhanQuyen_ReportHandler) GetById(c echo.Context) (err error) {
+func (u *DmChucDanhHandler) GetById(c echo.Context) (err error) {
 
 	id := c.Param("id")
 
@@ -159,7 +158,7 @@ func (u *DM_PhanQuyen_ReportHandler) GetById(c echo.Context) (err error) {
 	return helper.ResponseData(c, data)
 }
 
-func (u *DM_PhanQuyen_ReportHandler) GetAll(c echo.Context) (err error) {
+func (u *DmChucDanhHandler) GetAll(c echo.Context) (err error) {
 
 	data, err := u.Repo.GetAll(c)
 	if err != nil {
@@ -168,16 +167,4 @@ func (u *DM_PhanQuyen_ReportHandler) GetAll(c echo.Context) (err error) {
 
 	return helper.ResponseData(c, data)
 
-}
-
-func (u *DM_PhanQuyen_ReportHandler) UpdatePhanQuyenReport(c echo.Context) (err error) {
-	req := new(request.PhanQuyenBaoCaoReq)
-	if err = c.Bind(req); err != nil {
-		return
-	}
-	err = u.Repo.UpdatePhanQuyen(c, *req)
-	if err != nil && !gorm.IsRecordNotFoundError(err) {
-		return helper.ResponseWithCode(c, http.StatusInternalServerError, err.Error())
-	}
-	return helper.ResponseWithCode(c, 200, "Cập nhật thành công!")
 }

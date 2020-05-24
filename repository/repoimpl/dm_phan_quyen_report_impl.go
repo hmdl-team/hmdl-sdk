@@ -10,7 +10,7 @@ import (
 	"hmdl-user-service/repository"
 )
 
-func NewDM_PhanQuyen_ReportRepo(db *gorm.DB) repository.DM_PhanQuyen_ReportRepo {
+func NewDM_PhanQuyen_ReportRepo(db *gorm.DB) repository.DmPhanquyenReportrepo {
 	return &DM_PhanQuyen_ReportRepoImpl{db: db}
 }
 
@@ -19,7 +19,7 @@ type DM_PhanQuyen_ReportRepoImpl struct {
 }
 
 func (u *DM_PhanQuyen_ReportRepoImpl) UpdatePhanQuyen(ctx echo.Context, req request.PhanQuyenBaoCaoReq) error {
-	err := u.db.Delete(&DM_PhanQuyen_Report{}, &DM_PhanQuyen_Report{
+	err := u.db.Delete(&DmPhanquyenReport{}, &DmPhanquyenReport{
 		DM_PhanQuyenID: req.DM_PhanQuyenID,
 	}).Error
 
@@ -28,7 +28,7 @@ func (u *DM_PhanQuyen_ReportRepoImpl) UpdatePhanQuyen(ctx echo.Context, req requ
 		return err
 	}
 	for _, item := range req.DanhSachReport {
-		_, err := u.Insert(ctx, DM_PhanQuyen_Report{
+		_, err := u.Insert(ctx, DmPhanquyenReport{
 			DM_PhanQuyenID: req.DM_PhanQuyenID,
 			DM_ReportId:    item.DM_ReportId,
 		})
@@ -40,8 +40,8 @@ func (u *DM_PhanQuyen_ReportRepoImpl) UpdatePhanQuyen(ctx echo.Context, req requ
 	return nil
 }
 
-func (u *DM_PhanQuyen_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_PhanQuyen_Report, error) {
-	var data []DM_PhanQuyen_Report
+func (u *DM_PhanQuyen_ReportRepoImpl) GetAll(ctx echo.Context) ([]DmPhanquyenReport, error) {
+	var data []DmPhanquyenReport
 
 	err := u.db.Find(&data).Error
 
@@ -53,8 +53,8 @@ func (u *DM_PhanQuyen_ReportRepoImpl) GetAll(ctx echo.Context) ([]DM_PhanQuyen_R
 	return data, err
 }
 
-func (u *DM_PhanQuyen_ReportRepoImpl) GetById(ctx echo.Context, id int) (*DM_PhanQuyen_Report, error) {
-	var dsPhongKha DM_PhanQuyen_Report
+func (u *DM_PhanQuyen_ReportRepoImpl) GetById(ctx echo.Context, id int) (*DmPhanquyenReport, error) {
+	var dsPhongKha DmPhanquyenReport
 	err := u.db.Where("DM_PhanQuyen_ReportId = ?", id).Find(&dsPhongKha).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -70,7 +70,7 @@ func (u *DM_PhanQuyen_ReportRepoImpl) GetById(ctx echo.Context, id int) (*DM_Pha
 }
 
 func (u *DM_PhanQuyen_ReportRepoImpl) Delete(ctx echo.Context, id int) error {
-	var data DM_PhanQuyen_Report
+	var data DmPhanquyenReport
 
 	err := u.db.Find(&data, id).Error
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -92,7 +92,7 @@ func (u *DM_PhanQuyen_ReportRepoImpl) Delete(ctx echo.Context, id int) error {
 	return nil
 }
 
-func (u *DM_PhanQuyen_ReportRepoImpl) Insert(ctx echo.Context, item DM_PhanQuyen_Report) (*DM_PhanQuyen_Report, error) {
+func (u *DM_PhanQuyen_ReportRepoImpl) Insert(ctx echo.Context, item DmPhanquyenReport) (*DmPhanquyenReport, error) {
 	err := u.db.Create(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
@@ -103,7 +103,7 @@ func (u *DM_PhanQuyen_ReportRepoImpl) Insert(ctx echo.Context, item DM_PhanQuyen
 	return &item, nil
 }
 
-func (u *DM_PhanQuyen_ReportRepoImpl) Update(ctx echo.Context, item DM_PhanQuyen_Report) error {
+func (u *DM_PhanQuyen_ReportRepoImpl) Update(ctx echo.Context, item DmPhanquyenReport) error {
 	err := u.db.Save(&item).Error
 
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

@@ -31,7 +31,6 @@ func (u *NhanVienRepoImpl) GetNhanVienByPhongBanId(id int) (data []data_user.Nha
 	}
 	return data, err
 }
-
 func (u *NhanVienRepoImpl) GetNhanVienCombobox() ([]data_user.NhanVien, error) {
 	var data []data_user.NhanVien
 	err := u.db.DbSql01.Where(&data_user.NhanVien{TinhTrang: true}).Order("DM_NhanVienId desc").Find(&data).Error
@@ -44,7 +43,6 @@ func (u *NhanVienRepoImpl) GetNhanVienCombobox() ([]data_user.NhanVien, error) {
 	}
 	return nil, nil
 }
-
 func (u *NhanVienRepoImpl) GetDanhSachNhanVienByChucDanhId(chucDanhId int) []data_user.NhanVien {
 	data := make([]data_user.NhanVien, 0)
 
@@ -107,7 +105,6 @@ func (u *NhanVienRepoImpl) GetNhanVienByUserName(userName string) *data_user.Nha
 
 	return nil
 }
-
 func (u *NhanVienRepoImpl) Insert(NhanVien *data_user.NhanVien) error {
 	err := u.db.DbSql01.Create(&NhanVien).Error
 	if err != nil && !gorm.IsRecordNotFoundError(err) {

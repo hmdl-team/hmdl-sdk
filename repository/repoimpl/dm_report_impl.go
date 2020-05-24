@@ -9,7 +9,7 @@ import (
 	"hmdl-user-service/repository"
 )
 
-func NewDM_ReportRepo(db *gorm.DB) repository.DM_ReportRepo {
+func NewDM_ReportRepo(db *gorm.DB) repository.DmReportrepo {
 	return &dmReportRepoImpl{db: db}
 }
 
@@ -18,9 +18,9 @@ type dmReportRepoImpl struct {
 }
 
 func (u *dmReportRepoImpl) GetReportTrangBaoCaoByPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
-	var dsReportId []DM_PhanQuyen_Report
+	var dsReportId []DmPhanquyenReport
 
-	err = u.db.Model(&DM_PhanQuyen_Report{}).Where(&DM_PhanQuyen_Report{
+	err = u.db.Model(&DmPhanquyenReport{}).Where(&DmPhanquyenReport{
 		DM_PhanQuyenID: phanQuyenId,
 	}).Find(&dsReportId).Error
 
@@ -63,9 +63,9 @@ func (u *dmReportRepoImpl) getReportChildren(dataInput []DM_Report, parentId int
 
 func (u *dmReportRepoImpl) GetReportPhanQuyenId(phanQuyenId int) (data []DM_Report, err error) {
 
-	var dsReportId []DM_PhanQuyen_Report
+	var dsReportId []DmPhanquyenReport
 
-	err = u.db.Model(&DM_PhanQuyen_Report{}).Where(&DM_PhanQuyen_Report{
+	err = u.db.Model(&DmPhanquyenReport{}).Where(&DmPhanquyenReport{
 		DM_PhanQuyenID: phanQuyenId,
 	}).Find(&dsReportId).Error
 

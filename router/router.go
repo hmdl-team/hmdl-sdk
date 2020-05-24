@@ -19,7 +19,7 @@ type API struct {
 	Db   *gorm.DB
 }
 
-func (api API) NewRouter() {
+func (api *API) NewRouter() {
 	//Đăng ký service với consul
 	//consulAddress := os.Getenv("CONSUL_ADDRESS")
 	//helper.RegisterServiceWithConsul("HMDL-USER-SERVICE", 7001, consulAddress)
@@ -96,6 +96,8 @@ func (api API) NewRouter() {
 	group.DM_ReportRoute(db)
 	group.DM_PhongBanRoute(db)
 	group.DmThamSoHeThongRoute(&db)
+	group.DmChucDanhRoute(&db)
+	group.DmChucVuRoute(&db)
 
 	g := Server.New(&db)
 	g.Start()

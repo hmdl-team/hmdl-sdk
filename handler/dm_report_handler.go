@@ -13,7 +13,7 @@ import (
 )
 
 type DM_ReportHandler struct {
-	Repo repository.DM_ReportRepo
+	Repo repository.DmReportrepo
 }
 
 func (u *DM_ReportHandler) Insert(c echo.Context) error {

@@ -5,7 +5,7 @@ import (
 	. "hmdl-user-service/models/data_user"
 )
 
-type DM_ReportRepo interface {
+type DmReportrepo interface {
 	GetAll(ctx echo.Context) ([]DM_Report, error)
 	GetById(ctx echo.Context, id int) (*DM_Report, error)
 	Delete(ctx echo.Context, id int) error

@@ -6,11 +6,11 @@ import (
 	"hmdl-user-service/models/request"
 )
 
-type DM_PhanQuyen_ReportRepo interface {
-	GetAll(ctx echo.Context) ([]DM_PhanQuyen_Report, error)
-	GetById(ctx echo.Context, id int) (*DM_PhanQuyen_Report, error)
+type DmPhanquyenReportrepo interface {
+	GetAll(ctx echo.Context) ([]DmPhanquyenReport, error)
+	GetById(ctx echo.Context, id int) (*DmPhanquyenReport, error)
 	Delete(ctx echo.Context, id int) error
-	Insert(ctx echo.Context, item DM_PhanQuyen_Report) (*DM_PhanQuyen_Report, error)
-	Update(ctx echo.Context, item DM_PhanQuyen_Report) error
+	Insert(ctx echo.Context, item DmPhanquyenReport) (*DmPhanquyenReport, error)
+	Update(ctx echo.Context, item DmPhanquyenReport) error
 	UpdatePhanQuyen(ctx echo.Context, req request.PhanQuyenBaoCaoReq) error
 }

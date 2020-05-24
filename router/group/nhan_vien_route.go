@@ -29,5 +29,5 @@ func NhanVienRoute(api *core.DbData) {
 	nvg.GET("/username", handlerNhanVien.GetNhanVienByUserName)
 	nvg.GET("/danhsachbacsi", handlerNhanVien.GetDanhSachBacSi)
 	nvg.GET("/chucdanhid/:id", handlerNhanVien.GetNhanVienByChucDanhId)
-
+	nvg.GET("/:id/phongbanid", handlerNhanVien.GetNhanVienByPhongBanId)
 }
