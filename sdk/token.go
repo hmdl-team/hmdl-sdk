@@ -10,6 +10,7 @@ import (
 
 type JwtClaims struct {
 	UserId int `json:"user_id"`
+	Role   string `json:"role"`
 	jwt.StandardClaims
 }
 
@@ -17,8 +18,6 @@ type JwNhanVien struct {
 	NhanVienId int `json:"nhan_vien_id"`
 	jwt.StandardClaims
 }
-
-
 
 func GenToken(userId int) (string, *time.Time, error) {
 	var jwtKey = []byte(os.Getenv("JWK_KEY"))
