@@ -15,14 +15,15 @@ func IntToBool(val int) bool {
 	}
 	return false
 }
+
 func ToTime(val *time.Time) time.Time {
 	return *val
 }
+
 func ToTimeWhere(val time.Time) string {
 	snapshot := "2006-01-02 15:04:05"
 	return val.Format(snapshot)
 }
-
 
 func IntToString(val *int) string {
 	return strconv.Itoa(*val)
