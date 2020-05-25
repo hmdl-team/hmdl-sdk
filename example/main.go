@@ -16,7 +16,7 @@ func main() {
 	service.Command(hashCommand(), setupCommand(service))
 	service.Run()
 }
-
+//router
 func router(service sdk.Service) {
 	e := service.Server()
 	e.GET("/", func(c echo.Context) error {
