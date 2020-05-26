@@ -59,10 +59,10 @@ func (s *HandlerContext) HandleError(err error) error {
 
 // Hàm lấy uid từ access_token và đã được check exist trong database,
 // nếu handler được bọc middleware authentication
-func (s *HandlerContext) GetUid() int {
+func (s *HandlerContext) GetUid() *int {
 	if uid, ok := s.Get("user").(*JwtClaims); ok {
-		return uid.UserId
+		return &uid.UserId
 	}
 
-	return 0
+	return nil
 }
