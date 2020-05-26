@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -61,6 +62,11 @@ func (s *Response) WithStatusCode(statusCode int) *Response {
 	return s
 }
 
+func (s *Response) ToBytes() []byte {
+	data, _ := json.Marshal(*s)
+	return  data
+}
+
 func NewSuccessResponse(data interface{}) *Response {
 	return &Response{
 		StatusCode: http.StatusOK,
@@ -89,7 +95,6 @@ func ResponseWithCode(c echo.Context, code int, errMsg ...string) error {
 	})
 }
 
-
 func ResponseDataMessage(c echo.Context, mesage string, data interface{}) error {
 	return c.JSON(http.StatusOK, Response{
 		StatusCode: http.StatusOK,
@@ -105,3 +110,4 @@ func ResponseData(c echo.Context, data interface{}) error {
 		Data:       data,
 	})
 }
+

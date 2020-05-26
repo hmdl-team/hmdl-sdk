@@ -6,51 +6,51 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"os"
 )
+
 type Service interface {
 	Setup() error
 	Stop()
 	Command(cmds ...*cobra.Command) Service
 	Run()
 	Handler(handler ServiceHandler) Service
-	Subscriber(handler ServiceHandler) Service
 	Server() *echo.Echo
 }
+
 type service struct {
 	server  *echo.Echo
 	rootCmd *cobra.Command
 	routerHandler ServiceHandler
 	subscribeHandler ServiceHandler
 }
+
 func (s *service) Server() *echo.Echo {
 	return s.server
 }
+
 func (s *service) Setup() error {
 	if err := godotenv.Load(); err != nil {
 		return err
 	}
 
-	if err := sdk.ConnectDb(); err != nil {
-		return err
-	}
-
-	if err := sdk.ConnectNat(); err != nil {
-		panic(err)
-	}
 
 	return nil
 }
+
 func (s *service) Stop() {
-	_ = sdk.Db.Close()
+	//_ = sdkcm.Db.Close()
 	sdk.Nat.Close()
 }
+
 func (s *service) Command(commands ...*cobra.Command) Service {
 	s.rootCmd.AddCommand(commands...)
 	return s
 }
+
 func (s *service) Run() {
 	s.rootCmd.AddCommand(&cobra.Command{
 		Use: "serve",
@@ -79,9 +79,6 @@ func (s *service) Run() {
 				}
 			})
 
-			if s.subscribeHandler != nil {
-				s.subscribeHandler(s)
-			}
 			if s.routerHandler != nil {
 				s.routerHandler(s)
 			}
@@ -99,18 +96,17 @@ func (s *service) Run() {
 		logrus.Panic(err)
 	}
 }
+
 func (s *service) Handler(handler ServiceHandler) Service {
 	s.routerHandler = handler
 	return s
 }
-func (s *service) Subscriber(handler ServiceHandler) Service  {
-	s.subscribeHandler = handler
-	return s
-}
+
 func NewService() *service {
 	return &service{
 		server:  echo.New(),
 		rootCmd: &cobra.Command{},
 	}
 }
+
 type ServiceHandler func(svc Service)

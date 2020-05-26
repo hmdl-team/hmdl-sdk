@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -64,8 +63,6 @@ func (s *HandlerContext) GetUid() int {
 	if uid, ok := s.Get("user").(int); ok {
 		return uid
 	}
-
-	logrus.Fatalln("Handler chưa được gán AuthMiddleware hoặc luồng xử lý không đúng.")
 
 	return 0
 }

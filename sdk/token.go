@@ -3,13 +3,14 @@ package sdk
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"strconv"
 
 	"os"
 	"time"
 )
 
 type JwtClaims struct {
-	UserId int `json:"user_id"`
+	UserId int    `json:"user_id"`
 	Role   string `json:"role"`
 	jwt.StandardClaims
 }
@@ -28,7 +29,7 @@ func GenToken(userId int) (string, *time.Time, error) {
 		UserId: userId,
 
 		StandardClaims: jwt.StandardClaims{
-			Id:        "main_user_id",
+			Id:        strconv.Itoa(userId),
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
@@ -52,7 +53,7 @@ func GenTokenWithTime(userId int, hourNumber time.Duration) (string, *time.Time,
 	claims := &JwtClaims{
 		UserId: userId,
 		StandardClaims: jwt.StandardClaims{
-			Id:        "main_user_id",
+			Id:        strconv.Itoa(userId),
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
