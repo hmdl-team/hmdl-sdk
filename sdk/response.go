@@ -8,8 +8,8 @@ import (
 
 type Response struct {
 	StatusCode    int            `json:"code"`
-	Data          interface{}    `json:"data,omitempty"`
 	Message       string         `json:"message,omitempty"`
+	Data          interface{}    `json:"data,omitempty"`
 	Input         interface{}    `json:"input,omitempty"`
 	InternalError string         `json:"internal_error,omitempty"`
 	Tokens        *TokenResponse `json:"tokens,omitempty"`
@@ -64,7 +64,7 @@ func (s *Response) WithStatusCode(statusCode int) *Response {
 
 func (s *Response) ToBytes() []byte {
 	data, _ := json.Marshal(*s)
-	return  data
+	return data
 }
 
 func NewSuccessResponse(data interface{}) *Response {
@@ -110,4 +110,3 @@ func ResponseData(c echo.Context, data interface{}) error {
 		Data:       data,
 	})
 }
-
