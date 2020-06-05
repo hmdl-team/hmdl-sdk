@@ -15,7 +15,7 @@ type MySql struct {
 }
 
 func (u *MySql) MySqlConnect() (*gorm.DB, error) {
-	conStr := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Local", u.UserName, u.Password, u.Host, u.Port, u.DbName)
+	conStr := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Asia%%2fSaigon", u.UserName, u.Password, u.Host, u.Port, u.DbName)
 	db, err := gorm.Open("mysql", conStr)
 	if err != nil {
 		return nil, err

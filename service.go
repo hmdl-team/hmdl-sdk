@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"fmt"
-	"github.com/congnguyendl/hmdl-sdk/sdk"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -50,15 +49,15 @@ func (s *service) Setup() error {
 		logrus.Warning("Không tìm thấy file .env, bạn có thể bỏ qua nếu đã thêm biến môi trường bằng tay")
 	}
 
-	if err := sdk.ConnectDb(); err != nil {
+	if err := ConnectDb(); err != nil {
 		return err
 	}
 
-	if err := sdk.ConnectNat(); err != nil {
+	if err := ConnectNat(); err != nil {
 		return err
 	}
 
-	if err := sdk.ConnectElastic(); err != nil {
+	if err := ConnectElastic(); err != nil {
 		return err
 	}
 
@@ -66,8 +65,8 @@ func (s *service) Setup() error {
 }
 
 func (s *service) Stop() {
-	_ = sdk.Db.Close()
-	sdk.Nat.Close()
+	_ = Db.Close()
+	Nat.Close()
 }
 
 func (s *service) Command(command string, handler CommandHandler) Service {
@@ -104,7 +103,7 @@ func (s *service) Run() {
 			// Đăng ký HandlerContext
 			s.server.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 				return func(c echo.Context) error {
-					cc := &sdk.HandlerContext{Context: c}
+					cc := &HandlerContext{Context: c}
 					return next(cc)
 				}
 			})
@@ -145,11 +144,11 @@ func (s *service) NatHandler(handler Handler) Service {
 }
 
 func (s *service) Nat() *nats.Conn {
-	return sdk.Nat
+	return Nat
 }
 
 func (s *service) NatJson() *nats.EncodedConn {
-	return sdk.NatJson
+	return NatJson
 }
 
 func NewService() *service {

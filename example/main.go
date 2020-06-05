@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	sdk "github.com/congnguyendl/hmdl-sdk"
-	sdk2 "github.com/congnguyendl/hmdl-sdk/sdk"
-
 	"github.com/labstack/echo/v4"
 
 	"github.com/spf13/cobra"
@@ -20,7 +18,7 @@ func main() {
 func router(service sdk.Service) {
 	e := service.Server()
 	e.GET("/", func(c echo.Context) error {
-		cc := sdk2.GetHandlerContext(c)
+		cc := sdk.GetHandlerContext(c)
 
 		return cc.JSON(http.StatusOK, "ok")
 	})
@@ -30,7 +28,7 @@ func hashCommand() *cobra.Command {
 	return &cobra.Command{
 		Use: "hash",
 		Run: func(cmd *cobra.Command, args []string) {
-			p, err := sdk2.HashPassword(args[0])
+			p, err := sdk.HashPassword(args[0])
 			if err != nil {
 				fmt.Println(err)
 			} else {
