@@ -50,6 +50,6 @@ func BoolToInt(par bool) int {
 	return 0
 }
 
-func  TimeToDateString(ngay time.Time) string {
+func TimeToDateString(ngay time.Time) string {
 	return ngay.Format("2006-01-02")
 }

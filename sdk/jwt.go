@@ -24,10 +24,10 @@ type TokenResponse struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-func GenTokenPair(user User, cf TokenConfig) (*TokenResponse, error) {
+func GenTokenPair(user IUser, cf TokenConfig) (*TokenResponse, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["id"] = user.GetId()
+	claims["id"] = user.GetUid()
 	claims["name"] = user.GetDisplayName()
 	claims["role"] = user.GetRole()
 	claims["exp"] = time.Now().Add(cf.AccessTokenLifeTime()).Unix()
@@ -41,7 +41,7 @@ func GenTokenPair(user User, cf TokenConfig) (*TokenResponse, error) {
 	// gen refresh_token
 	refreshToken := jwt.New(jwt.SigningMethodHS256)
 	rClaims := refreshToken.Claims.(jwt.MapClaims)
-	rClaims["id"] = user.GetId()
+	rClaims["id"] = user.GetUid()
 	rClaims["exp"] = time.Now().Add(cf.RefreshTokenLifeTime()).Unix()
 
 	refreshTokenString, err := refreshToken.SignedString(cf.SecretKey())

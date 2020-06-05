@@ -15,6 +15,9 @@ type Response struct {
 	Tokens        *TokenResponse `json:"tokens,omitempty"`
 	Paging        interface{}    `json:"paging,omitempty"`
 }
+func (s *Response) Success() bool {
+	return s.StatusCode <= 399
+}
 
 func (s *Response) WithMessage(message string) *Response {
 	s.Message = message

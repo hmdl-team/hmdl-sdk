@@ -18,6 +18,7 @@ func ConnectNat() error {
 
 	// ignore if NAT URI not set
 	if uri == "" {
+		logrus.Warning("Không có biến môi trường NAT_URI, nên module NAT sẽ không hoạt động.")
 		return nil
 	}
 
@@ -39,8 +40,6 @@ func ConnectNat() error {
 	return nil
 }
 
-
-
 type NatMessage struct {
 	*nats.Msg
 }
@@ -50,23 +49,53 @@ func NatSender(msg *nats.Msg) *NatMessage {
 	return &NatMessage{Msg: msg}
 }
 
-func (s *NatMessage) Input(vPt interface{}) bool {
+// Lấy giá trị đầu vào
+// vPt là pointer của biến đầu vào sẽ được xuất ra
+func (s *NatMessage) Bind(vPt interface{}) error {
 	err := json.Unmarshal(s.Data, vPt)
 	if err != nil {
-		_ = s.Respond(NewErrorResponse(http.StatusBadRequest, err).ToBytes())
-		return false
+		s.Respond(NewErrorResponse(http.StatusBadRequest, err).ToBytes())
+		return err
 	}
-	return true
+	return nil
 }
 
+// Hàm xử lý error và respond về kết quả
 func (s *NatMessage) HandleError(err error) {
 	if ae, ok := err.(*AppError); ok {
-		_ = s.Respond(NewErrorResponse(ae.StatusCode, err).ToBytes())
+		s.Respond(NewErrorResponse(ae.StatusCode, err).ToBytes())
 		return
 	}
-	_ = s.Respond(NewErrorResponse(http.StatusInternalServerError, err).ToBytes())
+	s.Respond(NewErrorResponse(http.StatusInternalServerError, err).ToBytes())
 }
 
+// Hàm respond kết quả success về cho client thường sử dụng cho request-reply
+// [data] data của kết quả trả về sẽ được bọc trong lớp response trước khi trả về.
 func (s *NatMessage) Ok(data interface{}) {
-	_ = s.Respond(NewSuccessResponse(data).ToBytes())
+	s.Respond(NewSuccessResponse(data).ToBytes())
+}
+
+// Hàm respond bad request về cho client thường sử dụng cho request-reply
+func (s *NatMessage) BadRequest(err error) {
+	s.Respond(NewErrorResponse(http.StatusBadRequest, err).ToBytes())
+}
+
+// Hàm respond conflict request về cho client thường sử dụng cho request-reply
+func (s *NatMessage) Conflict(err error) {
+	s.Respond(NewErrorResponse(http.StatusConflict, err).ToBytes())
+}
+
+// Hàm respond not found request về cho client thường sử dụng cho request-reply
+func (s *NatMessage) NotFound(err error) {
+	s.Respond(NewErrorResponse(http.StatusNotFound, err).ToBytes())
+}
+
+// Hàm respond unauthorized request về cho client thường sử dụng cho request-reply
+func (s *NatMessage) Unauthorized(err error) {
+	s.Respond(NewErrorResponse(http.StatusUnauthorized, err).ToBytes())
+}
+
+// Hàm respond internal server error request về cho client thường sử dụng cho request-reply
+func (s *NatMessage) InternalServerError(err error) {
+	s.Respond(NewErrorResponse(http.StatusInternalServerError, err).ToBytes())
 }

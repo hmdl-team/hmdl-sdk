@@ -1,7 +1,6 @@
 package sdk
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -45,6 +44,10 @@ func (s *HandlerContext) Ok(data interface{}) error {
 	return s.JSON(code, NewSuccessResponse(data))
 }
 
+func (s *HandlerContext) Send(response *Response) error {
+	return s.JSON(response.StatusCode, response)
+}
+
 // Hàm xử lý lỗi chung của hệ thống để trả về cho client.
 // Nguyên tắc dựa vào statusCode của appError để xử lý.
 // Mặc định mọi error thuần sẽ trả về 500.
@@ -58,16 +61,33 @@ func (s *HandlerContext) HandleError(err error) error {
 	return s.InternalServerError(err)
 }
 
-// Hàm lấy uid từ access_token và đã được check exist trong database,
-// nếu handler được bọc middleware authentication
-func (s *HandlerContext) GetUid() *int {
-	tokenData := s.Get("user").(*jwt.Token)
-	claims := tokenData.Claims.(*JwtClaims)
-
-	if claims !=nil {
-		return &claims.UserId
+// Hàm lấy về object user sau khi đăng nhập bằng
+func (s *HandlerContext) GetUser() IUser {
+	u := s.Get("user")
+	user, ok := u.(IUser)
+	if !ok {
+		return nil
 	}
 
+	return user
+}
 
-	return nil
+// Hàm lấy về userId sau khi đăng nhập bằng
+func (s *HandlerContext) GetUserUid() int {
+	user := s.GetUser()
+	if user == nil {
+		return 0
+	}
+
+	return user.GetUid()
+}
+
+// Hàm lấy về user role sau khi đăng nhập bằng
+func (s *HandlerContext) GetUserRole() string {
+	user := s.GetUser()
+	if user == nil {
+		return ""
+	}
+
+	return user.GetRole()
 }
