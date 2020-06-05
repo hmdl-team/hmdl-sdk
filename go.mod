@@ -17,8 +17,9 @@ require (
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/nats-io/nats-server/v2 v2.1.6 // indirect
 	github.com/nats-io/nats.go v1.9.2
+	github.com/olivere/elastic/v7 v7.0.16 // indirect
 	github.com/parnurzeal/gorequest v0.2.16 // indirect
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37

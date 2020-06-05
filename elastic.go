@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 	"log"
 	"os"

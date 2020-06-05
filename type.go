@@ -13,7 +13,6 @@ func (a Array) Value() (driver.Value, error) {
 	bytes, err := json.Marshal(a)
 	return string(bytes), err
 }
-
 func (a Array) ArrayString() ([]string, error) {
 	var arr []string
 	bytes, err := json.Marshal(a)
@@ -24,7 +23,6 @@ func (a Array) ArrayString() ([]string, error) {
 	return arr, nil
 
 }
-
 //Scan string or byte Unmarshal to json
 func (a *Array) Scan(src interface{}) error {
 	switch value := src.(type) {
