@@ -50,9 +50,9 @@ func (s *service) Setup() error {
 		logrus.Warning("Không tìm thấy file .env, bạn có thể bỏ qua nếu đã thêm biến môi trường bằng tay")
 	}
 
-	if err := ConnectDb(); err != nil {
-		return err
-	}
+	//if err := ConnectDb(); err != nil {
+	//	return err
+	//}
 
 	if err := ConnectNat(); err != nil {
 		return err
