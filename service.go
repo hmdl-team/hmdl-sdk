@@ -12,6 +12,7 @@ import (
 )
 
 type Handler func(svc Service)
+
 type CommandHandler func(svc Service, args []string)
 
 type Service interface {
@@ -61,6 +62,11 @@ func (s *service) Setup() error {
 		return err
 	}
 
+	// Kong register
+	kong := KongServer{}
+	if err := kong.NewKongServerFromEnv().RegisterKong(); err != nil {
+		return err
+	}
 	return nil
 }
 

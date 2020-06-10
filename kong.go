@@ -1,22 +1,54 @@
 package sdk
 
 import (
+	"errors"
 	"fmt"
 	"github.com/kevholditch/gokong"
+	"os"
 	"strings"
 )
 
 type KongServer struct {
-	ServerKong  string `json:"url"`
-	UrlService  string `json:"url"`
-	IpService   string `json:"url"`
-	NameService string `json:"name"`
-	PathService string `json:"path"`
+	ServerAddress string
+	ServiceName   string
+	ServicePath   string
+	ServicePort   string
 }
 
-func (u *KongServer) RegisterKong() error {
+func (u KongServer) Check() error {
 
-	config := gokong.Config{HostAddress: u.ServerKong}
+	if len(u.ServerAddress) == 0 {
+		return errors.New("KONG_ADDRESS chưa được khai báo, module Kong sẽ không được sử dụng.")
+	}
+	if len(u.ServiceName) == 0 {
+		return errors.New("KONG_SERVICE_NAME chưa được khai báo, module Kong sẽ không được sử dụng.")
+	}
+
+	if len(u.ServicePort) == 0 {
+		return errors.New("PORT chưa được khai báo, module Kong sẽ không được sử dụng.")
+	}
+	if len(u.ServicePath) == 0 {
+		return errors.New("KONG_SERVICE_PATH chưa được khai báo, module Kong sẽ không được sử dụng.")
+	}
+	return nil
+}
+
+func (u KongServer) NewKongServerFromEnv() KongServer {
+	u.ServerAddress = os.Getenv("KONG_ADDRESS")
+	u.ServiceName = os.Getenv("KONG_SERVICE_NAME")
+	u.ServicePort = os.Getenv("PORT")
+	u.ServicePath = os.Getenv("KONG_SERVICE_PATH")
+
+	return u
+}
+
+func (u KongServer) RegisterKong() error {
+
+	if err := u.Check(); err != nil {
+		return err
+	}
+
+	config := gokong.Config{HostAddress: u.ServerAddress}
 
 	client := gokong.NewClient(&config)
 	status, err := client.Status().Get()
@@ -25,7 +57,7 @@ func (u *KongServer) RegisterKong() error {
 		fmt.Println(status)
 	}
 
-	nameStream := strings.ToLower(u.NameService + "-upstream")
+	nameStream := strings.ToLower(u.ServiceName + "-upstream")
 	// Tìm upstream
 	upstream, err := client.Upstreams().GetByName(nameStream)
 
@@ -63,7 +95,7 @@ func (u *KongServer) RegisterKong() error {
 		}
 
 		targetRequest := &gokong.TargetRequest{
-			Target: u.IpService,
+			Target:  GetLocalIP().String() + ":"+u.ServicePort,
 			Weight: 100,
 		}
 		_, err = client.Targets().CreateFromUpstreamId(upstream.Id, targetRequest)
@@ -89,9 +121,8 @@ func (u *KongServer) RegisterKong() error {
 		}
 
 		// Đăng ký service
-
 		serviceRequest := &gokong.ServiceRequest{
-			Name:     gokong.String(strings.ToLower(u.NameService)),
+			Name:     gokong.String(strings.ToLower(u.ServiceName)),
 			Protocol: gokong.String("http"),
 			Host:     gokong.String(strings.ToLower(upstream.Name)),
 		}
@@ -127,7 +158,7 @@ func (u *KongServer) RegisterKong() error {
 				Name:          gokong.String(strings.ToLower(*createdService.Name + "-ROUTER")),
 				Protocols:     gokong.StringSlice([]string{"http", "https"}),
 				Methods:       gokong.StringSlice([]string{"POST", "GET", "PUT", "DELETE", "OPTIONS"}),
-				Paths:         gokong.StringSlice([]string{strings.ToLower(u.PathService)}),
+				Paths:         gokong.StringSlice([]string{strings.ToLower(u.ServicePath)}),
 				RegexPriority: gokong.Int(0),
 				StripPath:     gokong.Bool(true),
 				PreserveHost:  gokong.Bool(true),
@@ -145,7 +176,6 @@ func (u *KongServer) RegisterKong() error {
 			if createdRoute == nil {
 				_, err := client.Routes().Create(routeRequest)
 				if err != nil {
-
 					return err
 				}
 			} else {
@@ -156,10 +186,7 @@ func (u *KongServer) RegisterKong() error {
 					return err
 				}
 			}
-
 		}
-
 	}
-
 	return nil
 }
